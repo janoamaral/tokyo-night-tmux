@@ -23,7 +23,7 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
 
   if [ -n "$TITLE"  ]; then
     if [ "$STATUS" = "playing"  ]; then
-      PLAY_STATE="▶ $OUTPUT "
+      PLAY_STATE=" $OUTPUT "
     else
       PLAY_STATE=" $OUTPUT "
     fi
