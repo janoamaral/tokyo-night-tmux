@@ -23,9 +23,9 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
 
   if [ -n "$TITLE"  ]; then
     if [ "$STATUS" = "playing"  ]; then
-      PLAY_STATE=" $OUTPUT "
+      PLAY_STATE="$OUTPUT"
     else
-      PLAY_STATE=" $OUTPUT "
+      PLAY_STATE="$OUTPUT"
     fi
     #OUTPUT="♪ $TITLE • $ARTIST $PLAY_STATE"
     OUTPUT="$PLAY_STATE $TITLE $TIME"
@@ -39,4 +39,9 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
   fi
 fi
 
-echo $OUTPUT
+if [ -z "$OUTPUT" ]
+then
+  echo "$OUTPUT #[fg=#24283B,bg=default]"
+else
+  echo "#[fg=#1F2335,nobold]#[fg=brightwhite,bg=#1F2335] $OUTPUT #[fg=#24283B,bg=#1F2335]"
+fi
