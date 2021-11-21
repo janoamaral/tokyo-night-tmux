@@ -7,13 +7,11 @@
 # email      hi@logico.com.ar                                         +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-TYPEWRITER_TMUX_STATUS_CONTENT_FILE="src/typewriter-status-content.conf"
+TOKYO_NIGHT="src/tokyo-night-status.conf"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CMUS_STATUS="src/cmus-tmux-statusbar.sh"
-
 main() {
-  tmux source-file "$CURRENT_DIR/$TYPEWRITER_TMUX_STATUS_CONTENT_FILE"
+  tmux source-file "$CURRENT_DIR/$TOKYO_NIGHT"
 }
 
 main
