@@ -20,9 +20,9 @@ set -g @plugin "logico-dev/tokyo-night-tmux"
 ### Snapshots
 
 New tokyonight
-![Snap 1](snaps/01.png)
+![Snap 1](snaps/n01.png)
 
-![Snap 2](snaps/02.png)
+![Snap 2](snaps/n02.png)
 
 
 Legacy tokyonight
