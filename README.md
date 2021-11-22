@@ -19,7 +19,15 @@ set -g @plugin "logico-dev/tokyo-night-tmux"
 
 ### Snapshots
 
-New tokyonight
+##### New tokyonight
+
+Terminal: ST
+Fonts:
+  - SF Mono
+  - MesloLGLDZ Nerd Font Mono
+  - Noto Sans Mono CJK JP
+  - Symbola
+
 ![Snap 1](snaps/n01.png)
 
 ![Snap 2](snaps/n02.png)
