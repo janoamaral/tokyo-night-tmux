@@ -14,7 +14,7 @@ The old version (deprecated) is still available in the `legacy` branch.
 
 In your `tmux.conf`:
 ```
-set -g @plugin "logico-dev/tokyo-night-tmux"
+set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
 ### Snapshots
