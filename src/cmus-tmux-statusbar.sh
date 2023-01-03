@@ -21,6 +21,10 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
   D_SEC=`printf '%02d' $(($DURATION % 60))`
   TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
 
+  if [ "$D_SEC" = "-1" ]; then
+    TIME="[ $P_MIN:$P_SEC]"
+  fi
+
   if [ -n "$TITLE"  ]; then
     if [ "$STATUS" = "playing"  ]; then
       PLAY_STATE="$OUTPUT"
@@ -41,7 +45,7 @@ fi
 
 if [ -z "$OUTPUT" ]
 then
-  echo "$OUTPUT #[fg=#24283B,bg=default]"
+  echo "$OUTPUT #[fg=#24283B,bg=default]"
 else
-  echo "#[fg=#1F2335,nobold]#[fg=brightwhite,bg=#1F2335] $OUTPUT #[fg=#24283B,bg=#1F2335]"
+  echo "#[fg=#1F2335,nobold]#[fg=brightwhite,bg=#1F2335]  $OUTPUT #[fg=#24283B,bg=#1F2335] "
 fi
