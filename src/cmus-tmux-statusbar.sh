@@ -32,11 +32,11 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
       PLAY_STATE="$OUTPUT"
     fi
     #OUTPUT="♪ $TITLE • $ARTIST $PLAY_STATE"
-    OUTPUT="$PLAY_STATE $TITLE $TIME"
+    OUTPUT="$PLAY_STATE $TITLE"
 
     # Only show the song title if we are over $MAX_TITLE_WIDTH characters
     if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH  ]; then
-      OUTPUT="$PLAY_STATE ${TITLE:0:$MAX_TITLE_WIDTH-1}… $TIME"
+      OUTPUT="$PLAY_STATE ${TITLE:0:$MAX_TITLE_WIDTH-1}…"
     fi
   else
     OUTPUT=''
@@ -45,7 +45,7 @@ fi
 
 if [ -z "$OUTPUT" ]
 then
-  echo "$OUTPUT #[fg=#24283B,bg=default]"
+  echo "$OUTPUT #[fg=green,bg=default]"
 else
-  echo "#[fg=#1F2335,nobold]#[fg=brightwhite,bg=#1F2335]  $OUTPUT #[fg=#24283B,bg=#1F2335] "
+  echo "#[fg=green,nobold,bg=black]  $OUTPUT #[fg=brightblack,nobold,bg=default]$TIME #[fg=#24283B,bg=#1F2335]"
 fi
