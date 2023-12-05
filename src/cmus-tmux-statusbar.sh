@@ -53,7 +53,7 @@ if [ -z "$OUTPUT" ]
 then
   echo "$OUTPUT #[fg=green,bg=default]"
 else
-  OUT=" $OUTPUT $TIME  "
+  OUT=" $OUTPUT $TIME "
   ONLY_OUT=" $OUTPUT "
   TIME_INDEX=${#ONLY_OUT}
   OUTPUT_LENGTH=${#OUT}
@@ -61,10 +61,10 @@ else
   PROGRESS=$((OUTPUT_LENGTH * PERCENT / 100))
   O=" $OUTPUT"
 
-  if [ $PROGRESS -ge $TIME_INDEX ]; then
-    O=" $OUTPUT $TIME "
-    echo "#[bg=$ACCENT_COLOR,nobold,fg=$BG_COLOR]${O:0:$PROGRESS}#[fg=brightblack,nobold,bg=black]${O:$PROGRESS:$TIME_INDEX}#[fg=#24283B,bg=black]"
+  if [ $PROGRESS -le $TIME_INDEX ]; then
+    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$PROGRESS}#[fg=$ACCENT_COLOR,nobold,bg=black]${O:$PROGRESS:$TIME_INDEX} #[fg=brightblack,nobold,bg=black]$TIME "
   else
-    echo "#[bg=$ACCENT_COLOR,nobold,fg=$BG_COLOR]${O:0:$PROGRESS}#[fg=$ACCENT_COLOR,nobold,bg=black]${O:$PROGRESS:$TIME_INDEX} #[fg=brightblack,nobold,bg=black]$TIME #[fg=#24283B,bg=#1F2335]"
+    DIFF=$((PROGRESS - TIME_INDEX))
+    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$TIME_INDEX} #[fg=brightblack,nobold,bg=$ACCENT_COLOR]${OUT:$TIME_INDEX:$DIFF}#[fg=brightblack,nobold,bg=black]${OUT:$PROGRESS}"
   fi
 fi
