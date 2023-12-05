@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+ACCENT_COLOR="#0DD3BB"
+SECONDARY_COLOR="#24283B"
+BG_COLOR="#1F2335"
+
 if [[ $1 =~ ^[[:digit:]]+$  ]]; then
     MAX_TITLE_WIDTH=$1
   else
@@ -21,6 +26,8 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
   D_SEC=`printf '%02d' $(($DURATION % 60))`
   TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
 
+
+
   if [ "$D_SEC" = "-1" ]; then
     TIME="[ $P_MIN:$P_SEC]"
   fi
@@ -31,7 +38,6 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
     else
       PLAY_STATE="$OUTPUT"
     fi
-    #OUTPUT="♪ $TITLE • $ARTIST $PLAY_STATE"
     OUTPUT="$PLAY_STATE $TITLE"
 
     # Only show the song title if we are over $MAX_TITLE_WIDTH characters
@@ -47,5 +53,18 @@ if [ -z "$OUTPUT" ]
 then
   echo "$OUTPUT #[fg=green,bg=default]"
 else
-  echo "#[fg=green,nobold,bg=black]  $OUTPUT #[fg=brightblack,nobold,bg=default]$TIME #[fg=#24283B,bg=#1F2335]"
+  OUT=" $OUTPUT $TIME  "
+  ONLY_OUT=" $OUTPUT "
+  TIME_INDEX=${#ONLY_OUT}
+  OUTPUT_LENGTH=${#OUT}
+  PERCENT=$((POSITION * 100 / DURATION))
+  PROGRESS=$((OUTPUT_LENGTH * PERCENT / 100))
+  O=" $OUTPUT"
+
+  if [ $PROGRESS -ge $TIME_INDEX ]; then
+    O=" $OUTPUT $TIME "
+    echo "#[bg=$ACCENT_COLOR,nobold,fg=$BG_COLOR]${O:0:$PROGRESS}#[fg=brightblack,nobold,bg=black]${O:$PROGRESS:$TIME_INDEX}#[fg=#24283B,bg=black]"
+  else
+    echo "#[bg=$ACCENT_COLOR,nobold,fg=$BG_COLOR]${O:0:$PROGRESS}#[fg=$ACCENT_COLOR,nobold,bg=black]${O:$PROGRESS:$TIME_INDEX} #[fg=brightblack,nobold,bg=black]$TIME #[fg=#24283B,bg=#1F2335]"
+  fi
 fi
