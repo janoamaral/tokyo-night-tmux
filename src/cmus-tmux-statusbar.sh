@@ -3,6 +3,8 @@
 ACCENT_COLOR="#0DD3BB"
 SECONDARY_COLOR="#24283B"
 BG_COLOR="#1F2335"
+BG_BAR="black"
+TIME_COLOR="brightblack"
 
 if [[ $1 =~ ^[[:digit:]]+$  ]]; then
     MAX_TITLE_WIDTH=$1
@@ -62,9 +64,9 @@ else
   O=" $OUTPUT"
 
   if [ $PROGRESS -le $TIME_INDEX ]; then
-    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$PROGRESS}#[fg=$ACCENT_COLOR,nobold,bg=black]${O:$PROGRESS:$TIME_INDEX} #[fg=brightblack,nobold,bg=black]$TIME "
+    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$PROGRESS}#[fg=$ACCENT_COLOR,bg=$BG_BAR]${O:$PROGRESS:$TIME_INDEX} #[fg=$TIME_COLOR,bg=$BG_BAR]$TIME "
   else
     DIFF=$((PROGRESS - TIME_INDEX))
-    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$TIME_INDEX} #[fg=brightblack,nobold,bg=$ACCENT_COLOR]${OUT:$TIME_INDEX:$DIFF}#[fg=brightblack,nobold,bg=black]${OUT:$PROGRESS}"
+    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$TIME_INDEX} #[fg=$BG_BAR,bg=$ACCENT_COLOR]${OUT:$TIME_INDEX:$DIFF}#[fg=$TIME_COLOR,bg=$BG_BAR]${OUT:$PROGRESS}"
   fi
 fi
