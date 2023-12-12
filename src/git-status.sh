@@ -15,12 +15,13 @@ if test "$STATUS" != "0"; then
 fi
 
 if [ "$CHANGED_COUNT" > 0 ]; then
-  STATUS_CHANGED="#[fg=yellow,bg=black,bold]   ${CHANGED_COUNT}"
+  STATUS_CHANGED="#[fg=yellow,bg=black,bold] ${CHANGED_COUNT}"
 fi
 
 if [ "$INSERTIONS_COUNT" > 0 ]; then
   STATUS_INSERTIONS="#[fg=green,bg=black,bold] ${INSERTIONS_COUNT}"
 fi
+
 if [ "$DELETIONS_COUNT" > 0 ]; then
   STATUS_DELETIONS="#[fg=red,bg=black,bold] ${DELETIONS_COUNT}"
 fi
