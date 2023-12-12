@@ -9,9 +9,9 @@ STATUS_DELETIONS="#[fg=red,bg=black,bold] "
 
 
 if test "$STATUS" != "0"; then
-  CHANGED_COUNT="$(git diff --shortstat | tr "," "\n" | grep "changed" | cut -d" " -f2)"
-  INSERTIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "insertion" | cut -d" " -f2)"
-  DELETIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "deletion" | cut -d" " -f2)"
+  CHANGED_COUNT="$(git diff --shortstat | tr "," "\n" | grep "chang" | cut -d" " -f2)"
+  INSERTIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "ins" | cut -d" " -f2)"
+  DELETIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "del" | cut -d" " -f2)"
 fi
 
 if [ "$CHANGED_COUNT" > 0 ]; then
