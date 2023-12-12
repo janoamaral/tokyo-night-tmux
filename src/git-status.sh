@@ -3,9 +3,9 @@ cd $1
 RESET="#[fg=white,bg=black,nobold,noitalics,nounderscore]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
-STATUS_CHANGED="#[fg=yellow,bg=black,bold]  "
-STATUS_INSERTIONS="#[fg=green,bg=black,bold] "
-STATUS_DELETIONS="#[fg=red,bg=black,bold] "
+STATUS_CHANGED=""
+STATUS_INSERTIONS=""
+STATUS_DELETIONS=""
 
 
 if test "$STATUS" != "0"; then
@@ -15,15 +15,14 @@ if test "$STATUS" != "0"; then
 fi
 
 if [ "$CHANGED_COUNT" > 0 ]; then
-  STATUS_CHANGED="${STATUS_CHANGED}${CHANGED_COUNT}"
+  STATUS_CHANGED="#[fg=yellow,bg=black,bold]   ${CHANGED_COUNT}"
 fi
 
 if [ "$INSERTIONS_COUNT" > 0 ]; then
-  STATUS_INSERTIONS="${STATUS_INSERTIONS}${INSERTIONS_COUNT}"
+  STATUS_INSERTIONS="#[fg=green,bg=black,bold] ${INSERTIONS_COUNT}"
 fi
-
 if [ "$DELETIONS_COUNT" > 0 ]; then
-  STATUS_DELETIONS="${STATUS_DELETIONS}${DELETIONS_COUNT}"
+  STATUS_DELETIONS="#[fg=red,bg=black,bold] ${DELETIONS_COUNT}"
 fi
 
 if test "$BRANCH" != ""; then
