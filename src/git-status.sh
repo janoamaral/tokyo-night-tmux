@@ -9,9 +9,21 @@ STATUS_DELETIONS="#[fg=red,bg=black,bold] "
 
 
 if test "$STATUS" != "0"; then
-  STATUS_CHANGED="${STATUS_CHANGED}$(git diff --shortstat | tr "," "\n" | grep "changed" | cut -d" " -f2)"
-  STATUS_INSERTIONS="${STATUS_INSERTIONS}$(git diff --shortstat | tr "," "\n" | grep "insertions" | cut -d" " -f2)"
-  STATUS_DELETIONS="${STATUS_DELETIONS}$(git diff --shortstat | tr "," "\n" | grep "deletions" | cut -d" " -f2)"
+  CHANGED_COUNT="$(git diff --shortstat | tr "," "\n" | grep "changed" | cut -d" " -f2)"
+  INSERTIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "insertions" | cut -d" " -f2)"
+  DELETIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "deletions" | cut -d" " -f2)"
+fi
+
+if [ "$CHANGED_COUNT" > 0 ]; then
+  STATUS_CHANGED="${STATUS_CHANGED}${CHANGED_COUNT}"
+fi
+
+if [ "$INSERTIONS_COUNT" > 0 ]; then
+  STATUS_INSERTIONS="${STATUS_INSERTIONS}${INSERTIONS_COUNT}"
+fi
+
+if [ "$DELETIONS_COUNT" > 0 ]; then
+  STATUS_DELETIONS="${STATUS_DELETIONS}${DELETIONS_COUNT}"
 fi
 
 if test "$BRANCH" != ""; then
