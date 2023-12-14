@@ -1,10 +1,10 @@
 #!/bin/bash
-#
+
 ACCENT_COLOR="#0DD3BB"
 SECONDARY_COLOR="#24283B"
 BG_COLOR="#1F2335"
-BG_BAR="black"
-TIME_COLOR="brightblack"
+BG_BAR="#15161e"
+TIME_COLOR="#414868"
 
 if [[ $1 =~ ^[[:digit:]]+$  ]]; then
     MAX_TITLE_WIDTH=$1
