@@ -7,11 +7,25 @@
 # email      hi@logico.com.ar                                         +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-TOKYO_NIGHT="src/tokyo-night-status.conf"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-main() {
-  tmux source-file "$CURRENT_DIR/$TOKYO_NIGHT"
-}
+tmux set -g status-right-length 150
+# Replace the location of the script.
+SCRIPTS_PATH="$CURRENT_DIR/src"
 
-main
+tmux cmus_status="#($SCRIPTS_PATH/cmus-tmux-statusbar.sh)"
+tmux git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
+tmux custom_number="#($SCRIPTS_PATH/custom-number.sh #{window_index})"
+
+#+--- Bars LEFT ---+
+# Session name
+tmux set -g status-left "#[fg=black,bg=blue,bold] #S #[fg=blue,bg=default,nobold,noitalics,nounderscore]"
+#+--- Windows ---+
+# Focus
+tmux set -g window-status-current-format "#[fg=green,bg=#1F2335,blink]  #[fg=white,bg=#1F2335,blink,bold]$custom_number #W #{?window_last_flag,,} "
+# Unfocused
+tmux set -g window-status-format "#[fg=brightwhite,bg=default,none,dim]  $custom_number #W #{?window_last_flag,\uf7d9,} "
+
+#+--- Bars RIGHT ---+
+tmux set -g status-right "$cmus_status#[fg=white,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status"
+tmux set -g window-status-separator ""

@@ -7,29 +7,28 @@ STATUS_CHANGED=""
 STATUS_INSERTIONS=""
 STATUS_DELETIONS=""
 
-
 if test "$STATUS" != "0"; then
-  CHANGED_COUNT="$(git diff --shortstat | tr "," "\n" | grep "chang" | cut -d" " -f2)"
-  INSERTIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "ins" | cut -d" " -f2)"
-  DELETIONS_COUNT="$(git diff --shortstat | tr "," "\n" | grep "del" | cut -d" " -f2)"
+  CHANGED_COUNT=$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "chang" | cut -d" " -f2 | bc)
+  INSERTIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "ins" | cut -d" " -f2 | bc)"
+  DELETIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "del" | cut -d" " -f2 | bc)"
 fi
 
-if [ "$CHANGED_COUNT" > 0 ]; then
-  STATUS_CHANGED="#[fg=yellow,bg=black,bold] ${CHANGED_COUNT}"
+if [[ $CHANGED_COUNT > 0 ]]; then
+  STATUS_CHANGED="#[fg=yellow,bg=black,bold] ${CHANGED_COUNT} "
 fi
 
-if [ "$INSERTIONS_COUNT" > 0 ]; then
-  STATUS_INSERTIONS="#[fg=green,bg=black,bold] ${INSERTIONS_COUNT}"
+if [[ $INSERTIONS_COUNT > 0 ]]; then
+  STATUS_INSERTIONS="#[fg=green,bg=black,bold] ${INSERTIONS_COUNT} "
 fi
 
-if [ "$DELETIONS_COUNT" > 0 ]; then
-  STATUS_DELETIONS="#[fg=red,bg=black,bold] ${DELETIONS_COUNT}"
+if [[ $DELETIONS_COUNT > 0 ]]; then
+  STATUS_DELETIONS="#[fg=red,bg=black,bold] ${DELETIONS_COUNT} "
 fi
 
 if test "$BRANCH" != ""; then
   if test "$STATUS" = "0"; then
     echo "#[fg=green,bg=black,bold]🮐  $RESET$BRANCH "
   else
-    echo "#[fg=#ff1178,bg=black,bold]🮐  $RESET$BRANCH $RESET$STATUS_CHANGED $RESET$STATUS_INSERTIONS $RESET$STATUS_DELETIONS "
+    echo "#[fg=#ff1178,bg=black,bold]🮐  $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
   fi
 fi
