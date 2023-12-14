@@ -21,19 +21,24 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 ##### New tokyonight
 
-Terminal: ST
-Fonts:
-  - SF Mono
-  - MesloLGLDZ Nerd Font Mono
-  - Noto Sans Mono CJK JP
-  - Symbola
+Everything works out 
+the box now. No need to modify anything and colors are hardcoded, so it's independent of
+terminal theme.
 
-![Snap 1](snaps/n01.png)
+Improvements:
+- Better scripts handling.
+- Cmus status has a progress bar
+- Git scripts has diff status
+- Windows has custom seven-segmented display number style
+- Better terminal icons
 
-![Snap 2](snaps/n02.png)
+Terminal: Kitty with [Tokyo Night Kitty Theme](https://github.com/davidmathers/tokyo-night-kitty-theme)
+Font: [SFMono Nerd Font Ligaturized](https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized)
 
+![Snap 5](snaps/logico.png)
 
 Legacy tokyonight
 
 ![Snap 4](snaps/l01.png)
+
 
