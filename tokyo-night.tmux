@@ -22,9 +22,9 @@ tmux custom_number="#($SCRIPTS_PATH/custom-number.sh #{window_index})"
 tmux set -g status-left "#[fg=black,bg=blue,bold] #S #[fg=blue,bg=default,nobold,noitalics,nounderscore]"
 #+--- Windows ---+
 # Focus
-tmux set -g window-status-current-format "#[fg=green,bg=#1F2335,blink]  #[fg=white,bg=#1F2335,blink,bold]$custom_number #W #{?window_last_flag,,} "
+tmux set -g window-status-current-format "#[fg=green,bg=#1F2335]  #[fg=white,bg=#1F2335,bold]$custom_number #W #{?window_last_flag,,} "
 # Unfocused
-tmux set -g window-status-format "#[fg=brightwhite,bg=default,none,dim]  $custom_number #W #{?window_last_flag,\uf7d9,} "
+tmux set -g window-status-format "#[fg=brightwhite,bg=default,none,dim]  $custom_number #W #[fg=yellow,blink]#{?window_last_flag,󰁯 ,} "
 
 #+--- Bars RIGHT ---+
 tmux set -g status-right "$cmus_status#[fg=white,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status"
