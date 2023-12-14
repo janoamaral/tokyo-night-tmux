@@ -19,13 +19,13 @@ tmux custom_number="#($SCRIPTS_PATH/custom-number.sh #{window_index})"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=black,bg=blue,bold] #S #[fg=blue,bg=default,nobold,noitalics,nounderscore]"
+tmux set -g status-left "#[fg=#15161e,bg=#2b97fa,bold] #S #[fg=#2b97fa,bg=default,nobold,noitalics,nounderscore]"
 #+--- Windows ---+
 # Focus
-tmux set -g window-status-current-format "#[fg=green,bg=#1F2335]  #[fg=white,bg=#1F2335,bold]$custom_number #W #{?window_last_flag,,} "
+tmux set -g window-status-current-format "#[fg=#44dfaf,bg=#1F2335]  #[fg=#a9b1d6,bg=#1F2335,bold]$custom_number #W #{?window_last_flag,,} "
 # Unfocused
-tmux set -g window-status-format "#[fg=brightwhite,bg=default,none,dim]  $custom_number #W #[fg=yellow,blink]#{?window_last_flag,󰁯 ,} "
+tmux set -g window-status-format "#[fg=#c0caf5,bg=default,none,dim]  $custom_number #W #[fg=yellow,blink]#{?window_last_flag,󰁯 ,} "
 
 #+--- Bars RIGHT ---+
-tmux set -g status-right "$cmus_status#[fg=white,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status"
+tmux set -g status-right "$cmus_status#[fg=#a9b1d6,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status"
 tmux set -g window-status-separator ""
