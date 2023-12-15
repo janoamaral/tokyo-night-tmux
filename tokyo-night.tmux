@@ -9,13 +9,14 @@
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+tmux set -g status-style bg=#1A1B26
 tmux set -g status-right-length 150
-# Replace the location of the script.
+
 SCRIPTS_PATH="$CURRENT_DIR/src"
 
-tmux cmus_status="#($SCRIPTS_PATH/cmus-tmux-statusbar.sh)"
-tmux git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
-tmux custom_number="#($SCRIPTS_PATH/custom-number.sh #{window_index})"
+cmus_status="#($SCRIPTS_PATH/cmus-tmux-statusbar.sh)"
+git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
+custom_number="#($SCRIPTS_PATH/custom-number.sh #{window_index})"
 
 #+--- Bars LEFT ---+
 # Session name
