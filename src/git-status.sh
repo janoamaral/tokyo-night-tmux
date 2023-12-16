@@ -14,7 +14,7 @@ if test "$STATUS" != "0"; then
 fi
 
 if [[ $CHANGED_COUNT > 0 ]]; then
-  STATUS_CHANGED="#[fg=#e0af68,bg=#15161e,bold] ${CHANGED_COUNT} "
+  STATUS_CHANGED="#[fg=#e0af68,bg=#15161e,bold] ${CHANGED_COUNT} "
 fi
 
 if [[ $INSERTIONS_COUNT > 0 ]]; then
