@@ -16,7 +16,7 @@ ISSUE_STATUS=""
 GH_STATUS=""
 
 if test "$BRANCH" != ""; then
-  PR_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
+  PR_COUNT=$(gh pr list --json number --jq 'length' | bc)
   REVIEW_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
   ISSUE_COUNT=$(gh issue status --json assignees --jq '.assigned | length' | bc)
 fi
@@ -51,7 +51,7 @@ if [[ $ISSUE_COUNT > 0 ]]; then
   ISSUE_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${ISSUE_COUNT} "
 fi
 
-GH_STATUS="#[fg=#464646,bg=#15161e,bold]🮐 $RESET#[fg=#fafafa]  $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS"
+GH_STATUS="#[fg=#464646,bg=#15161e,bold] $RESET#[fg=#fafafa]  $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS"
 GL_STATUS="$RESET "
 
 if test "$BRANCH" != ""; then
