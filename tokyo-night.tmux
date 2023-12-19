@@ -16,7 +16,7 @@ SCRIPTS_PATH="$CURRENT_DIR/src"
 
 cmus_status="#($SCRIPTS_PATH/cmus-tmux-statusbar.sh)"
 git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
-wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path})"
+wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
 custom_number="#($SCRIPTS_PATH/custom-number.sh #{window_index} -d)"
 custom_pane="#($SCRIPTS_PATH/custom-number.sh #P -O)"
 
@@ -31,5 +31,5 @@ tmux set -g window-status-current-format "#[fg=#44dfaf,bg=#1F2335]   #[fg=#a9
 tmux set -g window-status-format "#[fg=#c0caf5,bg=default,none,dim]   $custom_number #W#[nobold,dim]#{?pane_index, $custom_pane,}#[fg=yellow,blink] #{?window_last_flag,󰁯 ,} "
 
 #+--- Bars RIGHT ---+
-tmux set -g status-right "$cmus_status#[fg=#a9b1d6,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status"
+tmux set -g status-right "$cmus_status#[fg=#a9b1d6,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status$wb_git_status"
 tmux set -g window-status-separator ""
