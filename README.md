@@ -40,3 +40,4 @@ Font: [SFMono Nerd Font Ligaturized](https://github.com/shaunsingh/SFMono-Nerd-F
 Legacy tokyonight
 
 ![Snap 4](snaps/l01.png)
+
