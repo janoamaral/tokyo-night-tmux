@@ -41,7 +41,8 @@ else
   fi
 fi
 
-REMOTE_DIFF="$(git fetch --dry-run --atomic origin --negotiation-tip=origin $BRANCH 2>/dev/null | wc -l | bc)"
+git fetch --atomic origin --negotiation-tip=HEAD
+REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
 
 if [[ $PR_COUNT > 0 ]]; then
   PR_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${PR_COUNT} "
@@ -55,8 +56,8 @@ if [[ $ISSUE_COUNT > 0 ]]; then
   ISSUE_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${ISSUE_COUNT} "
 fi
 
-if [[ $REMOTE_DIFF > 1 ]]; then
-  REMOTE_STATUS="$RESET#[fg=#FFAD00,bold]󱓎 $REMOTE_DIFF "
+if [[ $REMOTE_DIFF > 0 ]]; then
+  REMOTE_STATUS="$RESET#[fg=#e0e722,bold]  "
 fi
 
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
