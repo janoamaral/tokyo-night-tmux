@@ -41,7 +41,7 @@ else
   fi
 fi
 
-REMOTE_DIFF="$(git fetch --dry-run --atomic origin --negotiation-tip=origin "$BRANCH") 2>/dev/null | wc -l | bc)"
+REMOTE_DIFF="$(git fetch --dry-run --atomic origin --negotiation-tip=origin $BRANCH 2>/dev/null | wc -l | bc)"
 
 if [[ $PR_COUNT > 0 ]]; then
   PR_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${PR_COUNT} "
@@ -56,7 +56,7 @@ if [[ $ISSUE_COUNT > 0 ]]; then
 fi
 
 if [[ $REMOTE_DIFF > 1 ]]; then
-  REMOTE_STATUS="$RESET#[fg=#FFAD00,bold]󱓎  "
+  REMOTE_STATUS="$RESET#[fg=#FFAD00,bold]󱓎 $REMOTE_DIFF "
 fi
 
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
@@ -68,6 +68,6 @@ echo "$WB_STATUS"
 # Wait extra time if status-interval is less than 30 seconds to
 # avoid to overload GitHub API
 INTERVAL="$(tmux show -g | grep status-interval | cut -d" " -f2 | bc)"
-if [[ $INTERVAL < 30 ]]; then
-  sleep 30
+if [[ $INTERVAL < 10 ]]; then
+  sleep 10
 fi
