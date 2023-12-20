@@ -9,10 +9,12 @@ PROVIDER_ICON=""
 PR_COUNT=0
 REVIEW_COUNT=0
 ISSUE_COUNT=0
+REMOTE_DIFF=0
 
 PR_STATUS=""
 REVIEW_STATUS=""
 ISSUE_STATUS=""
+REMOTE_STATUS=""
 
 if [[ $PROVIDER == "github.com" ]]; then
 
@@ -39,6 +41,8 @@ else
   fi
 fi
 
+REMOTE_DIFF="$(git fetch --dry-run --atomic origin --negotiation-tip=origin "$BRANCH") 2>/dev/null | wc -l | bc)"
+
 if [[ $PR_COUNT > 0 ]]; then
   PR_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${PR_COUNT} "
 fi
@@ -51,8 +55,12 @@ if [[ $ISSUE_COUNT > 0 ]]; then
   ISSUE_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${ISSUE_COUNT} "
 fi
 
+if [[ $REMOTE_DIFF > 1 ]]; then
+  REMOTE_STATUS="$RESET#[fg=#FFAD00,bold]󱓎  "
+fi
+
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
-  WB_STATUS="#[fg=#464646,bg=#15161e,bold] $PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS"
+  WB_STATUS="#[fg=#464646,bg=#15161e,bold] $PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS$REMOTE_STATUS"
 fi
 
 echo "$WB_STATUS"
