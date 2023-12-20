@@ -57,7 +57,7 @@ if [[ $ISSUE_COUNT > 0 ]]; then
 fi
 
 if [[ $REMOTE_DIFF > 0 ]]; then
-  REMOTE_STATUS="$RESET#[fg=#ffad00,bold]  "
+  REMOTE_STATUS="$RESET#[fg=#d22730,bold]  "
 fi
 
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
