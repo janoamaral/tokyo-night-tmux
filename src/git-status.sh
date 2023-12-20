@@ -7,6 +7,7 @@ STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 STATUS_CHANGED=""
 STATUS_INSERTIONS=""
 STATUS_DELETIONS=""
+STATUS_REMOTE=""
 
 if test "$STATUS" != "0"; then
   CHANGED_COUNT=$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "chang" | cut -d" " -f2 | bc)
