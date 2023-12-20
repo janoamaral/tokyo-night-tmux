@@ -57,7 +57,7 @@ if [[ $ISSUE_COUNT > 0 ]]; then
 fi
 
 if [[ $REMOTE_DIFF > 0 ]]; then
-  REMOTE_STATUS="$RESET#[fg=#e0e722,bold]  "
+  REMOTE_STATUS="$RESET#[fg=#ffad00,bold]  "
 fi
 
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
@@ -69,6 +69,6 @@ echo "$WB_STATUS"
 # Wait extra time if status-interval is less than 30 seconds to
 # avoid to overload GitHub API
 INTERVAL="$(tmux show -g | grep status-interval | cut -d" " -f2 | bc)"
-if [[ $INTERVAL < 10 ]]; then
-  sleep 10
+if [[ $INTERVAL < 30 ]]; then
+  sleep 30
 fi
