@@ -13,6 +13,7 @@ if test "$STATUS" != "0"; then
   CHANGED_COUNT=$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "chang" | cut -d" " -f2 | bc)
   INSERTIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "ins" | cut -d" " -f2 | bc)"
   DELETIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "del" | cut -d" " -f2 | bc)"
+  REMOTE_STATUS=$(git diff --shortstat origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l)
 fi
 
 if [[ $CHANGED_COUNT > 0 ]]; then
