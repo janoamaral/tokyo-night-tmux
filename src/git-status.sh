@@ -28,10 +28,14 @@ if [[ $DELETIONS_COUNT > 0 ]]; then
   STATUS_DELETIONS="#[fg=#f7768e,bg=#15161e,bold] ${DELETIONS_COUNT} "
 fi
 
+if [[ $REMOTE_STATUS > 0 ]]; then
+  STATUS_REMOTE="#[fg=#e0af68,bg=#15161e,bold]󰘿 "
+fi
+
 if test "$BRANCH" != ""; then
   if test "$STATUS" = "0"; then
-    echo "#[fg=#44dfaf,bg=#15161e,bold]🮐  $RESET$BRANCH "
+    echo "#[fg=#44dfaf,bg=#15161e,bold]🮐  $RESET$BRANCH$RESET$STATUS_REMOTE "
   else
-    echo "#[fg=#ff1178,bg=#15161e,bold]🮐  $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
+    echo "#[fg=#ff1178,bg=#15161e,bold]🮐  $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS$RESET$STATUS_REMOTE "
   fi
 fi
