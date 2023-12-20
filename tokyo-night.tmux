@@ -7,6 +7,7 @@
 # email      hi@logico.com.ar                                         +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 tmux set -g status-style bg=#1A1B26
@@ -23,7 +24,7 @@ zoom_number="#($SCRIPTS_PATH/custom-number.sh #P -O)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=#15161e,bg=#2b97fa,bold] #S #[fg=#2b97fa,bg=default,nobold,noitalics,nounderscore]"
+tmux set -g status-left "#[fg=#15161e,bg=#2b97fa,bold] #{?client_prefix, ,#[dim] }#[nodim] #S $RESET"
 
 #+--- Windows ---+
 # Focus
