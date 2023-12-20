@@ -15,7 +15,7 @@ if test "$STATUS" != "0"; then
   DELETIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "del" | cut -d" " -f2 | bc)"
 fi
 
-REMOTE_STATUS=$(git diff --shortstat origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)
+REMOTE_STATUS=$(git fetch --dry-run --negotiation-tip=$(git rev-parse --abbrev-ref HEAD) --negotiate-only | wc -l | bc)
 
 if [[ $CHANGED_COUNT > 0 ]]; then
   STATUS_CHANGED="#[fg=#e0af68,bg=#15161e,bold] ${CHANGED_COUNT} "
