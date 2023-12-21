@@ -45,6 +45,10 @@ so it's independent of terminal theme.
   - indicators order
   - disable indicators
 
+### Demo
+
+
+
 ### Snapshots
 
 
