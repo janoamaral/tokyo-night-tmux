@@ -33,9 +33,9 @@ if [[ $PROVIDER == "github.com" ]]; then
 else
   PROVIDER_ICON="$RESET#[fg=#fc6d26] "
   if test "$BRANCH" != ""; then
-    PR_COUNT=1
-    REVIEW_COUNT=5
-    ISSUE_COUNT=2
+    PR_COUNT=$(glab mr list | grep -E "^\!" | wc -l | bc)
+    REVIEW_COUNT=$(glab mr list --reviewer=@me | grep -E "^\!" | wc -l | bc)
+    ISSUE_COUNT=$(glab issue list | grep -E "^\#" | wc -l | bc)
   else
     exit 0
   fi
