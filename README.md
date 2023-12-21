@@ -29,13 +29,21 @@ so it's independent of terminal theme.
     - Open PR count
     - Open PR reviews count 
     - Issue count
-- Remote branch sync indicator (you will never forget to push again 🤪).
+- Remote branch sync indicator (you will never forget to push or pull again 🤪).
 - Great terminal icons.
 - Prefix highlight incorporated.
 - Cmus status bar
 - Windows has custom pane number indicator.
 - Pane zoom mode indicator.
 - Date and time.
+
+#### TODO
+
+- Add configurations
+  - remote fetch time
+  - number styles
+  - indicators order
+  - disable indicators
 
 ### Snapshots
 

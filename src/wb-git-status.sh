@@ -69,6 +69,6 @@ echo "$WB_STATUS"
 # Wait extra time if status-interval is less than 30 seconds to
 # avoid to overload GitHub API
 INTERVAL="$(tmux show -g | grep status-interval | cut -d" " -f2 | bc)"
-if [[ $INTERVAL < 30 ]]; then
-  sleep 30
+if [[ $INTERVAL < 20 ]]; then
+  sleep 20
 fi
