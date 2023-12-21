@@ -1,8 +1,9 @@
 #!/bin/env bash
 cd $1
-RESET="#[fg=white,bg=#15161e,nobold,noitalics,nounderscore]"
+RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
+
 STATUS_CHANGED=""
 STATUS_INSERTIONS=""
 STATUS_DELETIONS=""

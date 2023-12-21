@@ -41,4 +41,3 @@ Legacy tokyonight
 
 ![Snap 4](snaps/l01.png)
 
-
