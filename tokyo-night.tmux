@@ -19,6 +19,7 @@ PANE_BASE="$(tmux show -g | grep pane-base-index | cut -d" " -f2 | bc)"
 cmus_status="#($SCRIPTS_PATH/cmus-tmux-statusbar.sh)"
 git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
 wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
+window_number="#($SCRIPTS_PATH/custom-number.sh #I -d)"
 custom_pane="#($SCRIPTS_PATH/custom-number.sh #P -o)"
 zoom_number="#($SCRIPTS_PATH/custom-number.sh #P -O)"
 
@@ -28,9 +29,9 @@ tmux set -g status-left "#[fg=#1F2335,bg=#6441a5,bold] #{?client_prefix,󰠠 ,#[
 
 #+--- Windows ---+
 # Focus
-tmux set -g window-status-current-format "#[fg=#44dfaf,bg=#1F2335]   #[fg=#a9b1d6]$custom_number #[bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
+tmux set -g window-status-current-format "#[fg=#44dfaf,bg=#1F2335]   $window_number #[fg=#a9b1d6,bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
 # Unfocused
-tmux set -g window-status-format "#[fg=#c0caf5,bg=default,none,dim]   $custom_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane}#[fg=yellow,blink] #{?window_last_flag,󰁯 ,} "
+tmux set -g window-status-format "#[fg=#c0caf5,bg=default,none,dim]   $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane}#[fg=yellow,blink] #{?window_last_flag,󰁯 ,} "
 
   #+--- Bars RIGHT ---+
 tmux set -g status-right "$cmus_status$git_status$wb_git_status$RESET#[fg=#a9b1d6,bg=#24283B] %Y-%m-%d #[]❬ %H:%M "
