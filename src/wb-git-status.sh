@@ -3,6 +3,7 @@ cd $1
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
+STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 
 PROVIDER_ICON=""
 
@@ -41,8 +42,13 @@ else
   fi
 fi
 
-git fetch --atomic origin --negotiation-tip=HEAD
-REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
+if test "$STATUS" = "0"; then
+  git fetch --atomic origin --negotiation-tip=HEAD
+  REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
+else
+  # We know there are changes, so we don't need to check for remote diff
+  REMOTE_DIFF=1
+fi
 
 if [[ $PR_COUNT > 0 ]]; then
   PR_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${PR_COUNT} "
