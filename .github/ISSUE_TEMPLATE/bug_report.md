@@ -27,7 +27,6 @@ If applicable, add screenshots to help explain your problem.
 - terminal [e.g. kitty, alacritty]: 
 - tmux version [e.g. 3.3a]: 
 - tokyo-night-tmux branch [e.g. master, next, legacy]: 
-- related CVE [if applicable]: 
 
 **Additional context**
 Add any other context about the problem here.
