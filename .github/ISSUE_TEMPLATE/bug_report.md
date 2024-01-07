@@ -1,23 +1,20 @@
 ---
-name: Security report
-about: Create a report to enhance the security
+name: Bug report
+about: Create a report to enhance this project
 title: ''
 labels: ''
 assignees:
 ---
 
-**Describe the vulnerability**
-A clear and concise description of what the security issue is about.
+**Describe the issue**
+A clear and concise description of what the issue is about.
 
 **To Reproduce**
-Steps to reproduce the vulnerability:
+Steps to reproduce the issue:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
-
-**Known remediation**
-A potential & temporary fix for the know vulnerability.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
