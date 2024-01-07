@@ -10,6 +10,8 @@
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Add highlight colors for session & copy mode
+tmux set -g mode-style 'fg=#a9b1d6,bg=#292e42'
 tmux set -g status-style bg=#1A1B26
 tmux set -g status-right-length 150
 
@@ -36,6 +38,3 @@ tmux set -g window-status-format "#[fg=#c0caf5,bg=default,none,dim]   $window
   #+--- Bars RIGHT ---+
 tmux set -g status-right "$cmus_status#[fg=#a9b1d6,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status$wb_git_status"
 tmux set -g window-status-separator ""
-
-# Add highlight colors for session & copy mode
-set -g mode-style bg=#a9b1d6,fg=#24283B
