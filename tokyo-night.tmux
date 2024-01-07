@@ -25,7 +25,7 @@ zoom_number="#($SCRIPTS_PATH/custom-number.sh #P -O)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=#1F2335,bg=#6441a5,bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[fg=#ffffff,bg=#6441a5,bold,nodim]#S $RESET"
+tmux set -g status-left "#[fg=#1a1b26,bg=#2ac3de,bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[fg=#1a1b26,bg=#2ac3de,bold,nodim]#S $RESET"
 
 #+--- Windows ---+
 # Focus
