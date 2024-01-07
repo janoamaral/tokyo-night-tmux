@@ -11,6 +11,16 @@ The old version (deprecated) is still available in the `legacy` branch.
 
 This is a very opinionated project, as I am a Tech Lead, this theme is very developer-focused.
 
+## Requirements
+
+### Nerd Fonts
+
+This theme requires the use of a patched font with Nerd Font. Ensure your terminal is set to use one before installing this theme. We recommend using FiraCode Nerd Font for this theme, but any patched font will do.
+
+### Noto Fonts
+
+This theme requires the Noto fonts to be installed on your operating system. Make sure your operating system has the needed font and is configured to use one.
+
 ### Installation using TPM
 
 In your `tmux.conf`:
