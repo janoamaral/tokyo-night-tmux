@@ -10,8 +10,9 @@
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Add highlight colors for session & copy mode
+# Add highlight colors for highlighting
 tmux set -g mode-style 'fg=#a9b1d6,bg=#292e42'
+
 tmux set -g status-style bg=#1A1B26
 tmux set -g status-right-length 150
 
