@@ -28,7 +28,6 @@ In your `tmux.conf`:
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
-
 ### New tokyonight Highlights ⚡
 
 Everything works out the box now. No need to modify anything and colors are hardcoded, 
@@ -57,13 +56,9 @@ so it's independent of terminal theme.
 
 ### Demo
 
-
 https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f2-82b1-ffdbfbc54fbf
 
-
-
 ### Snapshots
-
 
 - Terminal: Kitty with [Tokyo Night Kitty Theme](https://github.com/davidmathers/tokyo-night-kitty-theme)
 - Font: [SFMono Nerd Font Ligaturized](https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized)
@@ -73,4 +68,3 @@ https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f
 Legacy tokyonight
 
 ![Snap 4](snaps/l01.png)
-
