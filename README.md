@@ -11,13 +11,23 @@ The old version (deprecated) is still available in the `legacy` branch.
 
 This is a very opinionated project, as I am a Tech Lead, this theme is very developer-focused.
 
+## Requirements
+
+### Nerd Fonts
+
+This theme requires the use of a patched font with Nerd Font. Ensure your terminal is set to use one before installing this theme. Any patched font will do. See
+[`nerdfonts.com`](https://www.nerdfonts.com/) for more informations.
+
+### Noto Fonts
+
+This theme requires the Noto fonts to be installed on your operating system. Make sure your operating system has the needed font and is configured to use one.
+
 ### Installation using TPM
 
 In your `tmux.conf`:
 ```
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
-
 
 ### New tokyonight Highlights ⚡
 
@@ -47,13 +57,9 @@ so it's independent of terminal theme.
 
 ### Demo
 
-
 https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f2-82b1-ffdbfbc54fbf
 
-
-
 ### Snapshots
-
 
 - Terminal: Kitty with [Tokyo Night Kitty Theme](https://github.com/davidmathers/tokyo-night-kitty-theme)
 - Font: [SFMono Nerd Font Ligaturized](https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized)
@@ -63,4 +69,3 @@ https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f
 Legacy tokyonight
 
 ![Snap 4](snaps/l01.png)
-

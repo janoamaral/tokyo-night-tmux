@@ -10,6 +10,15 @@
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Highlight colors
+set -g mode-style "fg=#a9b1d6,bg=#2A2F41"
+
+set -g message-style "bg=#7aa2f7,fg=#2A2F41"
+set -g message-command-style "fg=#c0caf5,bg=#2A2F41"
+
+set -g pane-border-style "fg=#2A2F41"
+set -g pane-active-border-style "fg=#7aa2f7"
+
 tmux set -g status-style bg=#1A1B26
 tmux set -g status-right-length 150
 
