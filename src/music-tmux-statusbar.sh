@@ -37,10 +37,24 @@ elif command -v nowplaying-cli > /dev/null; then
   TITLE=$(parse_npcli_value Title)
   if [ "$(parse_npcli_value IsAlwaysLive)" = "1" ]; then
     DURATION=-1
+    POSITION=0
   else
     DURATION=$(parse_npcli_value Duration | cut -d. -f1)
+    POSITION=$(parse_npcli_value ElapsedTime | cut -d. -f1)
   fi
-  POSITION=$(parse_npcli_value ElapsedTime | cut -d. -f1)
+  # If playing media with a duration, calculate POSITION from last update
+  if [ "$STATUS" = "playing" ] && [ "$DURATION" -gt 0 ]; then
+    # Assuming BSD date on macOS
+    update_timestamp=$(date -j -f "%Y-%m-%d %H:%M:%S %z" "$(parse_npcli_value Timestamp)" +"%s")
+    current_timestamp=$(date -u +"%s")
+    # Calculate seconds since last update
+    UPDATE_AGE=$((current_timestamp - update_timestamp))
+    POSITION=$((POSITION + UPDATE_AGE))
+    # Cap at DURATION
+    if [ "$POSITION" -gt "$DURATION" ]; then
+      POSITION=$DURATION
+    fi
+  fi
 fi
 # If POSITION, calculate the progress bar
 if [ -n "$POSITION" ]; then
