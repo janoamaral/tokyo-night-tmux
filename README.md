@@ -42,7 +42,7 @@ so it's independent of terminal theme.
 - Remote branch sync indicator (you will never forget to push or pull again 🤪).
 - Great terminal icons.
 - Prefix highlight incorporated.
-- Cmus status bar
+- Now Playing status bar, supporting [cmus]/[nowplaying-cli]
 - Windows has custom pane number indicator.
 - Pane zoom mode indicator.
 - Date and time.
@@ -69,3 +69,7 @@ https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f
 Legacy tokyonight
 
 ![Snap 4](snaps/l01.png)
+
+
+[cmus]: https://cmus.github.io/
+[nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli

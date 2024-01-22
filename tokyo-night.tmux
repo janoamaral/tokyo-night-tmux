@@ -25,7 +25,7 @@ tmux set -g status-right-length 150
 SCRIPTS_PATH="$CURRENT_DIR/src"
 PANE_BASE="$(tmux show -g | grep pane-base-index | cut -d" " -f2 | bc)"
 
-cmus_status="#($SCRIPTS_PATH/cmus-tmux-statusbar.sh)"
+cmus_status="#($SCRIPTS_PATH/music-tmux-statusbar.sh)"
 git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
 wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
 window_number="#($SCRIPTS_PATH/custom-number.sh #I -d)"
