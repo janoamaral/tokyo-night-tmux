@@ -3,7 +3,11 @@
 ID=$(($1))
 FORMAT=$2
 
-if [ "$FORMAT" = "-d" ]; then
+if [ "$FORMAT" = "none" ]; then
+  echo $ID;
+fi
+
+if [ "$FORMAT" = "digital" ]; then
   case $ID in
     0) echo "🯰";;
     1) echo "🯱";;
@@ -19,7 +23,7 @@ if [ "$FORMAT" = "-d" ]; then
   esac
 fi
 
-if [ "$FORMAT" = "-s" ]; then
+if [ "$FORMAT" = "fsquare" ]; then
   case $ID in
     0) echo "󰎡";;
     1) echo "󰎤";;
@@ -35,7 +39,7 @@ if [ "$FORMAT" = "-s" ]; then
   esac
 fi
 
-if [ "$FORMAT" = "-o" ]; then
+if [ "$FORMAT" = "hsquare" ]; then
   case $ID in
     0) echo "󰎣";;
     1) echo "󰎦";;
@@ -51,7 +55,7 @@ if [ "$FORMAT" = "-o" ]; then
   esac
 fi
 
-if [ "$FORMAT" = "-O" ]; then
+if [ "$FORMAT" = "dsquare" ]; then
   case $ID in
     0) echo "󰎢";;
     1) echo "󰎥";;
@@ -67,7 +71,7 @@ if [ "$FORMAT" = "-O" ]; then
   esac
 fi
 
-if [ "$FORMAT" = "-r" ]; then
+if [ "$FORMAT" = "roman" ]; then
   case $ID in
     0) echo " ";;
     1) echo "󱂈";;
@@ -83,7 +87,7 @@ if [ "$FORMAT" = "-r" ]; then
   esac
 fi
 
-if [ "$FORMAT" = "-S" ]; then
+if [ "$FORMAT" = "super" ]; then
   case $ID in
     0) echo "⁰";;
     1) echo "¹";;
@@ -95,6 +99,22 @@ if [ "$FORMAT" = "-S" ]; then
     7) echo "⁷";;
     8) echo "⁸";;
     9) echo "⁹";;
+    *) echo $ID;;
+  esac
+fi
+
+if [ "$FORMAT" = "sub" ]; then
+  case $ID in
+    0) echo "₀";;
+    1) echo "₁";;
+    2) echo "₂";;
+    3) echo "₃";;
+    4) echo "₄";;
+    5) echo "₅";;
+    6) echo "₆";;
+    7) echo "₇";;
+    8) echo "₈";;
+    9) echo "₉";;
     *) echo $ID;;
   esac
 fi
