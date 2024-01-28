@@ -7,10 +7,12 @@ BG_BAR="#15161e"
 TIME_COLOR="#414868"
 
 if [[ $1 =~ ^[[:digit:]]+$  ]]; then
-    MAX_TITLE_WIDTH=$1
+    MAX_TITLE_WIDTH=20
   else
-    MAX_TITLE_WIDTH=$(($(tmux display -p '#{window_width}' 2> /dev/null || echo 120) - 90))
+    MAX_TITLE_WIDTH=$(($(tmux display -p '#{window_width}' 2> /dev/null || echo 120) - 130))
 fi
+
+MAX_TITLE_WIDTH=25
 
 if cmus-remote -Q > /dev/null 2> /dev/null; then
   CMUS_STATUS=$(cmus-remote -Q)
@@ -43,12 +45,15 @@ if cmus-remote -Q > /dev/null 2> /dev/null; then
     OUTPUT="$PLAY_STATE $TITLE"
 
     # Only show the song title if we are over $MAX_TITLE_WIDTH characters
-    if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH  ]; then
-      OUTPUT="$PLAY_STATE ${TITLE:0:$MAX_TITLE_WIDTH-1}…"
-    fi
   else
     OUTPUT=''
   fi
+fi
+
+if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH  ]; then
+  OUTPUT="$PLAY_STATE ${TITLE:0:$MAX_TITLE_WIDTH-1}"
+  # Remove trailing spaces
+  OUTPUT="${OUTPUT%"${OUTPUT##*[![:space:]]}"}…"
 fi
 
 if [ -z "$OUTPUT" ]

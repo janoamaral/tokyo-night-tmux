@@ -10,6 +10,12 @@
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Calculate the width of the left side by substracting the width of the right side
+# from the total width of the terminal
+tmux set -g status-left-length $(($(tput cols) - 150))
+tmux set -g status-justify left
+
+
 # Highlight colors
 tmux set -g mode-style "fg=#a9b1d6,bg=#2A2F41"
 
@@ -21,6 +27,7 @@ tmux set -g pane-active-border-style "fg=#7aa2f7"
 
 tmux set -g status-style bg=#1A1B26
 tmux set -g status-right-length 150
+tmux set -g status-left-length 150
 
 SCRIPTS_PATH="$CURRENT_DIR/src"
 PANE_BASE="$(tmux show -g | grep pane-base-index | cut -d" " -f2 | bc)"
@@ -34,13 +41,13 @@ zoom_number="#($SCRIPTS_PATH/custom-number.sh #P -O)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=#1a1b26,bg=#2ac3de,bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[fg=#1a1b26,bg=#2ac3de,bold,nodim]#S $RESET"
+tmux set -g status-left "#[bg=#000000,fg=#ffd530,bold]▌ #[bg=#000000,fg=#ffd530,bold]#{?client_prefix,󰠠 ,#[dim]󰤂 }#[fg=#ffffff,bold,nodim]#S "
 
 #+--- Windows ---+
 # Focus
-tmux set -g window-status-current-format "#[fg=#44dfaf,bg=#1F2335]   $window_number #[fg=#a9b1d6,bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
+tmux set -g window-status-current-format "$RESET#[fg=#44dfaf,bg=#1F2335]   $window_number #[fg=#a9b1d6,bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
 # Unfocused
-tmux set -g window-status-format "#[fg=#c0caf5,bg=default,none,dim]   $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane}#[fg=yellow,blink] #{?window_last_flag,󰁯 ,} "
+tmux set -g window-status-format "$RESET#[fg=#c0caf5,bg=default,none,dim]   $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #[fg=yellow]#{?window_last_flag,󰁯 , } "
 
   #+--- Bars RIGHT ---+
 tmux set -g status-right "$cmus_status$git_status$wb_git_status$RESET#[fg=#a9b1d6,bg=#24283B] %Y-%m-%d #[]❬ %H:%M "
