@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Value parser for nowplaying-cli
 parse_npcli_value() {
