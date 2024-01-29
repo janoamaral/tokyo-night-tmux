@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#
+
 ID=$(($1))
 FORMAT=$2
 
