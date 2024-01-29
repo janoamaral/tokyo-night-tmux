@@ -10,6 +10,9 @@
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+tmux set -g status-left-length 80
+tmux set -g status-right-length 150
+
 # Highlight colors
 tmux set -g mode-style "fg=#a9b1d6,bg=#2A2F41"
 
@@ -20,7 +23,6 @@ tmux set -g pane-border-style "fg=#2A2F41"
 tmux set -g pane-active-border-style "fg=#7aa2f7"
 
 tmux set -g status-style bg="#1A1B26"
-tmux set -g status-right-length 150
 
 SCRIPTS_PATH="$CURRENT_DIR/src"
 TMUX_VARS="$(tmux show -g)"

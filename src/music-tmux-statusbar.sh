@@ -89,6 +89,13 @@ else
   OUTPUT=''
 fi
 
+MAX_TITLE_WIDTH=25
+if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH  ]; then
+  OUTPUT="$PLAY_STATE ${TITLE:0:$MAX_TITLE_WIDTH-1}"
+  # Remove trailing spaces
+  OUTPUT="${OUTPUT%"${OUTPUT##*[![:space:]]}"}…"
+fi
+
 if [ -z "$OUTPUT" ]
 then
   echo "$OUTPUT #[fg=green,bg=default]"
