@@ -10,11 +10,8 @@
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Calculate the width of the left side by substracting the width of the right side
-# from the total width of the terminal
-tmux set -g status-left-length $(($(tput cols) - 150))
-tmux set -g status-justify left
-
+tmux set -g status-left-length 80
+tmux set -g status-right-length 150
 
 # Highlight colors
 tmux set -g mode-style "fg=#a9b1d6,bg=#2A2F41"
@@ -26,8 +23,6 @@ tmux set -g pane-border-style "fg=#2A2F41"
 tmux set -g pane-active-border-style "fg=#7aa2f7"
 
 tmux set -g status-style bg="#1A1B26"
-tmux set -g status-right-length 150
-tmux set -g status-left-length 150
 
 SCRIPTS_PATH="$CURRENT_DIR/src"
 TMUX_VARS="$(tmux show -g)"
@@ -44,7 +39,7 @@ window_id_style="${window_id_style:-$default_window_id_style}"
 pane_id_style="${pane_id_style:-$default_pane_id_style}"
 zoom_id_style="${zoom_id_style:-$default_zoom_id_style}"
 
-cmus_status="#($SCRIPTS_PATH/cmus-tmux-statusbar.sh)"
+cmus_status="#($SCRIPTS_PATH/music-tmux-statusbar.sh)"
 git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
 wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
 window_number="#($SCRIPTS_PATH/custom-number.sh #I $window_id_style)"
