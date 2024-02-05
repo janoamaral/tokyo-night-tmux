@@ -48,13 +48,13 @@ zoom_number="#($SCRIPTS_PATH/custom-number.sh #P $zoom_id_style)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[bg=#000000,fg=#ffd530,bold]▌ #[bg=#000000,fg=#ffd530,bold]#{?client_prefix,󰠠 ,#[dim]󰤂 }#[fg=#ffffff,bold,nodim]#S "
+tmux set -g status-left "#[bg=#7aa2f7,fg=#0f0f14,bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
 
 #+--- Windows ---+
 # Focus
-tmux set -g window-status-current-format "$RESET#[fg=#44dfaf,bg=#1F2335]   $window_number #[fg=#a9b1d6,bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
+tmux set -g window-status-current-format "$RESET#[fg=#44dfaf,bg=#1F2335]  $window_number #[fg=#a9b1d6,bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
 # Unfocused
-tmux set -g window-status-format "$RESET#[fg=#c0caf5,bg=default,none,dim]   $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #[fg=yellow]#{?window_last_flag,󰁯 , } "
+tmux set -g window-status-format "$RESET#[fg=#c0caf5,bg=default,none,dim]  $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #[fg=yellow]#{?window_last_flag,󰁯 , } "
 
   #+--- Bars RIGHT ---+
 tmux set -g status-right "$cmus_status$git_status$wb_git_status$RESET#[fg=#a9b1d6,bg=#24283B] %Y-%m-%d #[]❬ %H:%M "
