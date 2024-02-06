@@ -29,6 +29,36 @@ In your `tmux.conf`:
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
+### Configuration
+
+#### Number styles
+
+Run this
+
+```
+tmux set @tokyo-night-tmux_window_id_style digital
+tmux set @tokyo-night-tmux_pane_id_style hsquare
+tmux set @tokyo-night-tmux_zoom_id_style dsquare
+```
+
+or add this lines to your  `.tmux.conf`
+
+```
+set -g @tokyo-night-tmux_window_id_style digital
+set -g @tokyo-night-tmux_pane_id_style hsquare
+set -g @tokyo-night-tmux_zoom_id_style dsquare
+```
+
+The styles:
+- `none`: no style, default font
+- `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080)) 
+- `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)
+- `fsquare`: filled square (󰎡...󰎼) (needs nerdfont)
+- `hsquare`: hollow square (󰎣...󰎾) (needs nerdfont)
+- `dsquare`: hollow double square (󰎡...󰎼) (needs nerdfont)
+- `super`: superscript symbol (⁰...⁹)
+- `sub`: subscript symbols (₀...₉) 
+
 ### New tokyonight Highlights ⚡
 
 Everything works out the box now. No need to modify anything and colors are hardcoded, 
@@ -42,7 +72,7 @@ so it's independent of terminal theme.
 - Remote branch sync indicator (you will never forget to push or pull again 🤪).
 - Great terminal icons.
 - Prefix highlight incorporated.
-- Cmus status bar
+- Now Playing status bar, supporting [cmus]/[nowplaying-cli]
 - Windows has custom pane number indicator.
 - Pane zoom mode indicator.
 - Date and time.
@@ -51,7 +81,7 @@ so it's independent of terminal theme.
 
 - Add configurations
   - remote fetch time
-  - number styles
+  - ~number styles~
   - indicators order
   - disable indicators
 
@@ -69,3 +99,7 @@ https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f
 Legacy tokyonight
 
 ![Snap 4](snaps/l01.png)
+
+
+[cmus]: https://cmus.github.io/
+[nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli

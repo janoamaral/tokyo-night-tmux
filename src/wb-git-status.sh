@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 cd $1
-RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
+RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim,nostrikethrough]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
 STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
@@ -63,11 +64,14 @@ if [[ $ISSUE_COUNT > 0 ]]; then
 fi
 
 if [[ $REMOTE_DIFF > 0 ]]; then
-  REMOTE_STATUS="$RESET#[fg=#d22730,bold]  "
+  # REMOTE_STATUS="$RESET#[fg=#f7768e,bold]󰾕 "
+  REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰓦 "
+else
+  REMOTE_STATUS="$RESET#[fg=#c0caf5,bg=#3D59A1,bold]  "
 fi
 
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
-  WB_STATUS="#[fg=#464646,bg=#15161e,bold] $PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS$REMOTE_STATUS"
+  WB_STATUS="#[fg=#565f89,bold]$RESET $PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS$REMOTE_STATUS"
 fi
 
 echo "$WB_STATUS"
