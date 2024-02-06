@@ -17,12 +17,17 @@ if [[ $1 =~ ^[[:digit:]]+$  ]]; then
     MAX_TITLE_WIDTH=$(($(tmux display -p '#{window_width}' 2> /dev/null || echo 120) - 90))
 fi
 
-# cmus-remote
-if command -v cmus-remote > /dev/null; then
+# playerctl
+if command -v playerctl > /dev/null; then
   PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Playing")
-  CMUS_STATUS=$(cmus-remote -Q)
-  STATUS=$(echo "$CMUS_STATUS" | grep status | head -n 1 | cut -d' ' -f2-)
-  ARTIST=$(echo "$CMUS_STATUS" | grep 'tag artist' | head -n 1 | cut -d' ' -f3-)
+  STATUS="playing"
+
+  # There is no playing media, check for paused media
+  if [ -z "$PLAYER_STATUS" ]; then
+    PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Paused")
+    STATUS="paused"
+  fi
+
   TITLE=$(echo "$PLAYER_STATUS" | cut -d';' --fields=4)
   DURATION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=2)
   POSITION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=3)
@@ -39,7 +44,6 @@ elif command -v nowplaying-cli > /dev/null; then
   else
     STATUS="paused"
   fi
-  ARTIST=$(parse_npcli_value Artist)
   TITLE=$(parse_npcli_value Title)
   if [ "$(parse_npcli_value IsAlwaysLive)" = "1" ]; then
     DURATION=-1
