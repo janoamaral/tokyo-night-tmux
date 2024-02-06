@@ -19,12 +19,18 @@ fi
 
 # cmus-remote
 if command -v cmus-remote > /dev/null; then
+  PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Playing")
   CMUS_STATUS=$(cmus-remote -Q)
   STATUS=$(echo "$CMUS_STATUS" | grep status | head -n 1 | cut -d' ' -f2-)
   ARTIST=$(echo "$CMUS_STATUS" | grep 'tag artist' | head -n 1 | cut -d' ' -f3-)
-  TITLE=$(echo "$CMUS_STATUS" | grep 'tag title' | cut -d' ' -f3-)
-  DURATION=$(echo "$CMUS_STATUS" | grep 'duration' | cut -d' ' -f2-)
-  POSITION=$(echo "$CMUS_STATUS" | grep 'position' | cut -d' ' -f2-)
+  TITLE=$(echo "$PLAYER_STATUS" | cut -d';' --fields=4)
+  DURATION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=2)
+  POSITION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=3)
+
+  # Convert position and duration to seconds from microseconds
+  DURATION=$((DURATION / 1000000))
+  POSITION=$((POSITION / 1000000))
+
 # nowplaying-cli
 elif command -v nowplaying-cli > /dev/null; then
   NPCLI_STATUS=$(nowplaying-cli get-raw)
