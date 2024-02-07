@@ -36,6 +36,11 @@ if command -v playerctl > /dev/null; then
   DURATION=$((DURATION / 1000000))
   POSITION=$((POSITION / 1000000))
 
+  if [ "$DURATION" -eq 0 ]; then
+    DURATION=-1
+    POSITION=0
+  fi
+
 # nowplaying-cli
 elif command -v nowplaying-cli > /dev/null; then
   NPCLI_STATUS=$(nowplaying-cli get-raw)
@@ -78,10 +83,10 @@ fi
 if [ -n "$DURATION" ] && [ -n "$POSITION" ]; then
   TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
   if [ "$D_SEC" = "-1" ]; then
-    TIME="[ $P_MIN:$P_SEC]"
+    TIME="[--:--]"
   fi
 else
-  TIME="[]"
+  TIME="[--:--]"
 fi
 if [ -n "$TITLE"  ]; then
   if [ "$STATUS" = "playing"  ]; then
