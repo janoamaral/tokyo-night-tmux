@@ -22,7 +22,15 @@ This theme requires the use of a patched font with Nerd Font. Ensure your termin
 
 This theme requires the Noto fonts to be installed on your operating system. Make sure your operating system has the needed font and is configured to use one.
 
-### Installation using TPM
+### GNU bc
+This theme requires the [`GNU bc`](https://www.gnu.org/software/bc/) for precise mathematical calculation of network speed, [Tokyo-night-tmux](https://janoamaral/tokyo-night-tmux) also shows the real time network speed in right side of status bar.
+
+```bash
+pacman -S bc
+```
+see documentation for installing [`GNU bc`](https://www.gnu.org/software/bc/) in other Operation system.
+
+## Installation using TPM
 
 In your `tmux.conf`:
 ```
