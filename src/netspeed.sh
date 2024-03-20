@@ -4,8 +4,14 @@
 # email : freakybytes@duck.com
 #<------------------------------------------------------------------------------------------>
 
-# Choose wlan0 as main interface
-INTERFACE="wlan0"
+# Check the global value
+SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_netspeed)
+if [ "$SHOW_NETSPEED" != "1" ]; then
+    exit 0
+fi
+
+# Get network interface
+INTERFACE=$(tmux show-option -gv @tokyo-night-tmux_netspeed_iface 2>/dev/null)
 
 # Get network transmit data from /proc/net/dev
 get_bytes() {
