@@ -35,24 +35,17 @@ readable_format() {
     fi
 }
 
-# Echo with truncate condition
-while true; do
-    read RX1 TX1 < <(get_bytes "$INTERFACE")
-    sleep 1
-    read RX2 TX2 < <(get_bytes "$INTERFACE")
+# Echo network speed
+read RX1 TX1 < <(get_bytes "$INTERFACE")
+sleep 1
+read RX2 TX2 < <(get_bytes "$INTERFACE")
 
-    RX_DIFF=$((RX2 - RX1))
-    TX_DIFF=$((TX2 - TX1))
+RX_DIFF=$((RX2 - RX1))
+TX_DIFF=$((TX2 - TX1))
 
-    TIME_DIFF=1
+TIME_DIFF=1
 
-    RX_SPEED=$(readable_format "$((RX_DIFF / TIME_DIFF))")
-    TX_SPEED=$(readable_format "$((TX_DIFF / TIME_DIFF))")
+RX_SPEED=$(readable_format "$((RX_DIFF / TIME_DIFF))")
+TX_SPEED=$(readable_format "$((TX_DIFF / TIME_DIFF))")
 
-    width=$(tmux display -p '#{window_width}')
-    if [ "$width" -lt 115 ]; then
-        echo "⮛ $RX_SPEED ⮙ $TX_SPEED"
-    else
-        echo "⮛ $RX_SPEED ⮙ $TX_SPEED $(date '+❬ %H:%M ❬ %Y-%m-%d')"
-    fi
-done
+echo "  $RX_SPEED  $TX_SPEED "

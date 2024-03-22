@@ -71,7 +71,7 @@ if [ -n "$DURATION" ]; then
   D_SEC=`printf '%02d' $(($DURATION % 60))`
 fi
 if [ -n "$DURATION" ] && [ -n "$POSITION" ]; then
-  # TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]" # hide to making space for network speed
+  TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
   if [ "$D_SEC" = "-1" ]; then
     TIME="[ $P_MIN:$P_SEC]"
   fi
@@ -82,7 +82,7 @@ if [ -n "$TITLE"  ]; then
   if [ "$STATUS" = "playing"  ]; then
     PLAY_STATE="$OUTPUT"
   else
-    PLAY_STATE="$OUTPUT"
+    PLAY_STATE="󰏤$OUTPUT"
   fi
   OUTPUT="$PLAY_STATE $TITLE"
 
