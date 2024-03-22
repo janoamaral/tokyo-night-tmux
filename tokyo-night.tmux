@@ -39,6 +39,7 @@ window_id_style="${window_id_style:-$default_window_id_style}"
 pane_id_style="${pane_id_style:-$default_pane_id_style}"
 zoom_id_style="${zoom_id_style:-$default_zoom_id_style}"
 
+netspeed="#($SCRIPTS_PATH/netspeed.sh)"
 cmus_status="#($SCRIPTS_PATH/music-tmux-statusbar.sh)"
 git_status="#($SCRIPTS_PATH/git-status.sh #{pane_current_path})"
 wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
@@ -57,5 +58,5 @@ tmux set -g window-status-current-format "#[fg=#44dfaf,bg=#1F2335]   #[fg=#a9
 tmux set -g window-status-format "#[fg=#c0caf5,bg=default,none,dim]   $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane}#[fg=yellow,blink] #{?window_last_flag,󰁯 ,} "
 
 #+--- Bars RIGHT ---+
-tmux set -g status-right "$cmus_status#[fg=#a9b1d6,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M $git_status$wb_git_status"
+tmux set -g status-right "$cmus_status#[fg=#a9b1d6,bg=#24283B]$netspeed$git_status$wb_git_status#[fg=#a9b1d6,bg=#24283B]  %Y-%m-%d #[]❬ %H:%M "
 tmux set -g window-status-separator ""

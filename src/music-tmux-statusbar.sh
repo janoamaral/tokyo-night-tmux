@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Check the global value
+SHOW_MUSIC=$(tmux show-option -gv @tokyo-night-tmux_show_music)
+if [ "$SHOW_MUSIC" != "1" ]; then
+    exit 0
+fi
 # Value parser for nowplaying-cli
 parse_npcli_value() {
     echo "$NPCLI_STATUS" | grep "$1" | awk -F '= ' '{print $2}' | tr -d '";'
@@ -77,7 +82,7 @@ if [ -n "$TITLE"  ]; then
   if [ "$STATUS" = "playing"  ]; then
     PLAY_STATE="$OUTPUT"
   else
-    PLAY_STATE="$OUTPUT"
+    PLAY_STATE="󰏤$OUTPUT"
   fi
   OUTPUT="$PLAY_STATE $TITLE"
 
