@@ -39,6 +39,7 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 ## Configuration
 
+
 #### Number styles
 
 Run this
@@ -56,6 +57,7 @@ set -g @tokyo-night-tmux_window_id_style digital
 set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
 ```
+
 ## Widgets
 
 For widgets add following lines in you `.tmux.conf`
@@ -75,6 +77,7 @@ set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find w
 set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
 
 ## The styles:
+
 - `none`: no style, default font
 - `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080)) 
 - `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)
