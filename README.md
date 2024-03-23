@@ -22,14 +22,23 @@ This theme requires the use of a patched font with Nerd Font. Ensure your termin
 
 This theme requires the Noto fonts to be installed on your operating system. Make sure your operating system has the needed font and is configured to use one.
 
-### Installation using TPM
+### GNU bc
+This theme requires the [`GNU bc`](https://www.gnu.org/software/bc/) for precise mathematical calculation of network speed, [Tokyo-night-tmux](https://github.com/janoamaral/tokyo-night-tmux) also shows the real time network speed in right side of status bar.
+
+```bash
+pacman -S bc
+```
+see documentation for installing [`GNU bc`](https://www.gnu.org/software/bc/) in other Operation system.
+
+## Installation using TPM
 
 In your `tmux.conf`:
 ```
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
-### Configuration
+## Configuration
+
 
 #### Number styles
 
@@ -49,7 +58,26 @@ set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
 ```
 
-The styles:
+## Widgets
+
+For widgets add following lines in you `.tmux.conf`
+
+#### Now Playing widget
+
+```bash
+set -g @tokyo-night-tmux_show_music 1
+```
+
+#### Netspeed widget
+
+```bash
+set -g @tokyo-night-tmux_show_netspeed 1
+set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find with ip link
+```
+set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
+
+## The styles:
+
 - `none`: no style, default font
 - `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080)) 
 - `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)

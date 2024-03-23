@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Check the global value
+SHOW_MUSIC=$(tmux show-option -gv @tokyo-night-tmux_show_music)
+if [ "$SHOW_MUSIC" != "1" ]; then
+    exit 0
+fi
+
 # Value parser for nowplaying-cli
 parse_npcli_value() {
     echo "$NPCLI_STATUS" | grep "$1" | awk -F '= ' '{print $2}' | tr -d '";'
@@ -35,6 +41,11 @@ if command -v playerctl > /dev/null; then
   # Convert position and duration to seconds from microseconds
   DURATION=$((DURATION / 1000000))
   POSITION=$((POSITION / 1000000))
+
+  if [ "$DURATION" -eq 0 ]; then
+    DURATION=-1
+    POSITION=0
+  fi
 
 # nowplaying-cli
 elif command -v nowplaying-cli > /dev/null; then
@@ -78,16 +89,16 @@ fi
 if [ -n "$DURATION" ] && [ -n "$POSITION" ]; then
   TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
   if [ "$D_SEC" = "-1" ]; then
-    TIME="[ $P_MIN:$P_SEC]"
+    TIME="[--:--]"
   fi
 else
-  TIME="[]"
+  TIME="[--:--]"
 fi
 if [ -n "$TITLE"  ]; then
   if [ "$STATUS" = "playing"  ]; then
     PLAY_STATE="$OUTPUT"
   else
-    PLAY_STATE="$OUTPUT"
+    PLAY_STATE="󰏤$OUTPUT"
   fi
   OUTPUT="$PLAY_STATE $TITLE"
 
