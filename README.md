@@ -73,7 +73,12 @@ For widgets add following lines in you `.tmux.conf`
 
 #### Date and Time widget
 
+**Widget enabled by default**
+
+set value 0 to disable
 ```bash
+set -g @tokyo-night-tmux_show_datetime 0
+
 set -g @tokyo-night-tmux_date_format MYD
 
 set -g @tokyo-night-tmux_time_format 12H
