@@ -39,20 +39,6 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 ## Configuration
 
-#### Time Format
-
-Run this
-
-```
-tmux set @tokyo-night-tmux_time_format 12H
-```
-
-or add this to your `.tmux.conf`
-
-```
-set -g @tokyo-night-tmux_time_format 12H
-```
-
 #### Number styles
 
 Run this
@@ -84,6 +70,22 @@ set -g @tokyo-night-tmux_zoom_id_style dsquare
 ## Widgets
 
 For widgets add following lines in you `.tmux.conf`
+
+#### Date and Time widget
+
+```bash
+set -g @tokyo-night-tmux_date_format MYD
+
+set -g @tokyo-night-tmux_time_format 12H
+```
+
+## Available Options
+- `YMD`: (Year Month Day), 2024-01-31
+- `MDY`: (Month Day Year), 01-31-2024
+- `DMY`: (Day Month Year), 31-01-2024
+
+- `24H`: 18:30
+- `12H`: 6:30 PM
 
 #### Now Playing widget
 
