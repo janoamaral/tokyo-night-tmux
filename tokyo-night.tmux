@@ -31,19 +31,13 @@ PANE_BASE="$(echo "$TMUX_VARS" | grep pane-base-index | cut -d" " -f2 | bc)"
 default_window_id_style="digital"
 default_pane_id_style="hsquare"
 default_zoom_id_style="dsquare"
-default_date_format="YMD"
-default_time_format="24H"
 
 window_id_style="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_window_id_style' | cut -d" " -f2)"
 pane_id_style="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_pane_id_style' | cut -d" " -f2)"
 zoom_id_style="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_zoom_id_style' | cut -d" " -f2)"
-date_format="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_date_format' | cut -d" " -f2)"
-time_format="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_time_format' | cut -d" " -f2)"
 window_id_style="${window_id_style:-$default_window_id_style}"
 pane_id_style="${pane_id_style:-$default_pane_id_style}"
 zoom_id_style="${zoom_id_style:-$default_zoom_id_style}"
-date_format="${date_format:-$default_date_format}"
-time_format="${time_format:-$default_time_format}"
 
 netspeed="#($SCRIPTS_PATH/netspeed.sh)"
 cmus_status="#($SCRIPTS_PATH/music-tmux-statusbar.sh)"
@@ -52,7 +46,7 @@ wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
 window_number="#($SCRIPTS_PATH/custom-number.sh #I $window_id_style)"
 custom_pane="#($SCRIPTS_PATH/custom-number.sh #P $pane_id_style)"
 zoom_number="#($SCRIPTS_PATH/custom-number.sh #P $zoom_id_style)"
-date_and_time="$($SCRIPTS_PATH/time-widget.sh $date_format $time_format)"
+date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
 
 #+--- Bars LEFT ---+
 # Session name

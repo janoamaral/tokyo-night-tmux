@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 
-# Read the preferred time format from the argument
-date_format="$1"
-time_format="$2"
+# Grab global variable for showing datetime widget, only hide if explicitly disabled
+SHOW_DATETIME="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_show_datetime' | cut -d" " -f2)"
+if [[ "$SHOW_DATETIME" == "0" ]]; then
+  exit 0
+fi
+
+default_date_format="YMD"
+default_time_format="24H"
+
+date_format="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_date_format' | cut -d" " -f2)"
+time_format="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_time_format' | cut -d" " -f2)"
+
+date_format="${date_format:-$default_date_format}"
+time_format="${time_format:-$default_time_format}"
 
 date_string=""
 time_string=""
