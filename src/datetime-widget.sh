@@ -35,4 +35,4 @@ else
     time_string="%H:%M"
 fi
 
-echo "#[fg=#a9b1d6,bg=#24283B] $date_string #[]❬ $time_string"
+echo "#[fg=#a9b1d6,bg=#24283B] $date_string #[]❬ $time_string "
