@@ -124,7 +124,7 @@ https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f
 
 ![Snap 5](snaps/logico.png)
 
-Legacy tokyonight
+Legacy tokyo-night
 
 ![Snap 4](snaps/l01.png)
 
