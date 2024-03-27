@@ -58,9 +58,40 @@ set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
 ```
 
+## The styles:
+- `none`: no style, default font
+- `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080)) 
+- `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)
+- `fsquare`: filled square (󰎡...󰎼) (needs nerdfont)
+- `hsquare`: hollow square (󰎣...󰎾) (needs nerdfont)
+- `dsquare`: hollow double square (󰎡...󰎼) (needs nerdfont)
+- `super`: superscript symbol (⁰...⁹)
+- `sub`: subscript symbols (₀...₉) 
+
 ## Widgets
 
 For widgets add following lines in you `.tmux.conf`
+
+#### Date and Time widget
+
+**Widget enabled by default**
+
+set value 0 to disable
+```bash
+set -g @tokyo-night-tmux_show_datetime 0
+
+set -g @tokyo-night-tmux_date_format MYD
+
+set -g @tokyo-night-tmux_time_format 12H
+```
+
+## Available Options
+- `YMD`: (Year Month Day), 2024-01-31
+- `MDY`: (Month Day Year), 01-31-2024
+- `DMY`: (Day Month Year), 31-01-2024
+
+- `24H`: 18:30
+- `12H`: 6:30 PM
 
 #### Now Playing widget
 
@@ -75,17 +106,6 @@ set -g @tokyo-night-tmux_show_netspeed 1
 set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find with ip link
 ```
 set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
-
-## The styles:
-
-- `none`: no style, default font
-- `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080)) 
-- `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)
-- `fsquare`: filled square (󰎡...󰎼) (needs nerdfont)
-- `hsquare`: hollow square (󰎣...󰎾) (needs nerdfont)
-- `dsquare`: hollow double square (󰎡...󰎼) (needs nerdfont)
-- `super`: superscript symbol (⁰...⁹)
-- `sub`: subscript symbols (₀...₉) 
 
 ### New tokyonight Highlights ⚡
 
