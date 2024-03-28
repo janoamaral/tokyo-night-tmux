@@ -54,23 +54,23 @@ fi
 
 if [[ $SYNC_MODE > 0 ]]; then
     case "$SYNC_MODE" in
-      1) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold]  "
+      1) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold] 󱓎"
       ;;
-      2) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛶 "
+      2) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛶"
       ;;
-      3) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛴 "
+      3) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛴"
       ;;
       *) echo default
       ;;
     esac
   else
-    REMOTE_STATUS="$RESET#[fg=#ffffff,bg=#3D59A1,bold]  "
+    REMOTE_STATUS="$RESET#[fg=#73daca,bg=#15161e,bold] "
 fi
 
 if test "$BRANCH" != ""; then
   if test "$STATUS" = "0"; then
-    echo "$REMOTE_STATUS#[fg=#73daca,bg=#15161e,bold]  $RESET$BRANCH "
+    echo "$REMOTE_STATUS $RESET$BRANCH "
   else
-    echo "$REMOTE_STATUS#[fg=#f7768e,bg=#15161e,bold] 󱓎 $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
+    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
   fi
 fi
