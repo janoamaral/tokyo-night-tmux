@@ -43,14 +43,6 @@ else
   fi
 fi
 
-if test "$STATUS" = "0"; then
-  git fetch --atomic origin --negotiation-tip=HEAD
-  REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
-else
-  # We know there are changes, so we don't need to check for remote diff
-  REMOTE_DIFF=1
-fi
-
 if [[ $PR_COUNT > 0 ]]; then
   PR_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${PR_COUNT} "
 fi
@@ -63,15 +55,8 @@ if [[ $ISSUE_COUNT > 0 ]]; then
   ISSUE_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${ISSUE_COUNT} "
 fi
 
-if [[ $REMOTE_DIFF > 0 ]]; then
-  # REMOTE_STATUS="$RESET#[fg=#f7768e,bold]󰾕 "
-  REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰓦 "
-else
-  REMOTE_STATUS="$RESET#[fg=#c0caf5,bg=#3D59A1,bold]  "
-fi
-
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
-  WB_STATUS="#[fg=#565f89,bold]$RESET $PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS$REMOTE_STATUS"
+  WB_STATUS="#[fg=#464646,bg=#15161e,bold] $RESET$PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS"
 fi
 
 echo "$WB_STATUS"

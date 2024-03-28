@@ -58,6 +58,7 @@ set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
 ```
 
+
 ## Widgets
 
 For widgets add following lines in you `.tmux.conf`
@@ -86,6 +87,45 @@ set variables value `0` to disable the widget, Remember to restart the `tmux` af
 - `dsquare`: hollow double square (󰎡...󰎼) (needs nerdfont)
 - `super`: superscript symbol (⁰...⁹)
 - `sub`: subscript symbols (₀...₉) 
+
+## Widgets
+
+For widgets add following lines in you `.tmux.conf`
+
+#### Date and Time widget
+
+**Widget enabled by default**
+
+set value 0 to disable
+```bash
+set -g @tokyo-night-tmux_show_datetime 0
+
+set -g @tokyo-night-tmux_date_format MYD
+
+set -g @tokyo-night-tmux_time_format 12H
+```
+
+## Available Options
+- `YMD`: (Year Month Day), 2024-01-31
+- `MDY`: (Month Day Year), 01-31-2024
+- `DMY`: (Day Month Year), 31-01-2024
+
+- `24H`: 18:30
+- `12H`: 6:30 PM
+
+#### Now Playing widget
+
+```bash
+set -g @tokyo-night-tmux_show_music 1
+```
+
+#### Netspeed widget
+
+```bash
+set -g @tokyo-night-tmux_show_netspeed 1
+set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find with ip link
+```
+set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
 
 ### New tokyonight Highlights ⚡
 
@@ -124,10 +164,11 @@ https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f
 
 ![Snap 5](snaps/logico.png)
 
-Legacy tokyonight
+Legacy tokyo-night
 
 ![Snap 4](snaps/l01.png)
 
-
 [cmus]: https://cmus.github.io/
 [nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
+
+
