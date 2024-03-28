@@ -54,11 +54,11 @@ fi
 
 if [[ $SYNC_MODE > 0 ]]; then
     case "$SYNC_MODE" in
-      1) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold] 󱓎"
+      1) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#ff9e64,bold] 󱓎"
       ;;
-      2) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛶"
+      2) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold] 󰛶"
       ;;
-      3) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛴"
+      3) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#bb9af7,bold] 󰛴"
       ;;
       *) echo default
       ;;
