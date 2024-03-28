@@ -64,15 +64,8 @@ if [[ $ISSUE_COUNT > 0 ]]; then
   ISSUE_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${ISSUE_COUNT} "
 fi
 
-if [[ $REMOTE_DIFF > 0 ]]; then
-  # REMOTE_STATUS="$RESET#[fg=#f7768e,bold]󰾕 "
-  REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰓦 "
-else
-  REMOTE_STATUS="$RESET#[fg=#c0caf5,bg=#3D59A1,bold]  "
-fi
-
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
-  WB_STATUS="#[fg=$REMOTE_STATUS$RESET $PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS"
+  WB_STATUS="$RESET $PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS"
 fi
 
 echo "$WB_STATUS"

@@ -31,11 +31,17 @@ fi
 if [[ $DELETIONS_COUNT > 0 ]]; then
   STATUS_DELETIONS="#[fg=#f7768e,bg=#15161e,bold] ${DELETIONS_COUNT} "
 fi
+ 
+if [[ $REMOTE_DIFF > 0 ]]; then
+  REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰓦 "
+else
+  REMOTE_STATUS="$RESET#[fg=#ffffff,bg=#3D59A1,bold]  "
+fi
 
 if test "$BRANCH" != ""; then
   if test "$STATUS" = "0"; then
-    echo "#[fg=#73daca,bg=#15161e,bold]🮐  $RESET$BRANCH "
+    echo "$REMOTE_STATUS#[fg=#73daca,bg=#15161e,bold]  $RESET$BRANCH "
   else
-    echo "#[fg=#f7768e,bg=#15161e,bold]🮐 󱓎 $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
+    echo "$REMOTE_STATUS#[fg=#f7768e,bg=#15161e,bold] 󱓎 $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
   fi
 fi
