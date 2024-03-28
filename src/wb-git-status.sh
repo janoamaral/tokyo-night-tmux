@@ -43,15 +43,6 @@ else
   fi
 fi
 
-if test "$STATUS" = "0"; then
-  #git fetch --atomic origin --negotiation-tip=HEAD
-  #REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
-  REMOTE_DIFF="$(git diff --quiet @{u} && echo "0" || echo "1")"
-else
-  # We know there are changes, so we don't need to check for remote diff
-  REMOTE_DIFF=1
-fi
-
 if [[ $PR_COUNT > 0 ]]; then
   PR_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${PR_COUNT} "
 fi

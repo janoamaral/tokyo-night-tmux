@@ -6,6 +6,10 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 BRANCH_SIZE=${#BRANCH}
 
+SYNC_MODE=0
+NEED_PUSH=0
+NEED_PULL=0
+
 if test "$BRANCH_SIZE" -gt "25"; then
   BRANCH=$(echo $BRANCH | cut -c1-25)"…"
 fi
@@ -18,6 +22,8 @@ if test "$STATUS" != "0"; then
   CHANGED_COUNT=$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "chang" | cut -d" " -f2 | bc)
   INSERTIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "ins" | cut -d" " -f2 | bc)"
   DELETIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "del" | cut -d" " -f2 | bc)"
+
+  SYNC_MODE=1
 fi
 
 if [[ $CHANGED_COUNT > 0 ]]; then
@@ -31,11 +37,34 @@ fi
 if [[ $DELETIONS_COUNT > 0 ]]; then
   STATUS_DELETIONS="#[fg=#f7768e,bg=#15161e,bold] ${DELETIONS_COUNT} "
 fi
- 
-if [[ $REMOTE_DIFF > 0 ]]; then
-  REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰓦 "
-else
-  REMOTE_STATUS="$RESET#[fg=#ffffff,bg=#3D59A1,bold]  "
+
+# Determine repository sync status
+if [[ $SYNC_MODE == 0 ]]; then
+    NEED_PUSH=$(git log @{push}.. | wc -l | bc)
+    if [[ $NEED_PUSH > 0 ]]; then
+      SYNC_MODE=2
+    else
+      git fetch --atomic origin --negotiation-tip=HEAD
+      REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
+      if [[ $REMOTE_DIFF > 0 ]]; then
+        SYNC_MODE=3
+      fi
+    fi
+fi
+
+if [[ $SYNC_MODE > 0 ]]; then
+    case "$SYNC_MODE" in
+      1) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold]  "
+      ;;
+      2) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛶 "
+      ;;
+      3) REMOTE_STATUS="$RESET#[fg=#0f0f14,bg=#f7768e,bold] 󰛴 "
+      ;;
+      *) echo default
+      ;;
+    esac
+  else
+    REMOTE_STATUS="$RESET#[fg=#ffffff,bg=#3D59A1,bold]  "
 fi
 
 if test "$BRANCH" != ""; then
