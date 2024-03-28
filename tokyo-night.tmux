@@ -52,6 +52,8 @@ date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
 # Session name
 tmux set -g status-left "#[fg=#1F2335,bg=#2D96FA,bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
 
+
+
 #+--- Windows ---+
 # Focus
 tmux set -g window-status-current-format "$RESET#[fg=#44dfaf,bg=#1F2335]  $window_number #[fg=#a9b1d6,bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "

@@ -36,6 +36,6 @@ if test "$BRANCH" != ""; then
   if test "$STATUS" = "0"; then
     echo "#[fg=#73daca,bg=#15161e,bold]🮐  $RESET$BRANCH "
   else
-    echo "#[fg=#f7768e,bg=#15161e,bold]🮐  $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
+    echo "#[fg=#f7768e,bg=#15161e,bold]🮐 󱓎 $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
   fi
 fi
