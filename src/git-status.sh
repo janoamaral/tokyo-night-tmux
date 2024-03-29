@@ -47,6 +47,7 @@ else
   STATUS_UNTRACKED=""
 fi
 
+
 # Determine repository sync status
 if [[ $SYNC_MODE == 0 ]]; then
     NEED_PUSH=$(git log @{push}.. | wc -l | bc)
