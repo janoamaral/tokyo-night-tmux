@@ -42,7 +42,7 @@ if [[ $DELETIONS_COUNT > 0 ]]; then
 fi
 
 if [[ $STATUS_UNTRACKED > 0 ]]; then
-  STATUS_UNTRACKED="#[fg=#ff9e64,bg=#15161e,bold] ${STATUS_UNTRACKED} "
+  STATUS_UNTRACKED="#[fg=#565f89,bg=#15161e,bold] ${STATUS_UNTRACKED} "
 else
   STATUS_UNTRACKED=""
 fi
