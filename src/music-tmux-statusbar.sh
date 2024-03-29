@@ -5,12 +5,13 @@ SHOW_MUSIC=$(tmux show-option -gv @tokyo-night-tmux_show_music)
 if [ "$SHOW_MUSIC" != "1" ]; then
     exit 0
 fi
+
 # Value parser for nowplaying-cli
 parse_npcli_value() {
     echo "$NPCLI_STATUS" | grep "$1" | awk -F '= ' '{print $2}' | tr -d '";'
 }
 
-ACCENT_COLOR="#0DD3BB"
+ACCENT_COLOR="#7aa2f7"
 SECONDARY_COLOR="#24283B"
 BG_COLOR="#1F2335"
 BG_BAR="#15161e"
@@ -22,14 +23,30 @@ if [[ $1 =~ ^[[:digit:]]+$  ]]; then
     MAX_TITLE_WIDTH=$(($(tmux display -p '#{window_width}' 2> /dev/null || echo 120) - 90))
 fi
 
-# cmus-remote
-if command -v cmus-remote > /dev/null; then
-  CMUS_STATUS=$(cmus-remote -Q)
-  STATUS=$(echo "$CMUS_STATUS" | grep status | head -n 1 | cut -d' ' -f2-)
-  ARTIST=$(echo "$CMUS_STATUS" | grep 'tag artist' | head -n 1 | cut -d' ' -f3-)
-  TITLE=$(echo "$CMUS_STATUS" | grep 'tag title' | cut -d' ' -f3-)
-  DURATION=$(echo "$CMUS_STATUS" | grep 'duration' | cut -d' ' -f2-)
-  POSITION=$(echo "$CMUS_STATUS" | grep 'position' | cut -d' ' -f2-)
+# playerctl
+if command -v playerctl > /dev/null; then
+  PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Playing")
+  STATUS="playing"
+
+  # There is no playing media, check for paused media
+  if [ -z "$PLAYER_STATUS" ]; then
+    PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Paused")
+    STATUS="paused"
+  fi
+
+  TITLE=$(echo "$PLAYER_STATUS" | cut -d';' --fields=4)
+  DURATION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=2)
+  POSITION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=3)
+
+  # Convert position and duration to seconds from microseconds
+  DURATION=$((DURATION / 1000000))
+  POSITION=$((POSITION / 1000000))
+
+  if [ "$DURATION" -eq 0 ]; then
+    DURATION=-1
+    POSITION=0
+  fi
+
 # nowplaying-cli
 elif command -v nowplaying-cli > /dev/null; then
   NPCLI_STATUS=$(nowplaying-cli get-raw)
@@ -38,7 +55,6 @@ elif command -v nowplaying-cli > /dev/null; then
   else
     STATUS="paused"
   fi
-  ARTIST=$(parse_npcli_value Artist)
   TITLE=$(parse_npcli_value Title)
   if [ "$(parse_npcli_value IsAlwaysLive)" = "1" ]; then
     DURATION=-1
@@ -73,10 +89,10 @@ fi
 if [ -n "$DURATION" ] && [ -n "$POSITION" ]; then
   TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
   if [ "$D_SEC" = "-1" ]; then
-    TIME="[ $P_MIN:$P_SEC]"
+    TIME="[--:--]"
   fi
 else
-  TIME="[]"
+  TIME="[--:--]"
 fi
 if [ -n "$TITLE"  ]; then
   if [ "$STATUS" = "playing"  ]; then
