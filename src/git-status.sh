@@ -17,6 +17,7 @@ fi
 STATUS_CHANGED=""
 STATUS_INSERTIONS=""
 STATUS_DELETIONS=""
+STATUS_UNTRACKED=""
 
 if test "$STATUS" != "0"; then
   CHANGED_COUNT=$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "chang" | cut -d" " -f2 | bc)
@@ -25,6 +26,8 @@ if test "$STATUS" != "0"; then
 
   SYNC_MODE=1
 fi
+
+STATUS_UNTRACKED="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
 
 if [[ $CHANGED_COUNT > 0 ]]; then
   STATUS_CHANGED="#[fg=#e0af68,bg=#15161e,bold] ${CHANGED_COUNT} "
@@ -36,6 +39,12 @@ fi
 
 if [[ $DELETIONS_COUNT > 0 ]]; then
   STATUS_DELETIONS="#[fg=#f7768e,bg=#15161e,bold] ${DELETIONS_COUNT} "
+fi
+
+if [[ $STATUS_UNTRACKED > 0 ]]; then
+  STATUS_UNTRACKED="#[fg=#ff9e64,bg=#15161e,bold] ${STATUS_UNTRACKED} "
+else
+  STATUS_UNTRACKED=""
 fi
 
 # Determine repository sync status
@@ -76,8 +85,8 @@ fi
 
 if test "$BRANCH" != ""; then
   if test "$STATUS" = "0"; then
-    echo "$REMOTE_STATUS $RESET$BRANCH "
+    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_UNTRACKED"
   else
-    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS"
+    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS$RESET$STATUS_UNTRACKED"
   fi
 fi
