@@ -40,7 +40,7 @@ case $SELECTED_THEME in
       ["white"]="#343b58"
       ["yellow"]="#8f5e15"
 
-      ["bblack"]="#cfc9c2"
+      ["bblack"]="#9699a3"
       ["bblue"]="#34548a"
       ["bcyan"]="#0f4b6e"
       ["bgreen"]="#33635c"
