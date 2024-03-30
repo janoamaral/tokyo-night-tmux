@@ -53,12 +53,12 @@ date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=${THEME[background]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
+tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
 
 
 #+--- Windows ---+
 # Focus
-tmux set -g window-status-current-format "$RESET#[fg=${THEME[bgreen]},bg=${THEME[bblack]}]  $window_number #[fg=${THEME[foreground]},bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
+tmux set -g window-status-current-format "$RESET#[fg=${THEME[bgreen]},bg=${THEME[background]}]  $window_number #[fg=${THEME[foreground]},bold,nodim]#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #{?window_last_flag,,} "
 # Unfocused
 tmux set -g window-status-format "$RESET#[fg=${THEME[foreground]},bg=default,none,dim]  $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #[fg=${THEME[yellow]}]#{?window_last_flag,󰁯 , } "
 
