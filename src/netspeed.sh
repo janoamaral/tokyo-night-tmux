@@ -48,4 +48,4 @@ TIME_DIFF=1
 RX_SPEED=$(readable_format "$((RX_DIFF / TIME_DIFF))")
 TX_SPEED=$(readable_format "$((TX_DIFF / TIME_DIFF))")
 
-echo "  $RX_SPEED  $TX_SPEED "
+echo "#[fg=#a9b1d6,bg=#24283B]  $RX_SPEED  $TX_SPEED "
