@@ -9,38 +9,9 @@
 
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPTS_PATH="$CURRENT_DIR/src"
 
-declare -A TOKYO_NIGHT_THEME_NIGHT=(
-  [background]="#1A1B26"
-  [foreground]="#a9b1d6"
-  [comment]="#565f89"
-  [cyan]="#7aa2f7"
-  [green]="#73daca"
-  [orange]="#e0af68"
-  [pink]="#f7768e"
-  [purple]="#bb9af7"
-  [red]="#f7768e"
-  [yellow]="#e0af68"
-  [black]="#414868"
-  [white]="#c0caf5"
-)
-
-declare -A TOKYO_NIGHT_THEME_DAY=(
-  [background]="#f5f5f5"
-  [foreground]="#24283B"
-  [comment]="#7d7d7d"
-  [cyan]="#2D96FA"
-  [green]="#44dfaf"
-  [orange]="#e771a3"
-  [pink]="#d16d9e"
-  [purple]="#bb9af7"
-  [red]="#f7768e"
-  [yellow]="#e0af68"
-  [black]="#0f0f14"
-  [white]="#343b58"
-)
-
-
+source $SCRIPTS_PATH/themes.sh
 
 tmux set -g status-left-length 80
 tmux set -g status-right-length 150
@@ -56,10 +27,6 @@ tmux set -g pane-active-border-style "fg=#7aa2f7"
 
 tmux set -g status-style bg="#1A1B26"
 
-SCRIPTS_PATH="$CURRENT_DIR/src"
-
-
-source $SCRIPTS_PATH/themes.sh
 
 TMUX_VARS="$(tmux show -g)"
 PANE_BASE="$(echo "$TMUX_VARS" | grep pane-base-index | cut -d" " -f2 | bc)"
@@ -86,7 +53,7 @@ date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=#1F2335,bg=#2D96FA,bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
+tmux set -g status-left "#[fg=${THEME[background]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
 
 
 
