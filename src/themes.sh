@@ -77,3 +77,9 @@ case $SELECTED_THEME in
     )
     ;;
 esac
+
+
+THEME['ghgreen']="#3fb950"
+THEME['ghmagenta']="#A371F7"
+THEME['ghred']="#d73a4a"
+THEME['ghyellow']="#d29922"
