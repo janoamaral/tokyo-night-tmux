@@ -36,6 +36,7 @@ if [[ $PROVIDER == "github.com" ]]; then
     RES=$(gh issue list --json "assignees,labels" --assignee @me)
     ISSUE_COUNT=$(echo $RES | jq 'length' | bc)
     BUG_COUNT=$(echo $RES | jq 'map(select(.labels[].name == "bug")) | length' | bc)
+    ISSUE_COUNT=$((ISSUE_COUNT - BUG_COUNT))
   else
     exit 0
   fi
