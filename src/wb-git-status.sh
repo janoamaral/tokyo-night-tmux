@@ -29,7 +29,7 @@ if [[ $PROVIDER == "github.com" ]]; then
     exit 1
   fi
 
-  PROVIDER_ICON="$RESET#[fg=#fafafa] "
+  PROVIDER_ICON="$RESET#[fg=${THEME[foreground]}] "
   if test "$BRANCH" != ""; then
     PR_COUNT=$(gh pr list --json number --jq 'length' | bc)
     REVIEW_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
