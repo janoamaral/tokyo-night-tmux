@@ -2,20 +2,24 @@
 
 # Check the global value
 SHOW_MUSIC=$(tmux show-option -gv @tokyo-night-tmux_show_music)
+
 if [ "$SHOW_MUSIC" != "1" ]; then
     exit 0
 fi
+
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $CURRENT_DIR/themes.sh
 
 # Value parser for nowplaying-cli
 parse_npcli_value() {
     echo "$NPCLI_STATUS" | grep "$1" | awk -F '= ' '{print $2}' | tr -d '";'
 }
 
-ACCENT_COLOR="#7aa2f7"
-SECONDARY_COLOR="#24283B"
-BG_COLOR="#1F2335"
-BG_BAR="#15161e"
-TIME_COLOR="#414868"
+ACCENT_COLOR="${THEME[blue]}"
+SECONDARY_COLOR="${THEME[background]}"
+BG_COLOR="${THEME[background]}"
+BG_BAR="${THEME[background]}"
+TIME_COLOR="${THEME[black]}"
 
 if [[ $1 =~ ^[[:digit:]]+$  ]]; then
     MAX_TITLE_WIDTH=$1

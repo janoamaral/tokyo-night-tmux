@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $CURRENT_DIR/themes.sh
+
 cd $1
-RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
+RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 BRANCH_SIZE=${#BRANCH}
@@ -30,19 +33,19 @@ fi
 STATUS_UNTRACKED="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
 
 if [[ $CHANGED_COUNT > 0 ]]; then
-  STATUS_CHANGED="#[fg=#e0af68,bg=#15161e,bold] ${CHANGED_COUNT} "
+  STATUS_CHANGED="#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
 fi
 
 if [[ $INSERTIONS_COUNT > 0 ]]; then
-  STATUS_INSERTIONS="#[fg=#73daca,bg=#15161e,bold] ${INSERTIONS_COUNT} "
+  STATUS_INSERTIONS="#[fg=${THEME[green]},bg=${THEME[background]},bold] ${INSERTIONS_COUNT} "
 fi
 
 if [[ $DELETIONS_COUNT > 0 ]]; then
-  STATUS_DELETIONS="#[fg=#f7768e,bg=#15161e,bold] ${DELETIONS_COUNT} "
+  STATUS_DELETIONS="#[fg=${THEME[red]},bg=${THEME[background]},bold] ${DELETIONS_COUNT} "
 fi
 
 if [[ $STATUS_UNTRACKED > 0 ]]; then
-  STATUS_UNTRACKED="#[fg=#565f89,bg=#15161e,bold] ${STATUS_UNTRACKED} "
+  STATUS_UNTRACKED="#[fg=${THEME[black]},bg=${THEME[background]},bold] ${STATUS_UNTRACKED} "
 else
   STATUS_UNTRACKED=""
 fi
@@ -71,17 +74,17 @@ fi
 
 if [[ $SYNC_MODE > 0 ]]; then
     case "$SYNC_MODE" in
-      1) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#ff9e64,bold]▒ 󱓎"
+      1) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[bred]},bold]▒ 󱓎"
       ;;
-      2) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold]▒ 󰛶"
+      2) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[red]},bold]▒ 󰛶"
       ;;
-      3) REMOTE_STATUS="$RESET#[bg=#15161e,fg=#bb9af7,bold]▒ 󰛴"
+      3) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[magenta]},bold]▒ 󰛴"
       ;;
       *) echo default
       ;;
     esac
   else
-    REMOTE_STATUS="$RESET#[fg=#73daca,bg=#15161e,bold]▒ "
+    REMOTE_STATUS="$RESET#[fg=${THEME[green]},bg=${THEME[background]},bold]▒ "
 fi
 
 if test "$BRANCH" != ""; then
