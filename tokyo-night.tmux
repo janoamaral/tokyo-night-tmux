@@ -62,5 +62,5 @@ tmux set -g window-status-current-format "$RESET#[fg=#44dfaf,bg=#1F2335]  $wi
 tmux set -g window-status-format "$RESET#[fg=#c0caf5,bg=default,none,dim]  $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #[fg=yellow]#{?window_last_flag,󰁯 , } "
 
 #+--- Bars RIGHT ---+
-tmux set -g status-right "$cmus_status#[fg=#a9b1d6,bg=#24283B]$netspeed$git_status$wb_git_status$date_and_time"
+tmux set -g status-right "#(echo #{pane_current_path} | sed 's#$HOME#~#g') ‹ $cmus_status#[fg=#a9b1d6,bg=#24283B]$netspeed$git_status$wb_git_status$date_and_time"
 tmux set -g window-status-separator ""
