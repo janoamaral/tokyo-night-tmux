@@ -76,9 +76,9 @@ if [[ $SYNC_MODE > 0 ]]; then
     case "$SYNC_MODE" in
       1) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[bred]},bold]▒ 󱓎"
       ;;
-      2) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[red]},bold]▒ 󰜯"
+      2) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[red]},bold]▒ 󰜸"
       ;;
-      3) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[magenta]},bold]▒ 󰜸"
+      3) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[magenta]},bold]▒ 󰜯"
       ;;
       *) echo default
       ;;
