@@ -47,6 +47,7 @@ window_number="#($SCRIPTS_PATH/custom-number.sh #I $window_id_style)"
 custom_pane="#($SCRIPTS_PATH/custom-number.sh #P $pane_id_style)"
 zoom_number="#($SCRIPTS_PATH/custom-number.sh #P $zoom_id_style)"
 date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
+current_path="#($SCRIPTS_PATH/path-widget.sh #{pane_current_path})"
 
 #+--- Bars LEFT ---+
 # Session name
@@ -62,5 +63,5 @@ tmux set -g window-status-current-format "$RESET#[fg=#44dfaf,bg=#1F2335]  $wi
 tmux set -g window-status-format "$RESET#[fg=#c0caf5,bg=default,none,dim]  $window_number #W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane} #[fg=yellow]#{?window_last_flag,󰁯 , } "
 
 #+--- Bars RIGHT ---+
-tmux set -g status-right "#(echo #{pane_current_path} | sed 's#$HOME#~#g') ‹ $cmus_status#[fg=#a9b1d6,bg=#24283B]$netspeed$git_status$wb_git_status$date_and_time"
+tmux set -g status-right "$current_path$cmus_status#[fg=#a9b1d6,bg=#24283B]$netspeed$git_status$wb_git_status$date_and_time"
 tmux set -g window-status-separator ""
