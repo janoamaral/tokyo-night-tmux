@@ -75,6 +75,14 @@ set -g @tokyo-night-tmux_show_music 1
 set -g @tokyo-night-tmux_show_netspeed 1
 set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find with ip link
 ```
+
+#### Path Widget
+
+```bash
+set -g @tokyo-night-tmux_show_path 1
+set -g @tokyo-night-tmux_path_format relative # 'relative' or 'full'
+```
+
 set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
 
 ## The styles:
