@@ -100,9 +100,9 @@ else
 fi
 if [ -n "$TITLE"  ]; then
   if [ "$STATUS" = "playing"  ]; then
-    PLAY_STATE="$OUTPUT"
+    PLAY_STATE="░ $OUTPUT"
   else
-    PLAY_STATE="󰏤$OUTPUT"
+    PLAY_STATE=░ "󰏤$OUTPUT"
   fi
   OUTPUT="$PLAY_STATE $TITLE"
 
@@ -125,13 +125,13 @@ if [ -z "$OUTPUT" ]
 then
   echo "$OUTPUT #[fg=green,bg=default]"
 else
-  OUT=" $OUTPUT $TIME "
-  ONLY_OUT=" $OUTPUT "
+  OUT="$OUTPUT $TIME "
+  ONLY_OUT="$OUTPUT "
   TIME_INDEX=${#ONLY_OUT}
   OUTPUT_LENGTH=${#OUT}
   PERCENT=$((POSITION * 100 / DURATION))
   PROGRESS=$((OUTPUT_LENGTH * PERCENT / 100))
-  O=" $OUTPUT"
+  O="$OUTPUT"
 
   if [ $PROGRESS -le $TIME_INDEX ]; then
     echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$PROGRESS}#[fg=$ACCENT_COLOR,bg=$BG_BAR]${O:$PROGRESS:$TIME_INDEX} #[fg=$TIME_COLOR,bg=$BG_BAR]$TIME "
