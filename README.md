@@ -33,7 +33,7 @@ see documentation for installing [`GNU bc`](https://www.gnu.org/software/bc/) in
 ## Installation using TPM
 
 In your `tmux.conf`:
-```
+```bash
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
@@ -43,7 +43,7 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 Run this
 
-```
+```bash
 tmux set @tokyo-night-tmux_window_id_style digital
 tmux set @tokyo-night-tmux_pane_id_style hsquare
 tmux set @tokyo-night-tmux_zoom_id_style dsquare
@@ -51,7 +51,7 @@ tmux set @tokyo-night-tmux_zoom_id_style dsquare
 
 or add this lines to your  `.tmux.conf`
 
-```
+```bash
 set -g @tokyo-night-tmux_window_id_style digital
 set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
@@ -70,9 +70,7 @@ For widgets add following lines in you `.tmux.conf`
 set value 0 to disable
 ```bash
 set -g @tokyo-night-tmux_show_datetime 0
-
 set -g @tokyo-night-tmux_date_format MYD
-
 set -g @tokyo-night-tmux_time_format 12H
 ```
 
@@ -103,6 +101,14 @@ set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find w
 ```bash
 set -g @tokyo-night-tmux_show_path 1
 set -g @tokyo-night-tmux_path_format relative # 'relative' or 'full'
+```
+
+#### Battery Widget
+
+```bash
+set -g @tokyo-night-tmux_show_battery_widget 1
+set -g @tokyo-night-tmux_battery_name "BAT1"  # some linux distro have 'BAT0'
+set -g @tokyo-night-tmux_battery_low_threshold 21 # default
 ```
 
 set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
