@@ -10,6 +10,9 @@ if [ "$SHOW_NETSPEED" != "1" ]; then
     exit 0
 fi
 
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $CURRENT_DIR/themes.sh
+
 # Get network interface
 INTERFACE=$(tmux show-option -gv @tokyo-night-tmux_netspeed_iface 2>/dev/null)
 
@@ -48,4 +51,4 @@ TIME_DIFF=1
 RX_SPEED=$(readable_format "$((RX_DIFF / TIME_DIFF))")
 TX_SPEED=$(readable_format "$((TX_DIFF / TIME_DIFF))")
 
-echo "#[fg=#a9b1d6,bg=#24283B]  $RX_SPEED  $TX_SPEED "
+echo "${RESET}░ #[fg=${THEME[bgreen]}]󰛴${RESET} $RX_SPEED #[fg=${THEME[bblue]}]󰛶${RESET} $TX_SPEED #[dim]󰌘 $INTERFACE "
