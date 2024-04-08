@@ -39,7 +39,6 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 ## Configuration
 
-
 #### Number styles
 
 Run this
@@ -178,5 +177,3 @@ Legacy tokyo-night
 
 [cmus]: https://cmus.github.io/
 [nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
-
-
