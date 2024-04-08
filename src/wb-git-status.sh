@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
+SHOW_WIDGET=$(tmux show-option -gv @tokyo-night-tmux_show_wbg)
+if [ "$SHOW_WIDGET" == "0" ]; then
+    exit 0
+fi
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $CURRENT_DIR/themes.sh
 
 cd $1
-RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
-STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 
 PROVIDER_ICON=""
 
@@ -15,13 +17,11 @@ PR_COUNT=0
 REVIEW_COUNT=0
 ISSUE_COUNT=0
 BUG_COUNT=0
-REMOTE_DIFF=0
 
 PR_STATUS=""
 REVIEW_STATUS=""
 ISSUE_STATUS=""
 BUG_STATUS=""
-REMOTE_STATUS=""
 
 if [[ $PROVIDER == "github.com" ]]; then
 
