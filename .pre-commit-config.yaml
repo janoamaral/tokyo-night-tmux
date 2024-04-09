@@ -1,0 +1,11 @@
+repos:
+  - repo: https://github.com/pecigonzalo/pre-commit-shfmt
+    rev: v2.1.0
+    hooks:
+      - id: shell-fmt-go
+        args:
+          - -w
+          - -s
+          - -l
+          - -i
+          - "2"

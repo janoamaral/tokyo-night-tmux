@@ -4,7 +4,7 @@ cd $1
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim,nostrikethrough]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
-STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
+STATUS=$(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
 
 PROVIDER_ICON=""
 
@@ -20,7 +20,7 @@ REMOTE_STATUS=""
 
 if [[ $PROVIDER == "github.com" ]]; then
 
-  if ! command -v gh &> /dev/null; then
+  if ! command -v gh &>/dev/null; then
     exit 1
   fi
 
