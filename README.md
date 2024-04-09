@@ -16,7 +16,7 @@ This is a very opinionated project, as I am a Tech Lead, this theme is very deve
 ### Nerd Fonts
 
 This theme requires the use of a patched font with Nerd Font. Ensure your terminal is set to use one before installing this theme. Any patched font will do. See
-[`nerdfonts.com`](https://www.nerdfonts.com/) for more informations.
+[`nerdfonts.com`](https://www.nerdfonts.com/) for more information.
 
 ### Noto Fonts
 
