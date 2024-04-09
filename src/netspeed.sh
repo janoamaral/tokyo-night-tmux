@@ -18,7 +18,15 @@ INTERFACE=$(tmux show-option -gv @tokyo-night-tmux_netspeed_iface 2>/dev/null)
 
 # Get network transmit data from /proc/net/dev
 get_bytes() {
-  awk -v interface="$1" '$1 == interface ":" {print $2, $10}' /proc/net/dev
+  local interface="$1"
+  if [[ "$(uname)" == "Linux" ]]; then
+    awk -v interface="$interface" '$1 == interface ":" {print $2, $10}' /proc/net/dev
+  elif [[ "$(uname)" == "Darwin" ]]; then
+    netstat -ib | awk -v interface="$interface" '/^'${interface}'/ {print $7, $10}'
+  else
+    # Unsupported operating system
+    exit 1
+  fi
 }
 
 # Convert into readable format
