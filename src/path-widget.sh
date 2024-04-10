@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. "$(dirname "$0")/../lib/functions.sh"
+
 # get value from tmux config
 SHOW_PATH=$(tmux show-option -gv @tokyo-night-tmux_show_path 2>/dev/null)
 PATH_FORMAT=$(tmux show-option -gv @tokyo-night-tmux_path_format 2>/dev/null) # full | relative

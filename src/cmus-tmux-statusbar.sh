@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. "$(dirname "$0")/../lib/functions.sh"
+
 ACCENT_COLOR="#7aa2f7"
 SECONDARY_COLOR="#24283B"
 BG_COLOR="#1F2335"

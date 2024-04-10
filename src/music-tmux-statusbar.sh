@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. "$(dirname "$0")/../lib/functions.sh"
+
 # Check the global value
 SHOW_MUSIC=$(tmux show-option -gv @tokyo-night-tmux_show_music)
 

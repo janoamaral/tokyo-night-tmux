@@ -7,6 +7,8 @@ fi
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
 
+. "$(dirname "$0")/../lib/functions.sh"
+
 cd $1
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')

@@ -4,6 +4,8 @@
 # email : freakybytes@duck.com
 #<------------------------------------------------------------------------------------------>
 
+. "$(dirname "$0")/../lib/functions.sh"
+
 # Check the global value
 SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_netspeed)
 if [ "$SHOW_NETSPEED" != "1" ]; then

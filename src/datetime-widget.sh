@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. "$(dirname "$0")/../lib/functions.sh"
+
 # Grab global variable for showing datetime widget, only hide if explicitly disabled
 SHOW_DATETIME=$(tmux show-option -gv @tokyo-night-tmux_show_datetime 2>/dev/null)
 if [[ $SHOW_DATETIME == "0" ]]; then

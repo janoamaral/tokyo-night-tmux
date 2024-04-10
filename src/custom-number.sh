@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-#
+
+. "$(dirname "$0")/../lib/functions.sh"
 
 format_none="0123456789"
 format_digital="🯰🯱🯲🯳🯴🯵🯶🯷🯸🯹"
