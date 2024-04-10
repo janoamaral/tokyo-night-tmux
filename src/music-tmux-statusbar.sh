@@ -10,11 +10,6 @@ fi
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
 
-# Value parser for nowplaying-cli
-parse_npcli_value() {
-  echo "$NPCLI_STATUS" | grep "$1" | awk -F '= ' '{print $2}' | tr -d '";'
-}
-
 ACCENT_COLOR="${THEME[blue]}"
 SECONDARY_COLOR="${THEME[background]}"
 BG_COLOR="${THEME[background]}"
@@ -53,32 +48,26 @@ if command -v playerctl >/dev/null; then
 
 # nowplaying-cli
 elif command -v nowplaying-cli >/dev/null; then
-  NPCLI_STATUS=$(nowplaying-cli get-raw)
-  if [ "$(parse_npcli_value PlaybackRate)" = "1" ]; then
+  NPCLI_PROPERTIES=(title duration elapsedTime playbackRate isAlwaysLive)
+  mapfile -t NPCLI_OUTPUT < <(nowplaying-cli get "${NPCLI_PROPERTIES[@]}")
+  declare -A NPCLI_VALUES
+  for ((i = 0; i < ${#NPCLI_PROPERTIES[@]}; i++)); do
+    # Handle null values
+    [ "${NPCLI_OUTPUT[$i]}" = "null" ] && NPCLI_OUTPUT[$i]=""
+    NPCLI_VALUES[${NPCLI_PROPERTIES[$i]}]="${NPCLI_OUTPUT[$i]}"
+  done
+  if [ -n "${NPCLI_VALUES[playbackRate]}" ] && [ "${NPCLI_VALUES[playbackRate]}" -gt 0 ]; then
     STATUS="playing"
   else
     STATUS="paused"
   fi
-  TITLE=$(parse_npcli_value Title)
-  if [ "$(parse_npcli_value IsAlwaysLive)" = "1" ]; then
+  TITLE="${NPCLI_VALUES[title]}"
+  if [ "${NPCLI_VALUES[isAlwaysLive]}" = "1" ]; then
     DURATION=-1
     POSITION=0
   else
-    DURATION=$(parse_npcli_value Duration | cut -d. -f1)
-    POSITION=$(parse_npcli_value ElapsedTime | cut -d. -f1)
-  fi
-  # If playing media with a duration, calculate POSITION from last update
-  if [ "$STATUS" = "playing" ] && [ "$DURATION" -gt 0 ]; then
-    # Assuming BSD date on macOS
-    update_timestamp=$(date -j -f "%Y-%m-%d %H:%M:%S %z" "$(parse_npcli_value Timestamp)" +"%s")
-    current_timestamp=$(date -u +"%s")
-    # Calculate seconds since last update
-    UPDATE_AGE=$((current_timestamp - update_timestamp))
-    POSITION=$((POSITION + UPDATE_AGE))
-    # Cap at DURATION
-    if [ "$POSITION" -gt "$DURATION" ]; then
-      POSITION=$DURATION
-    fi
+    DURATION=$(printf "%.0f" "${NPCLI_VALUES[duration]}")
+    POSITION=$(printf "%.0f" "${NPCLI_VALUES[elapsedTime]}")
   fi
 fi
 # If POSITION, calculate the progress bar
