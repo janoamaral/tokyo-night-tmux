@@ -72,20 +72,10 @@ elif command -v nowplaying-cli >/dev/null; then
     POSITION=$(printf "%.0f" "${NPCLI_VALUES[elapsedTime]}")
   fi
 fi
-# If POSITION, calculate the progress bar
-if [ -n "$POSITION" ]; then
-  P_MIN=$(printf '%02d' $((POSITION / 60)))
-  P_SEC=$(printf '%02d' $((POSITION % 60)))
-fi
-if [ -n "$DURATION" ]; then
-  D_MIN=$(printf '%02d' $((DURATION / 60)))
-  D_SEC=$(printf '%02d' $((DURATION % 60)))
-fi
-if [ -n "$DURATION" ] && [ -n "$POSITION" ]; then
-  TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
-  if [ "$D_SEC" = "-1" ]; then
-    TIME="[--:--]"
-  fi
+
+# Calculate the progress bar for sane durations
+if [ -n "$DURATION" ] && [ -n "$POSITION" ] && [ "$DURATION" -gt 0 ] && [ "$DURATION" -lt 3600 ]; then
+  TIME="[$(date -d@$POSITION -u +%M:%S) / $(date -d@$DURATION -u +%M:%S)]"
 else
   TIME="[--:--]"
 fi
