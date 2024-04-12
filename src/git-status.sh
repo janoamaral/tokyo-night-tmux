@@ -35,24 +35,22 @@ if [[ $STATUS -ne 0 ]]; then
   SYNC_MODE=1
 fi
 
-STATUS_UNTRACKED="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
+UNTRACKED_COUNT="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
 
 if [[ $CHANGED_COUNT -gt 0 ]]; then
-  STATUS_CHANGED="#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
+  STATUS_CHANGED="${RESET}#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
 fi
 
 if [[ $INSERTIONS_COUNT -gt 0 ]]; then
-  STATUS_INSERTIONS="#[fg=${THEME[green]},bg=${THEME[background]},bold] ${INSERTIONS_COUNT} "
+  STATUS_INSERTIONS="${RESET}#[fg=${THEME[green]},bg=${THEME[background]},bold] ${INSERTIONS_COUNT} "
 fi
 
 if [[ $DELETIONS_COUNT -gt 0 ]]; then
-  STATUS_DELETIONS="#[fg=${THEME[red]},bg=${THEME[background]},bold] ${DELETIONS_COUNT} "
+  STATUS_DELETIONS="${RESET}#[fg=${THEME[red]},bg=${THEME[background]},bold] ${DELETIONS_COUNT} "
 fi
 
-if [[ $STATUS_UNTRACKED -gt 0 ]]; then
-  STATUS_UNTRACKED="#[fg=#565f89,bg=#15161e,bold] ${STATUS_UNTRACKED} "
-else
-  STATUS_UNTRACKED=""
+if [[ $UNTRACKED_COUNT -gt 0 ]]; then
+  STATUS_UNTRACKED="${RESET}#[fg=#565f89,bg=#15161e,bold] ${UNTRACKED_COUNT} "
 fi
 
 # Determine repository sync status
@@ -69,36 +67,30 @@ if [[ $SYNC_MODE -eq 0 ]]; then
       git fetch --atomic origin --negotiation-tip=HEAD
     fi
 
-    REMOTE_DIFF="$(git diff --shortstat "$(git rev-parse --abbrev-ref HEAD)" "origin/$(git rev-parse --abbrev-ref HEAD)" 2>/dev/null | wc -l | bc)"
-    if [[ $REMOTE_DIFF -gt 0 ]]; then
+    # Check if the remote branch is ahead of the local branch
+    REMOTE_DIFF="$(git diff --numstat "${BRANCH}" "origin/${BRANCH}" 2>/dev/null)"
+    if [[ -n $REMOTE_DIFF ]]; then
       SYNC_MODE=3
     fi
   fi
 fi
 
-if [[ $SYNC_MODE -gt 0 ]]; then
-  case "$SYNC_MODE" in
-  1)
-    REMOTE_STATUS="$RESET#[bg=#15161e,fg=#ff9e64,bold]▒ 󱓎"
-    ;;
-  2)
-    REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold]▒ 󰛃"
-    ;;
-  3)
-    REMOTE_STATUS="$RESET#[bg=#15161e,fg=#bb9af7,bold]▒ 󰛀"
-    ;;
-  *)
-    echo default
-    ;;
-  esac
-else
+# Set the status indicator based on the sync mode
+case "$SYNC_MODE" in
+1)
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=#ff9e64,bold]▒ 󱓎"
+  ;;
+2)
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold]▒ 󰛃"
+  ;;
+3)
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=#bb9af7,bold]▒ 󰛀"
+  ;;
+*)
   REMOTE_STATUS="$RESET#[fg=#73daca,bg=#15161e,bold]▒ "
-fi
+  ;;
+esac
 
 if [[ -n $BRANCH ]]; then
-  if [[ $STATUS -eq 0 ]]; then
-    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_UNTRACKED"
-  else
-    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS$RESET$STATUS_UNTRACKED"
-  fi
+  echo "$REMOTE_STATUS $RESET$BRANCH $STATUS_CHANGED$STATUS_INSERTIONS$STATUS_DELETIONS$STATUS_UNTRACKED"
 fi

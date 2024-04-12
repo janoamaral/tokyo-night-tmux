@@ -24,6 +24,10 @@ REVIEW_STATUS=""
 ISSUE_STATUS=""
 BUG_STATUS=""
 
+if [[ -n $BRANCH ]]; then
+  exit 0
+fi
+
 if [[ $PROVIDER == "github.com" ]]; then
 
   if ! command -v gh &>/dev/null; then
@@ -31,25 +35,17 @@ if [[ $PROVIDER == "github.com" ]]; then
   fi
 
   PROVIDER_ICON="$RESET#[fg=${THEME[foreground]}] "
-  if [[ -n $BRANCH ]]; then
-    PR_COUNT=$(gh pr list --json number --jq 'length' | bc)
-    REVIEW_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
-    RES=$(gh issue list --json "assignees,labels" --assignee @me)
-    ISSUE_COUNT=$(echo $RES | jq 'length' | bc)
-    BUG_COUNT=$(echo $RES | jq 'map(select(.labels[].name == "bug")) | length' | bc)
-    ISSUE_COUNT=$((ISSUE_COUNT - BUG_COUNT))
-  else
-    exit 0
-  fi
+  PR_COUNT=$(gh pr list --json number --jq 'length' | bc)
+  REVIEW_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
+  RES=$(gh issue list --json "assignees,labels" --assignee @me)
+  ISSUE_COUNT=$(echo $RES | jq 'length' | bc)
+  BUG_COUNT=$(echo $RES | jq 'map(select(.labels[].name == "bug")) | length' | bc)
+  ISSUE_COUNT=$((ISSUE_COUNT - BUG_COUNT))
 else
   PROVIDER_ICON="$RESET#[fg=#fc6d26] "
-  if [[ -n $BRANCH ]]; then
-    PR_COUNT=$(glab mr list | grep -cE "^\!")
-    REVIEW_COUNT=$(glab mr list --reviewer=@me | grep -cE "^\!")
-    ISSUE_COUNT=$(glab issue list | grep -cE "^\#")
-  else
-    exit 0
-  fi
+  PR_COUNT=$(glab mr list | grep -cE "^\!")
+  REVIEW_COUNT=$(glab mr list --reviewer=@me | grep -cE "^\!")
+  ISSUE_COUNT=$(glab issue list | grep -cE "^\#")
 fi
 
 if [[ $PR_COUNT -gt 0 ]]; then
@@ -76,7 +72,7 @@ echo "$WB_STATUS"
 
 # Wait extra time if status-interval is less than 30 seconds to
 # avoid to overload GitHub API
-INTERVAL="$(tmux show -g | grep status-interval | cut -d" " -f2 | bc)"
+INTERVAL=$(tmux display -p '#{status-interval}')
 if [[ $INTERVAL -lt 20 ]]; then
   sleep 20
 fi
