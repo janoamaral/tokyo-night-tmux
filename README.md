@@ -13,22 +13,32 @@ This is a very opinionated project, as I am a Tech Lead, this theme is very deve
 
 ## Requirements
 
-### Nerd Fonts
+This theme requires the following:
 
-This theme requires the use of a patched font with Nerd Font. Ensure your terminal is set to use one before installing this theme. Any patched font will do. See
-[`nerdfonts.com`](https://www.nerdfonts.com/) for more information.
+- [Noto Sans] and one of any patched [Nerd Fonts]
+- GNU [coreutils] and [bc]
+- Bash 4.0 or newer
 
-### Noto Fonts
+### macOS
 
-This theme requires the Noto fonts to be installed on your operating system. Make sure your operating system has the needed font and is configured to use one.
+For macOS, you can install all dependencies via [Homebrew]:
 
-### GNU bc
-This theme requires the [`GNU bc`](https://www.gnu.org/software/bc/) for precise mathematical calculation of network speed, [Tokyo-night-tmux](https://github.com/janoamaral/tokyo-night-tmux) also shows the real time network speed in right side of status bar.
+```bash
+brew tap homebrew/cask-fonts
+brew install --cask font-monaspace-nerd-font font-noto-sans
+brew install bash coreutils bc
+```
+
+### Linux
+
+GNU coreutils are already installed on most Linux distributions. You can
+install `bc` via your package manager. For example, on Arch Linux:
 
 ```bash
 pacman -S bc
 ```
-see documentation for installing [`GNU bc`](https://www.gnu.org/software/bc/) in other Operation system.
+
+Check documentation for installing [bc] on other operating systems.
 
 ## Installation using TPM
 
@@ -177,3 +187,8 @@ Ensure your editor is configured appropriately to consider the provided `.editor
 [cmus]: https://cmus.github.io/
 [nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
 [pre-commit]: https://pre-commit.com/
+[Noto Sans]: https://fonts.google.com/noto/specimen/Noto+Sans
+[Nerd Fonts]: https://www.nerdfonts.com/
+[coreutils]: https://www.gnu.org/software/coreutils/
+[bc]: https://www.gnu.org/software/bc/
+[Homebrew]: https://brew.sh/
