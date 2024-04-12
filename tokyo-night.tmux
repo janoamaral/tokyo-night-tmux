@@ -8,7 +8,7 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 tmux set -g status-left-length 80
 tmux set -g status-right-length 150
@@ -53,9 +53,6 @@ battery_status="#($SCRIPTS_PATH/battery-widget.sh)"
 #+--- Bars LEFT ---+
 # Session name
 tmux set -g status-left "#[fg=#1F2335,bg=#2D96FA,bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
-
-
-
 
 #+--- Windows ---+
 # Focus

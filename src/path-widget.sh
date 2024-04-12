@@ -7,16 +7,16 @@ RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 
 # check if not enabled
 if [ "${SHOW_PATH}" != "1" ]; then
-    exit 0
+  exit 0
 fi
 
 current_path="${1}"
 default_path_format="relative"
 PATH_FORMAT="${PATH_FORMAT:-$default_path_format}"
 
-# check user rquested format
-if [[ "${PATH_FORMAT}" == "relative" ]]; then
-  current_path="$(echo ${current_path} |  sed 's#'"$HOME"'#~#g')"
+# check user requested format
+if [[ ${PATH_FORMAT} == "relative" ]]; then
+  current_path="$(echo ${current_path} | sed 's#'"$HOME"'#~#g')"
 fi
 
 echo "#[fg=blue,bg=default]░  ${RESET}#[bg=default]${current_path} "

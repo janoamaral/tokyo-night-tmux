@@ -16,7 +16,7 @@ This is a very opinionated project, as I am a Tech Lead, this theme is very deve
 ### Nerd Fonts
 
 This theme requires the use of a patched font with Nerd Font. Ensure your terminal is set to use one before installing this theme. Any patched font will do. See
-[`nerdfonts.com`](https://www.nerdfonts.com/) for more informations.
+[`nerdfonts.com`](https://www.nerdfonts.com/) for more information.
 
 ### Noto Fonts
 
@@ -166,5 +166,14 @@ Legacy tokyo-night
 
 ![Snap 4](snaps/l01.png)
 
+## Contributing
+
+This project is open to contributions. Please feel free to open an issue or a pull request.
+
+Ensure your editor is configured appropriately to consider the provided `.editorconfig` file.
+[pre-commit] hooks are also provided to ensure code consistency, and will be run against any raised PRs.
+
+
 [cmus]: https://cmus.github.io/
 [nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
+[pre-commit]: https://pre-commit.com/
