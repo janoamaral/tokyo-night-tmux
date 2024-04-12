@@ -17,7 +17,6 @@ BRANCH_SIZE=${#BRANCH}
 
 SYNC_MODE=0
 NEED_PUSH=0
-NEED_PULL=0
 
 if test "$BRANCH_SIZE" -gt "25"; then
   BRANCH=$(echo "$BRANCH" | cut -c1-25)"…"

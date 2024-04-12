@@ -11,7 +11,6 @@ source "$CURRENT_DIR/themes.sh"
 cd "$1" || exit 1
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
-STATUS=$(git status --porcelain 2>/dev/null | grep -cE "^(M| M)")
 
 PROVIDER_ICON=""
 
