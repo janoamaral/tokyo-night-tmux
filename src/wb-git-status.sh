@@ -31,7 +31,7 @@ if [[ $PROVIDER == "github.com" ]]; then
   fi
 
   PROVIDER_ICON="$RESET#[fg=${THEME[foreground]}] "
-  if test "$BRANCH" != ""; then
+  if [[ -n $BRANCH ]]; then
     PR_COUNT=$(gh pr list --json number --jq 'length' | bc)
     REVIEW_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
     RES=$(gh issue list --json "assignees,labels" --assignee @me)
@@ -43,7 +43,7 @@ if [[ $PROVIDER == "github.com" ]]; then
   fi
 else
   PROVIDER_ICON="$RESET#[fg=#fc6d26] "
-  if test "$BRANCH" != ""; then
+  if [[ -n $BRANCH ]]; then
     PR_COUNT=$(glab mr list | grep -cE "^\!")
     REVIEW_COUNT=$(glab mr list --reviewer=@me | grep -cE "^\!")
     ISSUE_COUNT=$(glab issue list | grep -cE "^\#")

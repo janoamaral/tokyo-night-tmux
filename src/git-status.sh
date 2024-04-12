@@ -18,7 +18,7 @@ BRANCH_SIZE=${#BRANCH}
 SYNC_MODE=0
 NEED_PUSH=0
 
-if test "$BRANCH_SIZE" -gt "25"; then
+if [[ $BRANCH_SIZE -gt 25 ]]; then
   BRANCH=$(echo "$BRANCH" | cut -c1-25)"…"
 fi
 
@@ -27,7 +27,7 @@ STATUS_INSERTIONS=""
 STATUS_DELETIONS=""
 STATUS_UNTRACKED=""
 
-if test "$STATUS" != "0"; then
+if [[ $STATUS -ne 0 ]]; then
   DIFF_COUNTS=($(git diff --numstat 2>/dev/null | awk 'NF==3 {changed+=1; ins+=$1; del+=$2} END {printf("%d %d %d", changed, ins, del)}'))
   CHANGED_COUNT=${DIFF_COUNTS[0]}
   INSERTIONS_COUNT=${DIFF_COUNTS[1]}
@@ -96,8 +96,8 @@ else
   REMOTE_STATUS="$RESET#[fg=#73daca,bg=#15161e,bold]▒ "
 fi
 
-if test "$BRANCH" != ""; then
-  if test "$STATUS" = "0"; then
+if [[ -n $BRANCH ]]; then
+  if [[ $STATUS -eq 0 ]]; then
     echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_UNTRACKED"
   else
     echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS$RESET$STATUS_UNTRACKED"
