@@ -9,7 +9,7 @@ CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
 source $CURRENT_DIR/../lib/coreutils-compat.sh
 
-cd "$1"
+cd "$1" || exit 1
 RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 STATUS=$(git status --porcelain 2>/dev/null | grep -cE "^(M| M)")
