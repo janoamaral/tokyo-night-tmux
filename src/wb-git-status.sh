@@ -14,7 +14,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 cd $1
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
-STATUS=$(git status --porcelain 2>/dev/null | grep -E "^(M| M)" | wc -l)
+STATUS=$(git status --porcelain 2>/dev/null | grep -cE "^(M| M)")
 
 PROVIDER_ICON=""
 
@@ -48,9 +48,9 @@ if [[ $PROVIDER == "github.com" ]]; then
 else
   PROVIDER_ICON="$RESET#[fg=#fc6d26] "
   if test "$BRANCH" != ""; then
-    PR_COUNT=$(glab mr list | grep -E "^\!" | wc -l | bc)
-    REVIEW_COUNT=$(glab mr list --reviewer=@me | grep -E "^\!" | wc -l | bc)
-    ISSUE_COUNT=$(glab issue list | grep -E "^\#" | wc -l | bc)
+    PR_COUNT=$(glab mr list | grep -cE "^\!")
+    REVIEW_COUNT=$(glab mr list --reviewer=@me | grep -cE "^\!")
+    ISSUE_COUNT=$(glab issue list | grep -cE "^\#")
   else
     exit 0
   fi
