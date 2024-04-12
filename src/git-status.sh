@@ -38,28 +38,28 @@ fi
 
 STATUS_UNTRACKED="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
 
-if [[ $CHANGED_COUNT > 0 ]]; then
+if [[ $CHANGED_COUNT -gt 0 ]]; then
   STATUS_CHANGED="#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
 fi
 
-if [[ $INSERTIONS_COUNT > 0 ]]; then
+if [[ $INSERTIONS_COUNT -gt 0 ]]; then
   STATUS_INSERTIONS="#[fg=${THEME[green]},bg=${THEME[background]},bold] ${INSERTIONS_COUNT} "
 fi
 
-if [[ $DELETIONS_COUNT > 0 ]]; then
+if [[ $DELETIONS_COUNT -gt 0 ]]; then
   STATUS_DELETIONS="#[fg=${THEME[red]},bg=${THEME[background]},bold] ${DELETIONS_COUNT} "
 fi
 
-if [[ $STATUS_UNTRACKED > 0 ]]; then
+if [[ $STATUS_UNTRACKED -gt 0 ]]; then
   STATUS_UNTRACKED="#[fg=#565f89,bg=#15161e,bold] ${STATUS_UNTRACKED} "
 else
   STATUS_UNTRACKED=""
 fi
 
 # Determine repository sync status
-if [[ $SYNC_MODE == 0 ]]; then
+if [[ $SYNC_MODE -eq 0 ]]; then
   NEED_PUSH=$(git log @{push}.. | wc -l | bc)
-  if [[ $NEED_PUSH > 0 ]]; then
+  if [[ $NEED_PUSH -gt 0 ]]; then
     SYNC_MODE=2
   else
     LAST_FETCH=$(stat -c %Y .git/FETCH_HEAD | bc)
@@ -71,13 +71,13 @@ if [[ $SYNC_MODE == 0 ]]; then
     fi
 
     REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
-    if [[ $REMOTE_DIFF > 0 ]]; then
+    if [[ $REMOTE_DIFF -gt 0 ]]; then
       SYNC_MODE=3
     fi
   fi
 fi
 
-if [[ $SYNC_MODE > 0 ]]; then
+if [[ $SYNC_MODE -gt 0 ]]; then
   case "$SYNC_MODE" in
   1)
     REMOTE_STATUS="$RESET#[bg=#15161e,fg=#ff9e64,bold]▒ 󱓎"
