@@ -12,7 +12,7 @@ source $CURRENT_DIR/../lib/coreutils-compat.sh
 cd $1
 RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-STATUS=$(git status --porcelain 2>/dev/null | grep -E "^(M| M)" | wc -l)
+STATUS=$(git status --porcelain 2>/dev/null | grep -cE "^(M| M)")
 BRANCH_SIZE=${#BRANCH}
 
 SYNC_MODE=0
@@ -29,9 +29,10 @@ STATUS_DELETIONS=""
 STATUS_UNTRACKED=""
 
 if test "$STATUS" != "0"; then
-  CHANGED_COUNT=$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "chang" | cut -d" " -f2 | bc)
-  INSERTIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "ins" | cut -d" " -f2 | bc)"
-  DELETIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "del" | cut -d" " -f2 | bc)"
+  DIFF_COUNTS=($(git diff --numstat 2>/dev/null | awk 'NF==3 {changed+=1; ins+=$1; del+=$2} END {printf("%d %d %d", changed, ins, del)}'))
+  CHANGED_COUNT=${DIFF_COUNTS[0]}
+  INSERTIONS_COUNT=${DIFF_COUNTS[1]}
+  DELETIONS_COUNT=${DIFF_COUNTS[2]}
 
   SYNC_MODE=1
 fi
