@@ -14,6 +14,7 @@ RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 DISCHARGING_ICONS=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 CHARGING_ICONS=("󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅")
 NOT_CHARGING_ICON="󰚥"
+NO_BATTERY_ICON="󱉝"
 
 default_show_battery_percentage=1
 default_battery_low="21"
@@ -49,6 +50,9 @@ case "${BATTERY_STATUS}" in
   ;;
 "Full" | "charged")
    ICONS="${NOT_CHARGING_ICON}"
+  ;;
+*) ICONS="${NO_BATTERY_ICON}"
+   BATTERY_PERCENTAGE="0"
   ;;
 esac
 
