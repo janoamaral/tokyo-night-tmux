@@ -13,13 +13,12 @@ cd "$1" || exit 1
 RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 STATUS=$(git status --porcelain 2>/dev/null | grep -cE "^(M| M)")
-BRANCH_SIZE=${#BRANCH}
 
 SYNC_MODE=0
 NEED_PUSH=0
 
-if [[ $BRANCH_SIZE -gt 25 ]]; then
-  BRANCH=$(echo "$BRANCH" | cut -c1-25)"…"
+if [[ ${#BRANCH} -gt 25 ]]; then
+  BRANCH="${BRANCH:0:25}…"
 fi
 
 STATUS_CHANGED=""
