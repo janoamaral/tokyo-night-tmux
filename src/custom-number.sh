@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-#
+
+# Imports
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+. "${ROOT_DIR}/lib/coreutils-compat.sh"
 
 format_none="0123456789"
 format_digital="🯰🯱🯲🯳🯴🯵🯶🯷🯸🯹"

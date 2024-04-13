@@ -1,4 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# Imports
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+. "${ROOT_DIR}/lib/coreutils-compat.sh"
 
 ACCENT_COLOR="#7aa2f7"
 SECONDARY_COLOR="#24283B"
