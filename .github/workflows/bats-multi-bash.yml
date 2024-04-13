@@ -17,7 +17,11 @@ jobs:
       image: ${{ matrix.bash }}
     steps:
       - name: Install packages
-        run: apk add bc coreutils curl git sudo tar
+        run: |
+          # Pipeline requirements
+          apk add curl git sudo tar
+          # Theme dependencies
+          apk add bc coreutils gawk jq playerctl sed
 
       # Allow tar to cache system paths
       - name: root suid tar
@@ -36,7 +40,8 @@ jobs:
     steps:
       - name: Install Homebrew packages
         run: |
-          brew install bash bc coreutils curl git
+          # Theme dependencies
+          brew install bash bc coreutils jq nowplaying-cli
 
       - name: Setup Bats and bats libs
         run: |
