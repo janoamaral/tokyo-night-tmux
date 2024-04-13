@@ -19,7 +19,9 @@ This theme requires the following:
 
 - [Noto Sans] and one of any patched [Nerd Fonts]
 - GNU [coreutils] and [bc]
-- Bash 4.0 or newer
+- [jq]
+- Bash 4.2 or newer
+- [playerctl] (Linux) or [nowplaying-cli] (macOS) for music statusbar
 
 ### macOS
 
@@ -28,19 +30,30 @@ For macOS, you can install all dependencies via [Homebrew]:
 ```bash
 brew tap homebrew/cask-fonts
 brew install --cask font-monaspace-nerd-font font-noto-sans
-brew install bash bc coreutils gawk gsed
+brew install bash bc coreutils gawk gsed jq nowplaying-cli
 ```
 
 ### Linux
 
-GNU coreutils are already installed on most Linux distributions. You can
-install `bc` via your package manager. For example, on Arch Linux:
+#### Alpine Linux
 
 ```bash
-pacman -S bc
+apk add bash bc coreutils gawk git jq playerctl sed
 ```
 
-Check documentation for installing [bc] on other operating systems.
+#### Arch Linux
+
+```bash
+pacman -Sy bash bc coreutils git jq playerctl
+```
+
+#### Ubuntu
+
+```bash
+apt-get install bash bc coreutils gawk git jq playerctl
+```
+
+Check documentation for installing on other operating systems.
 
 ## Installation using TPM
 
@@ -148,7 +161,7 @@ so it's independent of terminal theme.
 - Remote branch sync indicator (you will never forget to push or pull again 🤪).
 - Great terminal icons.
 - Prefix highlight incorporated.
-- Now Playing status bar, supporting [cmus]/[nowplaying-cli]
+- Now Playing status bar, supporting [playerctl]/[nowplaying-cli]
 - Windows has custom pane number indicator.
 - Pane zoom mode indicator.
 - Date and time.
@@ -187,11 +200,12 @@ Ensure your editor follows the style guide provided by `.editorconfig`.
 [pre-commit] hooks are also provided to ensure code consistency, and will be
 run against any raised PRs.
 
-[cmus]: https://cmus.github.io/
-[nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
 [pre-commit]: https://pre-commit.com/
 [Noto Sans]: https://fonts.google.com/noto/specimen/Noto+Sans
 [Nerd Fonts]: https://www.nerdfonts.com/
 [coreutils]: https://www.gnu.org/software/coreutils/
 [bc]: https://www.gnu.org/software/bc/
+[jq]: https://jqlang.github.io/jq/
+[playerctl]: https://github.com/altdesktop/playerctl
+[nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
 [Homebrew]: https://brew.sh/
