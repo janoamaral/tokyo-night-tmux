@@ -4,7 +4,9 @@
 # email : freakybytes@duck.com
 #<------------------------------------------------------------------------------------------>
 
-. "$(dirname "$0")/../lib/functions.sh"
+# Imports
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+. "${ROOT_DIR}/lib/coreutils-compat.sh"
 
 # Check the global value
 SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_netspeed)
