@@ -51,4 +51,5 @@ TIME_DIFF=1
 RX_SPEED=$(readable_format "$((RX_DIFF / TIME_DIFF))")
 TX_SPEED=$(readable_format "$((TX_DIFF / TIME_DIFF))")
 
-echo "${RESET}░ #[fg=${THEME[bgreen]}]󰛴${RESET} $RX_SPEED #[fg=${THEME[bblue]}]󰛶${RESET} $TX_SPEED #[dim]󰌘 $INTERFACE "
+# TODO: Change icon to match iface type (wifi, ethernet, etc)
+echo "${RESET}░ #[fg=${THEME[bgreen]}]󰛴${RESET} $RX_SPEED #[fg=${THEME[bblue]}]󰛶${RESET} $TX_SPEED 󰈀 #[dim]$INTERFACE "
