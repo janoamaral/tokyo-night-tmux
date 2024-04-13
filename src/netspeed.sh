@@ -10,7 +10,7 @@ if [ "$SHOW_NETSPEED" != "1" ]; then
   exit 0
 fi
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
 
 # Get network interface
@@ -51,10 +51,9 @@ TIME_DIFF=1
 RX_SPEED=$(readable_format "$((RX_DIFF / TIME_DIFF))")
 TX_SPEED=$(readable_format "$((TX_DIFF / TIME_DIFF))")
 
-
 NETWORK_ICON="󰈀"
 
-# TODO: Use a more sofisticated method to detect iface type (wifi, ethernet, etc)
+# TODO: Use a more sophisticated method to detect iface type (wifi, ethernet, etc)
 if [ ${INTERFACE:0:1} == "w" ]; then
   NETWORK_ICON=""
 fi

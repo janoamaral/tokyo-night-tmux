@@ -7,7 +7,7 @@ if [ "$SHOW_MUSIC" != "1" ]; then
   exit 0
 fi
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
 
 # Value parser for nowplaying-cli
@@ -100,7 +100,7 @@ else
 fi
 if [ -n "$TITLE" ]; then
   if [ "$STATUS" = "playing" ]; then
-     PLAY_STATE="░ $OUTPUT"
+    PLAY_STATE="░ $OUTPUT"
   else
     PLAY_STATE=░ "󰏤$OUTPUT"
   fi

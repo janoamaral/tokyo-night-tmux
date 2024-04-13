@@ -28,7 +28,6 @@ tmux set -g pane-border-status off
 
 tmux set -g status-style bg="${THEME[background]}"
 
-
 TMUX_VARS="$(tmux show -g)"
 
 default_window_id_style="digital"
@@ -56,7 +55,6 @@ battery_status="#($SCRIPTS_PATH/battery-widget.sh)"
 #+--- Bars LEFT ---+
 # Session name
 tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
-
 
 #+--- Windows ---+
 # Focus

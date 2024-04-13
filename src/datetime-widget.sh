@@ -6,7 +6,7 @@ if [[ $SHOW_DATETIME == "0" ]]; then
   exit 0
 fi
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
 
 # Assign values based on user config
