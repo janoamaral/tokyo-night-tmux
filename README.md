@@ -26,7 +26,7 @@ For macOS, you can install all dependencies via [Homebrew]:
 ```bash
 brew tap homebrew/cask-fonts
 brew install --cask font-monaspace-nerd-font font-noto-sans
-brew install bash coreutils bc
+brew install bash bc coreutils gawk gsed
 ```
 
 ### Linux
