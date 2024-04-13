@@ -16,6 +16,6 @@
 - [ ] Fixes #...
 - [ ] Fixes #...
 
-## Additional informations
+## Additional information
 
 None.

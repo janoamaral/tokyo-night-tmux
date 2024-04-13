@@ -7,7 +7,7 @@
 # Check the global value
 SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_netspeed)
 if [ "$SHOW_NETSPEED" != "1" ]; then
-    exit 0
+  exit 0
 fi
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -18,24 +18,24 @@ INTERFACE=$(tmux show-option -gv @tokyo-night-tmux_netspeed_iface 2>/dev/null)
 
 # Get network transmit data from /proc/net/dev
 get_bytes() {
-    awk -v interface="$1" '$1 == interface ":" {print $2, $10}' /proc/net/dev
+  awk -v interface="$1" '$1 == interface ":" {print $2, $10}' /proc/net/dev
 }
 
 # Convert into readable format
 readable_format() {
-    local bytes=$1
+  local bytes=$1
 
-    # Convert bytes to KBps, 'bc' is dependency, 'pacman -S bc'
-    local kbps=$(echo "scale=1; $bytes / 1024" | bc)
-    if (( $(echo "$kbps < 1" | bc -l) )); then
-        echo "0.0B"
-    elif (( $(echo "$kbps >= 1024" | bc -l) )); then
-        # Convert KBps to MBps
-        local mbps=$(echo "scale=1; $kbps / 1024" | bc)
-        echo "${mbps}MB/s"
-    else
-        echo "${kbps}KB/s"
-    fi
+  # Convert bytes to KBps, 'bc' is dependency, 'pacman -S bc'
+  local kbps=$(echo "scale=1; $bytes / 1024" | bc)
+  if (($(echo "$kbps < 1" | bc -l))); then
+    echo "0.0B"
+  elif (($(echo "$kbps >= 1024" | bc -l))); then
+    # Convert KBps to MBps
+    local mbps=$(echo "scale=1; $kbps / 1024" | bc)
+    echo "${mbps}MB/s"
+  else
+    echo "${kbps}KB/s"
+  fi
 }
 
 # Echo network speed

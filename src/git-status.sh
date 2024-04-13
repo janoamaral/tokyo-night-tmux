@@ -11,7 +11,7 @@ source $CURRENT_DIR/themes.sh
 cd $1
 RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
+STATUS=$(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
 BRANCH_SIZE=${#BRANCH}
 
 SYNC_MODE=0
@@ -50,46 +50,49 @@ if [[ $DELETIONS_COUNT > 0 ]]; then
 fi
 
 if [[ $STATUS_UNTRACKED > 0 ]]; then
-  STATUS_UNTRACKED="#[fg=${THEME[black]},bg=${THEME[background]},bold] ${STATUS_UNTRACKED} "
+  STATUS_UNTRACKED="#[fg=#565f89,bg=#15161e,bold] ${STATUS_UNTRACKED} "
 else
   STATUS_UNTRACKED=""
 fi
 
-
 # Determine repository sync status
 if [[ $SYNC_MODE == 0 ]]; then
-    NEED_PUSH=$(git log @{push}.. | wc -l | bc)
-    if [[ $NEED_PUSH > 0 ]]; then
-      SYNC_MODE=2
-    else
-      LAST_FETCH=$(stat -c %Y .git/FETCH_HEAD | bc)
-      NOW=$(date +%s | bc)
+  NEED_PUSH=$(git log @{push}.. | wc -l | bc)
+  if [[ $NEED_PUSH > 0 ]]; then
+    SYNC_MODE=2
+  else
+    LAST_FETCH=$(stat -c %Y .git/FETCH_HEAD | bc)
+    NOW=$(date +%s | bc)
 
-      # if 5 minutes have passed since the last fetch
-      if [[ $((NOW-LAST_FETCH)) -gt 300 ]]; then
-        git fetch --atomic origin --negotiation-tip=HEAD
-      fi
-
-      REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
-      if [[ $REMOTE_DIFF > 0 ]]; then
-        SYNC_MODE=3
-      fi
+    # if 5 minutes have passed since the last fetch
+    if [[ $((NOW - LAST_FETCH)) -gt 300 ]]; then
+      git fetch --atomic origin --negotiation-tip=HEAD
     fi
+
+    REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
+    if [[ $REMOTE_DIFF > 0 ]]; then
+      SYNC_MODE=3
+    fi
+  fi
 fi
 
 if [[ $SYNC_MODE > 0 ]]; then
-    case "$SYNC_MODE" in
-      1) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[bred]},bold]▒ 󱓎"
-      ;;
-      2) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[red]},bold]▒ 󰜸"
-      ;;
-      3) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[magenta]},bold]▒ 󰜯"
-      ;;
-      *) echo default
-      ;;
-    esac
-  else
-    REMOTE_STATUS="$RESET#[fg=${THEME[green]},bg=${THEME[background]},bold]▒ "
+  case "$SYNC_MODE" in
+  1)
+    REMOTE_STATUS="$RESET#[bg=#15161e,fg=#ff9e64,bold]▒ 󱓎"
+    ;;
+  2)
+    REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold]▒ 󰛃"
+    ;;
+  3)
+    REMOTE_STATUS="$RESET#[bg=#15161e,fg=#bb9af7,bold]▒ 󰛀"
+    ;;
+  *)
+    echo default
+    ;;
+  esac
+else
+  REMOTE_STATUS="$RESET#[fg=#73daca,bg=#15161e,bold]▒ "
 fi
 
 if test "$BRANCH" != ""; then

@@ -4,7 +4,7 @@
 SHOW_MUSIC=$(tmux show-option -gv @tokyo-night-tmux_show_music)
 
 if [ "$SHOW_MUSIC" != "1" ]; then
-    exit 0
+  exit 0
 fi
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -12,7 +12,7 @@ source $CURRENT_DIR/themes.sh
 
 # Value parser for nowplaying-cli
 parse_npcli_value() {
-    echo "$NPCLI_STATUS" | grep "$1" | awk -F '= ' '{print $2}' | tr -d '";'
+  echo "$NPCLI_STATUS" | grep "$1" | awk -F '= ' '{print $2}' | tr -d '";'
 }
 
 ACCENT_COLOR="${THEME[blue]}"
@@ -21,14 +21,14 @@ BG_COLOR="${THEME[background]}"
 BG_BAR="${THEME[background]}"
 TIME_COLOR="${THEME[black]}"
 
-if [[ $1 =~ ^[[:digit:]]+$  ]]; then
-    MAX_TITLE_WIDTH=$1
-  else
-    MAX_TITLE_WIDTH=$(($(tmux display -p '#{window_width}' 2> /dev/null || echo 120) - 90))
+if [[ $1 =~ ^[[:digit:]]+$ ]]; then
+  MAX_TITLE_WIDTH=$1
+else
+  MAX_TITLE_WIDTH=$(($(tmux display -p '#{window_width}' 2>/dev/null || echo 120) - 90))
 fi
 
 # playerctl
-if command -v playerctl > /dev/null; then
+if command -v playerctl >/dev/null; then
   PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Playing")
   STATUS="playing"
 
@@ -52,7 +52,7 @@ if command -v playerctl > /dev/null; then
   fi
 
 # nowplaying-cli
-elif command -v nowplaying-cli > /dev/null; then
+elif command -v nowplaying-cli >/dev/null; then
   NPCLI_STATUS=$(nowplaying-cli get-raw)
   if [ "$(parse_npcli_value PlaybackRate)" = "1" ]; then
     STATUS="playing"
@@ -83,12 +83,12 @@ elif command -v nowplaying-cli > /dev/null; then
 fi
 # If POSITION, calculate the progress bar
 if [ -n "$POSITION" ]; then
-  P_MIN=`printf '%02d' $(($POSITION / 60))`
-  P_SEC=`printf '%02d' $(($POSITION % 60))`
+  P_MIN=$(printf '%02d' $((POSITION / 60)))
+  P_SEC=$(printf '%02d' $((POSITION % 60)))
 fi
 if [ -n "$DURATION" ]; then
-  D_MIN=`printf '%02d' $(($DURATION / 60))`
-  D_SEC=`printf '%02d' $(($DURATION % 60))`
+  D_MIN=$(printf '%02d' $((DURATION / 60)))
+  D_SEC=$(printf '%02d' $((DURATION % 60)))
 fi
 if [ -n "$DURATION" ] && [ -n "$POSITION" ]; then
   TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
@@ -98,16 +98,16 @@ if [ -n "$DURATION" ] && [ -n "$POSITION" ]; then
 else
   TIME="[--:--]"
 fi
-if [ -n "$TITLE"  ]; then
-  if [ "$STATUS" = "playing"  ]; then
-    PLAY_STATE="░ $OUTPUT"
+if [ -n "$TITLE" ]; then
+  if [ "$STATUS" = "playing" ]; then
+    PLAY_STATE="$OUTPUT"
   else
     PLAY_STATE=░ "󰏤$OUTPUT"
   fi
   OUTPUT="$PLAY_STATE $TITLE"
 
   # Only show the song title if we are over $MAX_TITLE_WIDTH characters
-  if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH  ]; then
+  if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH ]; then
     OUTPUT="$PLAY_STATE ${TITLE:0:$MAX_TITLE_WIDTH-1}…"
   fi
 else
@@ -115,14 +115,13 @@ else
 fi
 
 MAX_TITLE_WIDTH=25
-if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH  ]; then
+if [ "${#OUTPUT}" -ge $MAX_TITLE_WIDTH ]; then
   OUTPUT="$PLAY_STATE ${TITLE:0:$MAX_TITLE_WIDTH-1}"
   # Remove trailing spaces
   OUTPUT="${OUTPUT%"${OUTPUT##*[![:space:]]}"}…"
 fi
 
-if [ -z "$OUTPUT" ]
-then
+if [ -z "$OUTPUT" ]; then
   echo "$OUTPUT #[fg=green,bg=default]"
 else
   OUT="$OUTPUT $TIME "
@@ -134,9 +133,9 @@ else
   O="$OUTPUT"
 
   if [ $PROGRESS -le $TIME_INDEX ]; then
-    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$PROGRESS}#[fg=$ACCENT_COLOR,bg=$BG_BAR]${O:$PROGRESS:$TIME_INDEX} #[fg=$TIME_COLOR,bg=$BG_BAR]$TIME "
+    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:PROGRESS}#[fg=$ACCENT_COLOR,bg=$BG_BAR]${O:PROGRESS:TIME_INDEX} #[fg=$TIME_COLOR,bg=$BG_BAR]$TIME "
   else
     DIFF=$((PROGRESS - TIME_INDEX))
-    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:$TIME_INDEX} #[fg=$BG_BAR,bg=$ACCENT_COLOR]${OUT:$TIME_INDEX:$DIFF}#[fg=$TIME_COLOR,bg=$BG_BAR]${OUT:$PROGRESS}"
+    echo "#[nobold,fg=$BG_COLOR,bg=$ACCENT_COLOR]${O:0:TIME_INDEX} #[fg=$BG_BAR,bg=$ACCENT_COLOR]${OUT:TIME_INDEX:DIFF}#[fg=$TIME_COLOR,bg=$BG_BAR]${OUT:PROGRESS}"
   fi
 fi

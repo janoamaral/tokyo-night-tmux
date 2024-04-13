@@ -10,6 +10,7 @@ source $CURRENT_DIR/themes.sh
 cd $1
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
+STATUS=$(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
 
 PROVIDER_ICON=""
 
@@ -25,7 +26,7 @@ BUG_STATUS=""
 
 if [[ $PROVIDER == "github.com" ]]; then
 
-  if ! command -v gh &> /dev/null; then
+  if ! command -v gh &>/dev/null; then
     exit 1
   fi
 

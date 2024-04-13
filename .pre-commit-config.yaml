@@ -1,0 +1,15 @@
+repos:
+  - repo: https://github.com/pecigonzalo/pre-commit-shfmt
+    rev: v2.1.0
+    hooks:
+      - id: shell-fmt-go
+        args:
+          - -w
+          - -s
+          - -l
+          - -i
+          - "2"
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.6
+    hooks:
+      - id: codespell

@@ -16,7 +16,7 @@ This is a very opinionated project, as I am a Tech Lead, this theme is very deve
 ### Nerd Fonts
 
 This theme requires the use of a patched font with Nerd Font. Ensure your terminal is set to use one before installing this theme. Any patched font will do. See
-[`nerdfonts.com`](https://www.nerdfonts.com/) for more informations.
+[`nerdfonts.com`](https://www.nerdfonts.com/) for more information.
 
 ### Noto Fonts
 
@@ -33,7 +33,7 @@ see documentation for installing [`GNU bc`](https://www.gnu.org/software/bc/) in
 ## Installation using TPM
 
 In your `tmux.conf`:
-```
+```bash
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
@@ -43,7 +43,7 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 Run this
 
-```
+```bash
 tmux set @tokyo-night-tmux_window_id_style digital
 tmux set @tokyo-night-tmux_pane_id_style hsquare
 tmux set @tokyo-night-tmux_zoom_id_style dsquare
@@ -51,7 +51,7 @@ tmux set @tokyo-night-tmux_zoom_id_style dsquare
 
 or add this lines to your  `.tmux.conf`
 
-```
+```bash
 set -g @tokyo-night-tmux_window_id_style digital
 set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
@@ -61,6 +61,27 @@ set -g @tokyo-night-tmux_zoom_id_style dsquare
 ## Widgets
 
 For widgets add following lines in you `.tmux.conf`
+
+
+#### Date and Time widget
+
+**Widget enabled by default**
+
+set value 0 to disable
+```bash
+set -g @tokyo-night-tmux_show_datetime 0
+set -g @tokyo-night-tmux_date_format MYD
+set -g @tokyo-night-tmux_time_format 12H
+```
+
+#### Available Options
+- `YMD`: (Year Month Day), 2024-01-31
+- `MDY`: (Month Day Year), 01-31-2024
+- `DMY`: (Day Month Year), 31-01-2024
+
+- `24H`: 18:30
+- `12H`: 6:30 PM
+
 
 #### Now Playing widget
 
@@ -82,6 +103,14 @@ set -g @tokyo-night-tmux_show_path 1
 set -g @tokyo-night-tmux_path_format relative # 'relative' or 'full'
 ```
 
+#### Battery Widget
+
+```bash
+set -g @tokyo-night-tmux_show_battery_widget 1
+set -g @tokyo-night-tmux_battery_name "BAT1"  # some linux distro have 'BAT0'
+set -g @tokyo-night-tmux_battery_low_threshold 21 # default
+```
+
 set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
 
 ## The styles:
@@ -95,44 +124,6 @@ set variables value `0` to disable the widget, Remember to restart the `tmux` af
 - `super`: superscript symbol (⁰...⁹)
 - `sub`: subscript symbols (₀...₉) 
 
-## Widgets
-
-For widgets add following lines in you `.tmux.conf`
-
-#### Date and Time widget
-
-**Widget enabled by default**
-
-set value 0 to disable
-```bash
-set -g @tokyo-night-tmux_show_datetime 0
-
-set -g @tokyo-night-tmux_date_format MYD
-
-set -g @tokyo-night-tmux_time_format 12H
-```
-
-## Available Options
-- `YMD`: (Year Month Day), 2024-01-31
-- `MDY`: (Month Day Year), 01-31-2024
-- `DMY`: (Day Month Year), 31-01-2024
-
-- `24H`: 18:30
-- `12H`: 6:30 PM
-
-#### Now Playing widget
-
-```bash
-set -g @tokyo-night-tmux_show_music 1
-```
-
-#### Netspeed widget
-
-```bash
-set -g @tokyo-night-tmux_show_netspeed 1
-set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find with ip link
-```
-set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
 
 ### New tokyonight Highlights ⚡
 
@@ -175,5 +166,14 @@ Legacy tokyo-night
 
 ![Snap 4](snaps/l01.png)
 
+## Contributing
+
+This project is open to contributions. Please feel free to open an issue or a pull request.
+
+Ensure your editor is configured appropriately to consider the provided `.editorconfig` file.
+[pre-commit] hooks are also provided to ensure code consistency, and will be run against any raised PRs.
+
+
 [cmus]: https://cmus.github.io/
 [nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
+[pre-commit]: https://pre-commit.com/
