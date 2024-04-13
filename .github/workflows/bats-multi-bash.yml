@@ -37,11 +37,17 @@ jobs:
         run: bats --verbose-run test/
   bats-macos:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        libs: ["gnu", "builtin"]
     steps:
       - name: Install Homebrew packages
         run: |
           # Theme dependencies
-          brew install bash bc coreutils jq nowplaying-cli
+          brew install bash jq nowplaying-cli
+          if [[ "${{ matrix.libs }}" == "gnu" ]]; then
+            brew install bc coreutils gawk gsed
+          fi
 
       - name: Setup Bats and bats libs
         run: |
