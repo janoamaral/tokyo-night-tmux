@@ -3,11 +3,11 @@
 # check if not enabled
 SHOW_BATTERY_WIDGET=$(tmux show-option -gv @tokyo-night-tmux_show_battery_widget 2>/dev/null)
 if [ "${SHOW_BATTERY_WIDGET}" != "1" ]; then
-    exit 0
+  exit 0
 fi
 
 # get value from tmux config
-BATTERY_NAME=$(tmux show-option -gv @tokyo-night-tmux_battery_name 2>/dev/null) # default 'BAT1'
+BATTERY_NAME=$(tmux show-option -gv @tokyo-night-tmux_battery_name 2>/dev/null)         # default 'BAT1'
 BATTERY_LOW=$(tmux show-option -gv @tokyo-night-tmux_battery_low_threshold 2>/dev/null) # default 21
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 
@@ -49,10 +49,11 @@ case "${BATTERY_STATUS}" in
   ICONS="${NOT_CHARGING_ICON}"
   ;;
 "Full" | "charged")
-   ICONS="${NOT_CHARGING_ICON}"
+  ICONS="${NOT_CHARGING_ICON}"
   ;;
-*) ICONS="${NO_BATTERY_ICON}"
-   BATTERY_PERCENTAGE="0"
+*)
+  ICONS="${NO_BATTERY_ICON}"
+  BATTERY_PERCENTAGE="0"
   ;;
 esac
 

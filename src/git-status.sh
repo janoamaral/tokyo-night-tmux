@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
+SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
+if [ "$SHOW_NETSPEED" == "0" ]; then
+  exit 0
+fi
+
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source $CURRENT_DIR/themes.sh
+
 cd $1
-RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
+RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 STATUS=$(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
 BRANCH_SIZE=${#BRANCH}
@@ -30,15 +38,15 @@ fi
 STATUS_UNTRACKED="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
 
 if [[ $CHANGED_COUNT > 0 ]]; then
-  STATUS_CHANGED="#[fg=#e0af68,bg=#15161e,bold] ${CHANGED_COUNT} "
+  STATUS_CHANGED="#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
 fi
 
 if [[ $INSERTIONS_COUNT > 0 ]]; then
-  STATUS_INSERTIONS="#[fg=#73daca,bg=#15161e,bold] ${INSERTIONS_COUNT} "
+  STATUS_INSERTIONS="#[fg=${THEME[green]},bg=${THEME[background]},bold] ${INSERTIONS_COUNT} "
 fi
 
 if [[ $DELETIONS_COUNT > 0 ]]; then
-  STATUS_DELETIONS="#[fg=#f7768e,bg=#15161e,bold] ${DELETIONS_COUNT} "
+  STATUS_DELETIONS="#[fg=${THEME[red]},bg=${THEME[background]},bold] ${DELETIONS_COUNT} "
 fi
 
 if [[ $STATUS_UNTRACKED > 0 ]]; then

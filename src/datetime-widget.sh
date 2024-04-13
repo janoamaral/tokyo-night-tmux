@@ -6,6 +6,9 @@ if [[ $SHOW_DATETIME == "0" ]]; then
   exit 0
 fi
 
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source $CURRENT_DIR/themes.sh
+
 # Assign values based on user config
 date_format=$(tmux show-option -gv @tokyo-night-tmux_date_format 2>/dev/null)
 time_format=$(tmux show-option -gv @tokyo-night-tmux_time_format 2>/dev/null)
@@ -35,4 +38,4 @@ else
   time_string="%H:%M"
 fi
 
-echo "#[fg=#a9b1d6,bg=#24283B] $date_string #[]❬ $time_string "
+echo "$RESET#[fg=${THEME[foreground]},bg=${THEME[bblack]}] $date_string #[]❬ $time_string "

@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
+SHOW_WIDGET=$(tmux show-option -gv @tokyo-night-tmux_show_wbg)
+if [ "$SHOW_WIDGET" == "0" ]; then
+  exit 0
+fi
+
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source $CURRENT_DIR/themes.sh
 
 cd $1
-RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim,nostrikethrough]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
 STATUS=$(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
@@ -11,12 +17,12 @@ PROVIDER_ICON=""
 PR_COUNT=0
 REVIEW_COUNT=0
 ISSUE_COUNT=0
-REMOTE_DIFF=0
+BUG_COUNT=0
 
 PR_STATUS=""
 REVIEW_STATUS=""
 ISSUE_STATUS=""
-REMOTE_STATUS=""
+BUG_STATUS=""
 
 if [[ $PROVIDER == "github.com" ]]; then
 
@@ -24,11 +30,14 @@ if [[ $PROVIDER == "github.com" ]]; then
     exit 1
   fi
 
-  PROVIDER_ICON="$RESET#[fg=#fafafa] "
+  PROVIDER_ICON="$RESET#[fg=${THEME[foreground]}] "
   if test "$BRANCH" != ""; then
     PR_COUNT=$(gh pr list --json number --jq 'length' | bc)
     REVIEW_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
-    ISSUE_COUNT=$(gh issue status --json assignees --jq '.assigned | length' | bc)
+    RES=$(gh issue list --json "assignees,labels" --assignee @me)
+    ISSUE_COUNT=$(echo $RES | jq 'length' | bc)
+    BUG_COUNT=$(echo $RES | jq 'map(select(.labels[].name == "bug")) | length' | bc)
+    ISSUE_COUNT=$((ISSUE_COUNT - BUG_COUNT))
   else
     exit 0
   fi
@@ -44,19 +53,23 @@ else
 fi
 
 if [[ $PR_COUNT > 0 ]]; then
-  PR_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${PR_COUNT} "
+  PR_STATUS="#[fg=${THEME[ghgreen]},bg=${THEME[background]},bold] ${RESET}${PR_COUNT} "
 fi
 
 if [[ $REVIEW_COUNT > 0 ]]; then
-  REVIEW_STATUS="#[fg=#d29922,bg=#15161e,bold] ${RESET}${REVIEW_COUNT} "
+  REVIEW_STATUS="#[fg=${THEME[ghyellow]},bg=${THEME[background]},bold] ${RESET}${REVIEW_COUNT} "
 fi
 
 if [[ $ISSUE_COUNT > 0 ]]; then
-  ISSUE_STATUS="#[fg=#3fb950,bg=#15161e,bold] ${RESET}${ISSUE_COUNT} "
+  ISSUE_STATUS="#[fg=${THEME[ghgreen]},bg=${THEME[background]},bold] ${RESET}${ISSUE_COUNT} "
+fi
+
+if [[ $BUG_COUNT > 0 ]]; then
+  BUG_STATUS="#[fg=${THEME[ghred]},bg=${THEME[background]},bold] ${RESET}${BUG_COUNT} "
 fi
 
 if [[ $PR_COUNT > 0 || $REVIEW_COUNT > 0 || $ISSUE_COUNT > 0 ]]; then
-  WB_STATUS="#[fg=#464646,bg=#15161e,bold] $RESET$PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS"
+  WB_STATUS="#[fg=${THEME[black]},bg=${THEME[background]},bold] $RESET$PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS$BUG_STATUS"
 fi
 
 echo "$WB_STATUS"
