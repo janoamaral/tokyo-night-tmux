@@ -1,0 +1,51 @@
+name: BATS Tests
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  bats:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        bash: ["bash:4.2", "bash:4.4", "bash:5.0", "bash:5.2"]
+    container:
+      image: ${{ matrix.bash }}
+    steps:
+      - name: Install packages
+        run: apk add bc coreutils curl git sudo tar
+
+      # Allow tar to cache system paths
+      - name: root suid tar
+        run: sudo chown root:wheel /bin/tar && sudo chmod u+s /bin/tar
+
+      - name: Setup Bats and bats libs
+        uses: stealthii/bats-action@main
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tokyo-night-tmux tests
+        run: bats --verbose-run test/
+  bats-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Install Homebrew packages
+        run: |
+          brew install bash bc coreutils curl git
+
+      - name: Setup Bats and bats libs
+        run: |
+          brew install bats-core
+          brew tap stealthii/bats-core
+          brew install bats-support bats-assert bats-file bats-detik bats-mock
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tokyo-night-tmux tests
+        run: bats --verbose-run test/
