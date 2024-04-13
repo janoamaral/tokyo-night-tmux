@@ -6,8 +6,8 @@ if [ "$SHOW_NETSPEED" == "0" ]; then
 fi
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source $CURRENT_DIR/themes.sh
-source $CURRENT_DIR/../lib/coreutils-compat.sh
+source "$CURRENT_DIR/../lib/coreutils-compat.sh"
+source "$CURRENT_DIR/themes.sh"
 
 cd "$1" || exit 1
 RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"

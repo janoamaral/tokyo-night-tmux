@@ -36,8 +36,8 @@ if [[ $PROVIDER == "github.com" ]]; then
   PR_COUNT=$(gh pr list --json number --jq 'length' | bc)
   REVIEW_COUNT=$(gh pr status --json reviewRequests --jq '.needsReview | length' | bc)
   RES=$(gh issue list --json "assignees,labels" --assignee @me)
-  ISSUE_COUNT=$(echo $RES | jq 'length' | bc)
-  BUG_COUNT=$(echo $RES | jq 'map(select(.labels[].name == "bug")) | length' | bc)
+  ISSUE_COUNT=$(echo "$RES" | jq 'length' | bc)
+  BUG_COUNT=$(echo "$RES" | jq 'map(select(.labels[].name == "bug")) | length' | bc)
   ISSUE_COUNT=$((ISSUE_COUNT - BUG_COUNT))
 elif [[ $PROVIDER == "gitlab.com" ]]; then
   if ! command -v glab &>/dev/null; then
