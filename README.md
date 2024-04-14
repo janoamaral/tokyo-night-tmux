@@ -176,6 +176,9 @@ Legacy tokyo-night
 
 ## Contributing
 
+> [!IMPORTANT]  
+> Please read the [contribution guide first](CONTRIBUTING.md).
+
 Feel free to open an issue or pull request with any suggestions or improvements.
 
 Ensure your editor follows the style guide provided by `.editorconfig`.
