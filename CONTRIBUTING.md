@@ -4,55 +4,41 @@ Thank you for your interest in contributing to the tokyo-night-tmux project! We 
 
 ## Before Making a Pull Request
 
-1. **Open an Issue**: Before starting to work on a new feature or bug fix, please open an issue on the GitHub repository. This allows us to discuss the proposed changes, provide feedback, and ensure that your efforts align with the project's goals.
+1. **Open an Issue**: Before starting to work on a new feature or bug fix, please open an issue on the GitHub repository. This allows for discussion and helps avoid duplication of efforts. Clearly describe the problem or feature you want to address in the issue.
 
-2. **Discuss and Get Approval**: Once you have opened an issue, engage in a discussion with the project maintainers and the community. Seek approval and guidance before proceeding with the implementation. This step helps prevent duplication of efforts and ensures that your contributions are valuable to the project.
+2. **Discuss and Assign**: Once an issue is opened, the maintainers will review it and provide feedback. If the issue is approved, it will be assigned to you, indicating that you can start working on it.
 
 ## Making a Pull Request
 
-1. **Fork the Repository**: Create a fork of the tokyo-night-tmux repository in your GitHub account.
+1. **Fork the Repository**: Fork the tokyo-night-tmux repository to your own GitHub account.
 
-2. **Create a New Branch**: Create a new branch from the `next` branch in your forked repository. Use a descriptive branch name that reflects the purpose of your changes.
+2. **Create a Branch**: Create a new branch from the `next` branch in your forked repository. Use a descriptive name for your branch that reflects the purpose of your changes.
 
-   ```
-   git checkout -b your-branch-name next
-   ```
+3. **Make Changes**: Implement your changes or additions to the codebase in your branch. Ensure that your code follows the project's coding style and conventions.
 
-3. **Make Changes**: Implement your changes or additions to the codebase. Ensure that your code follows the project's coding conventions and style guidelines.
-
-4. **Run Pre-commit Tests**: Before committing your changes, run the pre-commit tests to ensure that your code passes all the necessary checks. Use the following command:
-
+4. **Pre-Commit Checks**: Before committing your changes, run the pre-commit checks to ensure your code passes all the necessary tests and checks. Run the following command:
    ```
    pre-commit run --all-files
    ```
+   Make sure all pre-commit checks pass successfully.
 
-   Fix any issues or errors reported by the pre-commit tests.
+5. **Commit Changes**: Commit your changes with a clear and descriptive commit message. Follow the Conventional Commits specification for commit message formatting. Refer to the [Conventional Commits summary](https://www.conventionalcommits.org/en/v1.0.0/#summary) for more details.
 
-5. **Commit Changes**: Commit your changes with a clear and descriptive commit message. Use the following format:
+6. **Push Changes**: Push your branch to your forked repository on GitHub.
 
-   ```
-   git commit -m "Brief description of the changes"
-   ```
+7. **Open a Pull Request**: Open a pull request from your branch to the `next` branch of the main tokyo-night-tmux repository. Provide a clear title and description for your pull request, explaining the changes you have made and referencing any related issues.
 
-6. **Push Changes**: Push your changes to your forked repository.
+8. **Resolve Conflicts**: If your pull request has conflicts with the `next` branch, please resolve them by rebasing your branch on top of the latest `next` branch and resolving any merge conflicts that arise.
 
-   ```
-   git push origin your-branch-name
-   ```
+9. **Review and Feedback**: The maintainers will review your pull request and provide feedback or request changes if necessary. Please be responsive to the feedback and make the required changes.
 
-7. **Open a Pull Request**: Go to the tokyo-night-tmux repository on GitHub and open a new pull request. Select the `next` branch as the base branch and your forked branch as the compare branch. Provide a clear title and description for your pull request, explaining the purpose and details of your changes.
-
-8. **Address Feedback**: The project maintainers and the community will review your pull request and provide feedback. Be responsive to their comments and make necessary changes to your code based on the feedback received.
-
-9. **Resolve Conflicts**: If your pull request has conflicts with the `next` branch, you need to resolve them before it can be merged. Update your branch with the latest changes from the `next` branch and resolve any conflicts that arise.
-
-10. **Wait for Approval**: Once your pull request passes all the required checks and receives approval from the project maintainers, it will be merged into the `next` branch.
+10. **Merge**: Once your pull request has been approved and passes all the necessary checks, it will be merged into the `next` branch by the maintainers.
 
 ## Important Notes
 
-- All pull requests must be made against the `next` branch. Pull requests targeting other branches will not be accepted.
+- All pull requests must be made against the `next` branch. Pull requests made directly to the `main` branch will not be accepted.
 - Ensure that your pull request does not have any conflicts with the `next` branch. Resolve any conflicts before submitting the pull request.
-- Make sure to run the pre-commit tests (`pre-commit run --all-files`) and fix any issues before committing your changes.
-- Maintain a respectful and inclusive environment in all interactions within the project.
+- Make sure your pull request passes all the pre-commit checks by running `pre-commit run --all-files` before submitting.
+- Follow the Conventional Commits specification for commit message formatting to maintain a consistent and informative commit history.
 
-Thank you for your contributions to tokyo-night-tmux! Your efforts are greatly appreciated.
+Thank you for your contribution to tokyo-night-tmux! We appreciate your effort and look forward to collaborating with you.
