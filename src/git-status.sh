@@ -2,24 +2,23 @@
 
 SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
 if [ "$SHOW_NETSPEED" == "0" ]; then
-    exit 0
+  exit 0
 fi
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $CURRENT_DIR/themes.sh
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$CURRENT_DIR/../lib/coreutils-compat.sh"
+source "$CURRENT_DIR/themes.sh"
 
-cd $1
+cd "$1" || exit 1
 RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-STATUS=$(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
-BRANCH_SIZE=${#BRANCH}
+STATUS=$(git status --porcelain 2>/dev/null | grep -cE "^(M| M)")
 
 SYNC_MODE=0
 NEED_PUSH=0
-NEED_PULL=0
 
-if test "$BRANCH_SIZE" -gt "25"; then
-  BRANCH=$(echo $BRANCH | cut -c1-25)"…"
+if [[ ${#BRANCH} -gt 25 ]]; then
+  BRANCH="${BRANCH:0:25}…"
 fi
 
 STATUS_CHANGED=""
@@ -27,75 +26,71 @@ STATUS_INSERTIONS=""
 STATUS_DELETIONS=""
 STATUS_UNTRACKED=""
 
-if test "$STATUS" != "0"; then
-  CHANGED_COUNT=$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "chang" | cut -d" " -f2 | bc)
-  INSERTIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "ins" | cut -d" " -f2 | bc)"
-  DELETIONS_COUNT="$(git diff --shortstat 2>/dev/null | tr "," "\n" | grep "del" | cut -d" " -f2 | bc)"
+if [[ $STATUS -ne 0 ]]; then
+  DIFF_COUNTS=($(git diff --numstat 2>/dev/null | awk 'NF==3 {changed+=1; ins+=$1; del+=$2} END {printf("%d %d %d", changed, ins, del)}'))
+  CHANGED_COUNT=${DIFF_COUNTS[0]}
+  INSERTIONS_COUNT=${DIFF_COUNTS[1]}
+  DELETIONS_COUNT=${DIFF_COUNTS[2]}
 
   SYNC_MODE=1
 fi
 
-STATUS_UNTRACKED="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
+UNTRACKED_COUNT="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
 
-if [[ $CHANGED_COUNT > 0 ]]; then
-  STATUS_CHANGED="#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
+if [[ $CHANGED_COUNT -gt 0 ]]; then
+  STATUS_CHANGED="${RESET}#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
 fi
 
-if [[ $INSERTIONS_COUNT > 0 ]]; then
-  STATUS_INSERTIONS="#[fg=${THEME[green]},bg=${THEME[background]},bold] ${INSERTIONS_COUNT} "
+if [[ $INSERTIONS_COUNT -gt 0 ]]; then
+  STATUS_INSERTIONS="${RESET}#[fg=${THEME[green]},bg=${THEME[background]},bold] ${INSERTIONS_COUNT} "
 fi
 
-if [[ $DELETIONS_COUNT > 0 ]]; then
-  STATUS_DELETIONS="#[fg=${THEME[red]},bg=${THEME[background]},bold] ${DELETIONS_COUNT} "
+if [[ $DELETIONS_COUNT -gt 0 ]]; then
+  STATUS_DELETIONS="${RESET}#[fg=${THEME[red]},bg=${THEME[background]},bold] ${DELETIONS_COUNT} "
 fi
 
-if [[ $STATUS_UNTRACKED > 0 ]]; then
-  STATUS_UNTRACKED="#[fg=${THEME[black]},bg=${THEME[background]},bold] ${STATUS_UNTRACKED} "
-else
-  STATUS_UNTRACKED=""
+if [[ $UNTRACKED_COUNT -gt 0 ]]; then
+  STATUS_UNTRACKED="${RESET}#[fg=${THEME[black]},bg=${THEME[background]},bold] ${UNTRACKED_COUNT} "
 fi
-
 
 # Determine repository sync status
-if [[ $SYNC_MODE == 0 ]]; then
-    NEED_PUSH=$(git log @{push}.. | wc -l | bc)
-    if [[ $NEED_PUSH > 0 ]]; then
-      SYNC_MODE=2
-    else
-      LAST_FETCH=$(stat -c %Y .git/FETCH_HEAD | bc)
-      NOW=$(date +%s | bc)
+if [[ $SYNC_MODE -eq 0 ]]; then
+  NEED_PUSH=$(git log @{push}.. | wc -l | bc)
+  if [[ $NEED_PUSH -gt 0 ]]; then
+    SYNC_MODE=2
+  else
+    LAST_FETCH=$(stat -c %Y .git/FETCH_HEAD | bc)
+    NOW=$(date +%s | bc)
 
-      # if 5 minutes have passed since the last fetch
-      if [[ $((NOW-LAST_FETCH)) -gt 300 ]]; then
-        git fetch --atomic origin --negotiation-tip=HEAD
-      fi
-
-      REMOTE_DIFF="$(git diff --shortstat $(git rev-parse --abbrev-ref HEAD) origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null | wc -l | bc)"
-      if [[ $REMOTE_DIFF > 0 ]]; then
-        SYNC_MODE=3
-      fi
+    # if 5 minutes have passed since the last fetch
+    if [[ $((NOW - LAST_FETCH)) -gt 300 ]]; then
+      git fetch --atomic origin --negotiation-tip=HEAD
     fi
-fi
 
-if [[ $SYNC_MODE > 0 ]]; then
-    case "$SYNC_MODE" in
-      1) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[bred]},bold]▒ 󱓎"
-      ;;
-      2) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[red]},bold]▒ 󰜸"
-      ;;
-      3) REMOTE_STATUS="$RESET#[bg=${THEME[background]},fg=${THEME[magenta]},bold]▒ 󰜯"
-      ;;
-      *) echo default
-      ;;
-    esac
-  else
-    REMOTE_STATUS="$RESET#[fg=${THEME[green]},bg=${THEME[background]},bold]▒ "
-fi
-
-if test "$BRANCH" != ""; then
-  if test "$STATUS" = "0"; then
-    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_UNTRACKED"
-  else
-    echo "$REMOTE_STATUS $RESET$BRANCH $RESET$STATUS_CHANGED$RESET$STATUS_INSERTIONS$RESET$STATUS_DELETIONS$RESET$STATUS_UNTRACKED"
+    # Check if the remote branch is ahead of the local branch
+    REMOTE_DIFF="$(git diff --numstat "${BRANCH}" "origin/${BRANCH}" 2>/dev/null)"
+    if [[ -n $REMOTE_DIFF ]]; then
+      SYNC_MODE=3
+    fi
   fi
+fi
+
+# Set the status indicator based on the sync mode
+case "$SYNC_MODE" in
+1)
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[bred]},bold]▒ 󱓎"
+  ;;
+2)
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[red]},bold]▒ 󰛃"
+  ;;
+3)
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[magenta]},bold]▒ 󰛀"
+  ;;
+*)
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[green]},bold]▒ "
+  ;;
+esac
+
+if [[ -n $BRANCH ]]; then
+  echo "$REMOTE_STATUS $RESET$BRANCH $STATUS_CHANGED$STATUS_INSERTIONS$STATUS_DELETIONS$STATUS_UNTRACKED"
 fi
