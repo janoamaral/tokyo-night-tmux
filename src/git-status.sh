@@ -78,16 +78,16 @@ fi
 # Set the status indicator based on the sync mode
 case "$SYNC_MODE" in
 1)
-  REMOTE_STATUS="$RESET#[bg=#15161e,fg=#ff9e64,bold]▒ 󱓎"
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[bred]},bold]▒ 󱓎"
   ;;
 2)
-  REMOTE_STATUS="$RESET#[bg=#15161e,fg=#f7768e,bold]▒ 󰛃"
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[red]},bold]▒ 󰛃"
   ;;
 3)
-  REMOTE_STATUS="$RESET#[bg=#15161e,fg=#bb9af7,bold]▒ 󰛀"
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[magenta]},bold]▒ 󰛀"
   ;;
 *)
-  REMOTE_STATUS="$RESET#[fg=#73daca,bg=#15161e,bold]▒ "
+  REMOTE_STATUS="$RESET#[bg=#15161e,fg=${THEME[green]},bold]▒ "
   ;;
 esac
 
