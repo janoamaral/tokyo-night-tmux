@@ -1,49 +1,58 @@
-# Contributing to Tokyo Night Tmux
+# Contributing to tokyo-night-tmux
 
-Thank you for your interest in contributing to Tokyo Night Tmux! We welcome contributions from the community to help improve and enhance our project. To ensure a smooth collaboration process, please follow the guidelines outlined in this document.
+Thank you for your interest in contributing to the tokyo-night-tmux project! We welcome contributions from the community to help improve and enhance the project. To ensure a smooth collaboration process, please follow the guidelines outlined below.
 
-## Getting Started
+## Before Making a Pull Request
 
-1. Fork the repository on GitHub.
-2. Clone your forked repository to your local machine.
-3. Create a new branch from the `next` branch for your contribution.
+1. **Open an Issue**: Before starting to work on a new feature or bug fix, please open an issue on the GitHub repository. This allows us to discuss the proposed changes, provide feedback, and ensure that your efforts align with the project's goals.
 
-## Contribution Workflow
+2. **Discuss and Get Approval**: Once you have opened an issue, engage in a discussion with the project maintainers and the community. Seek approval and guidance before proceeding with the implementation. This step helps prevent duplication of efforts and ensures that your contributions are valuable to the project.
 
-1. **Open an Issue**
-   - Before starting any work, please open an issue on the GitHub repository describing the feature, bug fix, or improvement you want to contribute.
-   - Clearly explain the problem or motivation behind your contribution.
-   - Wait for feedback from the maintainers and ensure that your proposed contribution aligns with the project's goals and roadmap.
+## Making a Pull Request
 
-2. **Create a Pull Request**
-   - Once you have opened an issue and received approval to proceed, you can start working on your contribution.
-   - Create a new branch from the `next` branch with a descriptive name related to your contribution.
-   - Make your changes, following the project's coding style and conventions.
-   - Commit your changes with a clear and concise commit message.
-   - Push your branch to your forked repository.
-   - Open a pull request (PR) from your branch to the `next` branch of the main repository.
-   - In the PR description, reference the issue number you opened earlier (e.g., "Fixes #123" or "Resolves #456").
-   - Provide a detailed description of your changes and the problem they solve.
+1. **Fork the Repository**: Create a fork of the tokyo-night-tmux repository in your GitHub account.
 
-3. **Code Review**
-   - The maintainers will review your pull request and provide feedback.
-   - Be responsive to any comments or suggestions and make the necessary changes.
-   - Once your PR receives approval, it will be merged into the `next` branch.
+2. **Create a New Branch**: Create a new branch from the `next` branch in your forked repository. Use a descriptive branch name that reflects the purpose of your changes.
 
-## Important Considerations
+   ```
+   git checkout -b your-branch-name next
+   ```
 
-- All contributions must be made against the `next` branch. PRs submitted to other branches will not be accepted.
-- Ensure that your code follows the project's coding style and conventions.
-- Write clear, concise, and meaningful commit messages.
-- If your contribution introduces new features or modifies existing ones, please update the relevant documentation.
-- Be respectful and considerate towards other contributors and maintainers.
+3. **Make Changes**: Implement your changes or additions to the codebase. Ensure that your code follows the project's coding conventions and style guidelines.
 
-## Code of Conduct
+4. **Run Pre-commit Tests**: Before committing your changes, run the pre-commit tests to ensure that your code passes all the necessary checks. Use the following command:
 
-By participating in this project, you are expected to uphold our [Code of Conduct](CODE_OF_CONDUCT.md). Please read it to understand the expectations we have for everyone who contributes to this project.
+   ```
+   pre-commit run --all-files
+   ```
 
-## License
+   Fix any issues or errors reported by the pre-commit tests.
 
-By contributing to this project, you agree that your contributions will be licensed under the MIT license.
+5. **Commit Changes**: Commit your changes with a clear and descriptive commit message. Use the following format:
 
-Thank you for your contributions and happy coding!
+   ```
+   git commit -m "Brief description of the changes"
+   ```
+
+6. **Push Changes**: Push your changes to your forked repository.
+
+   ```
+   git push origin your-branch-name
+   ```
+
+7. **Open a Pull Request**: Go to the tokyo-night-tmux repository on GitHub and open a new pull request. Select the `next` branch as the base branch and your forked branch as the compare branch. Provide a clear title and description for your pull request, explaining the purpose and details of your changes.
+
+8. **Address Feedback**: The project maintainers and the community will review your pull request and provide feedback. Be responsive to their comments and make necessary changes to your code based on the feedback received.
+
+9. **Resolve Conflicts**: If your pull request has conflicts with the `next` branch, you need to resolve them before it can be merged. Update your branch with the latest changes from the `next` branch and resolve any conflicts that arise.
+
+10. **Wait for Approval**: Once your pull request passes all the required checks and receives approval from the project maintainers, it will be merged into the `next` branch.
+
+## Important Notes
+
+- All pull requests must be made against the `next` branch. Pull requests targeting other branches will not be accepted.
+- Ensure that your pull request does not have any conflicts with the `next` branch. Resolve any conflicts before submitting the pull request.
+- Make sure to run the pre-commit tests (`pre-commit run --all-files`) and fix any issues before committing your changes.
+- Maintain a respectful and inclusive environment in all interactions within the project.
+
+Thank you for your contributions to tokyo-night-tmux! Your efforts are greatly appreciated.
