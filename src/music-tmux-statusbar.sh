@@ -85,7 +85,7 @@ if [ -n "$TITLE" ]; then
   if [ "$STATUS" = "playing" ]; then
     PLAY_STATE="░ $OUTPUT"
   else
-    PLAY_STATE=░ "󰏤$OUTPUT"
+    PLAY_STATE="░ 󰏤$OUTPUT"
   fi
   OUTPUT="$PLAY_STATE $TITLE"
 
