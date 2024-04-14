@@ -13,35 +13,46 @@ This is a very opinionated project, as I am a Tech Lead, this theme is very deve
 
 ## Requirements
 
-### Nerd Fonts
+This theme requires the following:
 
-This theme requires the use of a patched font with Nerd Font. Ensure your terminal is set to use one before installing this theme. Any patched font will do. See
-[`nerdfonts.com`](https://www.nerdfonts.com/) for more information.
+- [Noto Sans] and one of any patched [Nerd Fonts]
+- GNU [coreutils] and [bc]
+- Bash 4.0 or newer
 
-### Noto Fonts
+### macOS
 
-This theme requires the Noto fonts to be installed on your operating system. Make sure your operating system has the needed font and is configured to use one.
+For macOS, you can install all dependencies via [Homebrew]:
 
-### GNU bc
-This theme requires the [`GNU bc`](https://www.gnu.org/software/bc/) for precise mathematical calculation of network speed, [Tokyo-night-tmux](https://github.com/janoamaral/tokyo-night-tmux) also shows the real time network speed in right side of status bar.
+```bash
+brew tap homebrew/cask-fonts
+brew install --cask font-monaspace-nerd-font font-noto-sans
+brew install bash bc coreutils gawk gsed
+```
+
+### Linux
+
+GNU coreutils are already installed on most Linux distributions. You can
+install `bc` via your package manager. For example, on Arch Linux:
 
 ```bash
 pacman -S bc
 ```
-see documentation for installing [`GNU bc`](https://www.gnu.org/software/bc/) in other Operation system.
+
+Check documentation for installing [bc] on other operating systems.
 
 ## Installation using TPM
 
 In your `tmux.conf`:
+
 ```bash
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
 ## Configuration
 
-#### Number styles
+### Number styles
 
-Run this
+Run these commands in your terminal:
 
 ```bash
 tmux set @tokyo-night-tmux_window_id_style digital
@@ -49,7 +60,7 @@ tmux set @tokyo-night-tmux_pane_id_style hsquare
 tmux set @tokyo-night-tmux_zoom_id_style dsquare
 ```
 
-or add this lines to your  `.tmux.conf`
+Alternatively, add these lines to your  `.tmux.conf`:
 
 ```bash
 set -g @tokyo-night-tmux_window_id_style digital
@@ -57,31 +68,28 @@ set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
 ```
 
-
-## Widgets
+### Widgets
 
 For widgets add following lines in you `.tmux.conf`
 
-
 #### Date and Time widget
 
-**Widget enabled by default**
+This widget is enabled by default. To disable it:
 
-set value 0 to disable
 ```bash
 set -g @tokyo-night-tmux_show_datetime 0
 set -g @tokyo-night-tmux_date_format MYD
 set -g @tokyo-night-tmux_time_format 12H
 ```
 
-#### Available Options
+##### Available Options
+
 - `YMD`: (Year Month Day), 2024-01-31
 - `MDY`: (Month Day Year), 01-31-2024
 - `DMY`: (Day Month Year), 31-01-2024
 
 - `24H`: 18:30
 - `12H`: 6:30 PM
-
 
 #### Now Playing widget
 
@@ -93,7 +101,7 @@ set -g @tokyo-night-tmux_show_music 1
 
 ```bash
 set -g @tokyo-night-tmux_show_netspeed 1
-set -g @tokyo-night-tmux_netspeed_iface "wlan0" # your network interface, find with ip link
+set -g @tokyo-night-tmux_netspeed_iface "wlan0" # find your interface with ip link
 ```
 
 #### Path Widget
@@ -111,30 +119,30 @@ set -g @tokyo-night-tmux_battery_name "BAT1"  # some linux distro have 'BAT0'
 set -g @tokyo-night-tmux_battery_low_threshold 21 # default
 ```
 
-set variables value `0` to disable the widget, Remember to restart the `tmux` after changing values.
+Set variable value `0` to disable the widget. Remember to restart `tmux` after
+changing values.
 
-## The styles:
+## Styles
 
 - `none`: no style, default font
-- `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080)) 
+- `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080))
 - `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)
 - `fsquare`: filled square (󰎡...󰎼) (needs nerdfont)
 - `hsquare`: hollow square (󰎣...󰎾) (needs nerdfont)
 - `dsquare`: hollow double square (󰎡...󰎼) (needs nerdfont)
 - `super`: superscript symbol (⁰...⁹)
-- `sub`: subscript symbols (₀...₉) 
-
+- `sub`: subscript symbols (₀...₉)
 
 ### New tokyonight Highlights ⚡
 
-Everything works out the box now. No need to modify anything and colors are hardcoded, 
+Everything works out the box now. No need to modify anything and colors are hardcoded,
 so it's independent of terminal theme.
 
 - Local git stats.
 - Web based git server (GitHub/GitLab) stats.
-    - Open PR count
-    - Open PR reviews count 
-    - Issue count
+  - Open PR count
+  - Open PR reviews count
+  - Issue count
 - Remote branch sync indicator (you will never forget to push or pull again 🤪).
 - Great terminal icons.
 - Prefix highlight incorporated.
@@ -168,12 +176,20 @@ Legacy tokyo-night
 
 ## Contributing
 
-This project is open to contributions. Please feel free to open an issue or a pull request.
+> [!IMPORTANT]  
+> Please read the [contribution guide first](CONTRIBUTING.md).
 
-Ensure your editor is configured appropriately to consider the provided `.editorconfig` file.
-[pre-commit] hooks are also provided to ensure code consistency, and will be run against any raised PRs.
+Feel free to open an issue or pull request with any suggestions or improvements.
 
+Ensure your editor follows the style guide provided by `.editorconfig`.
+[pre-commit] hooks are also provided to ensure code consistency, and will be
+run against any raised PRs.
 
 [cmus]: https://cmus.github.io/
 [nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
 [pre-commit]: https://pre-commit.com/
+[Noto Sans]: https://fonts.google.com/noto/specimen/Noto+Sans
+[Nerd Fonts]: https://www.nerdfonts.com/
+[coreutils]: https://www.gnu.org/software/coreutils/
+[bc]: https://www.gnu.org/software/bc/
+[Homebrew]: https://brew.sh/

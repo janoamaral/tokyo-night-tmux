@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Imports
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+. "${ROOT_DIR}/lib/coreutils-compat.sh"
+
 # check if not enabled
 SHOW_BATTERY_WIDGET=$(tmux show-option -gv @tokyo-night-tmux_show_battery_widget 2>/dev/null)
 if [ "${SHOW_BATTERY_WIDGET}" != "1" ]; then
