@@ -3,7 +3,7 @@ name: BATS Tests
 on:
   pull_request:
   push:
-    branches: [master]
+    branches: [master, next]
 
   workflow_dispatch:
 
