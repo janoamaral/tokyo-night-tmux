@@ -11,6 +11,7 @@ jobs:
   bats:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         bash: ["bash:4.2", "bash:4.4", "bash:5.0", "bash:5.2"]
     container:
@@ -39,6 +40,7 @@ jobs:
   bats-macos:
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         libs: ["gnu", "builtin"]
     steps:
