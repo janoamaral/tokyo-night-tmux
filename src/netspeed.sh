@@ -51,7 +51,7 @@ RX_SPEED="#[fg=${THEME[foreground]}]$(readable_format "$RX_DIFF" "$TIME_DIFF")"
 TX_SPEED="#[fg=${THEME[foreground]}]$(readable_format "$TX_DIFF" "$TIME_DIFF")"
 
 # Interface icon
-if [[ ${INTERFACE} == "en0" ]] || [[ ${INTERFACE:0:1} == "w" ]]; then
+if [[ ${INTERFACE} == "en0" ]] || [[ -d /sys/class/net/${INTERFACE}/wireless ]]; then
   IFACE_TYPE="wifi"
 else
   IFACE_TYPE="wired"
