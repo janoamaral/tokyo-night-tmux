@@ -34,7 +34,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run tokyo-night-tmux tests
-        run: bats --verbose-run test/
+        run: bats --verbose-run --report-formatter junit test/
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          report_paths: "report.xml"
   bats-macos:
     runs-on: macos-latest
     strategy:
@@ -59,4 +65,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run tokyo-night-tmux tests
-        run: bats --verbose-run test/
+        run: bats --verbose-run --report-formatter junit test/
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          report_paths: "report.xml"
