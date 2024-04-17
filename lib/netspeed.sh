@@ -6,7 +6,7 @@ function get_bytes() {
   if [[ "$(uname)" == "Linux" ]]; then
     awk -v interface="$interface" '$1 == interface ":" {print $2, $10}' /proc/net/dev
   elif [[ "$(uname)" == "Darwin" ]]; then
-    netstat -ib | awk -v interface="$interface" '/^'"${interface}"'/ {print $7, $10}'
+    netstat -ib | awk -v interface="$interface" '/^'"${interface}"'/ {print $7, $10}' | head -n1
   else
     # Unsupported operating system
     exit 1
@@ -18,7 +18,7 @@ function readable_format() {
   local bytes=$1
   local secs=${2:-1}
 
-  if [[ $bytes -le 1048576 ]]; then
+  if [[ $bytes -lt 1048576 ]]; then
     echo "$(bc -l <<<"scale=1; $bytes / 1024 / $secs")KB/s"
   else
     echo "$(bc -l <<<"scale=1; $bytes / 1048576 / $secs")MB/s"
