@@ -34,6 +34,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run tokyo-night-tmux tests
+        shell: bash -e {0}
         run: bats --verbose-run test/
   bats-macos:
     runs-on: macos-latest
