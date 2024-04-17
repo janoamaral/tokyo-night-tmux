@@ -19,7 +19,7 @@ jobs:
       - name: Install packages
         run: |
           # Pipeline requirements
-          apk add curl git sudo tar
+          apk add curl git ncurses parallel sudo tar
           # Theme dependencies
           apk add bc coreutils gawk jq playerctl sed
 
