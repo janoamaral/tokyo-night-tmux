@@ -1,10 +1,9 @@
-name: BATS Tests
+name: bats
 
 on:
   pull_request:
   push:
     branches: [master, next]
-
   workflow_dispatch:
 
 jobs:
