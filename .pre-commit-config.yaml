@@ -1,8 +1,18 @@
 repos:
-  - repo: https://github.com/pecigonzalo/pre-commit-shfmt
-    rev: v2.1.0
+  - repo: local
     hooks:
       - id: shell-fmt-go
+        name: shfmt
+        description: Rewrites all shell scripts to a canonical format.
+        language: golang
+        additional_dependencies:
+          - mvdan.cc/sh/v3/cmd/shfmt@v3.8.0
+        entry: shfmt
+        types:
+          - file
+          - shell
+        exclude_types:
+          - zsh
         args:
           - -w
           - -s

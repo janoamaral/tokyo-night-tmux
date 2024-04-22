@@ -24,7 +24,7 @@ REVIEW_STATUS=""
 ISSUE_STATUS=""
 BUG_STATUS=""
 
-if [[ -z "$BRANCH" ]]; then
+if [[ -z $BRANCH ]]; then
   exit 0
 fi
 
