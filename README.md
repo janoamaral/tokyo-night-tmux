@@ -15,22 +15,27 @@ This is a very opinionated project, as I am a Tech Lead, this theme is very deve
 
 ## Requirements
 
-This theme requires the following:
+This theme has the following hard requirements:
 
-- [Noto Sans] and one of any patched [Nerd Fonts]
-- GNU [coreutils] and [bc]
-- [jq]
+- Any patched [Nerd Fonts] (v3 or higher)
 - Bash 4.2 or newer
+
+The following are recommended for full support of all widgets and features:
+
+- [Noto Sans] Symbols 2 (for segmented digit numbers)
+- [bc] (for netspeed and git widgets)
+- [jq], [gh], [glab] (for git widgets)
 - [playerctl] (Linux) or [nowplaying-cli] (macOS) for music statusbar
 
 ### macOS
 
-For macOS, you can install all dependencies via [Homebrew]:
+macOS still ships with bash 3.2 so you must provide a newer version.
+You can easily install all dependencies via [Homebrew]:
 
 ```bash
 brew tap homebrew/cask-fonts
-brew install --cask font-monaspace-nerd-font font-noto-sans
-brew install bash bc coreutils gawk gsed jq nowplaying-cli
+brew install --cask font-monaspace-nerd-font font-noto-sans-symbols-2
+brew install bash bc coreutils gawk gh glab gsed jq nowplaying-cli
 ```
 
 ### Linux
