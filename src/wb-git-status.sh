@@ -5,7 +5,7 @@ if [ "$SHOW_WIDGET" == "0" ]; then
 fi
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$CURRENT_DIR../lib/coreutils-compat.sh"
+source "$CURRENT_DIR/../lib/coreutils-compat.sh"
 source "$CURRENT_DIR/themes.sh"
 
 cd "$1" || exit 1
@@ -24,7 +24,7 @@ REVIEW_STATUS=""
 ISSUE_STATUS=""
 BUG_STATUS=""
 
-if [[ -n $BRANCH ]]; then
+if [[ -z "$BRANCH" ]]; then
   exit 0
 fi
 
@@ -67,9 +67,7 @@ if [[ $BUG_COUNT -gt 0 ]]; then
   BUG_STATUS="#[fg=${THEME[ghred]},bg=${THEME[background]},bold] ${RESET}${BUG_COUNT} "
 fi
 
-if [[ $PR_COUNT -gt 0 || $REVIEW_COUNT -gt 0 || $ISSUE_COUNT -gt 0 ]]; then
-  WB_STATUS="#[fg=${THEME[black]},bg=${THEME[background]},bold] $RESET$PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS$BUG_STATUS"
-fi
+WB_STATUS="#[fg=${THEME[black]},bg=${THEME[background]},bold] $RESET$PROVIDER_ICON $RESET$PR_STATUS$REVIEW_STATUS$ISSUE_STATUS$BUG_STATUS"
 
 echo "$WB_STATUS"
 
