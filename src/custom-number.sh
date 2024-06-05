@@ -16,6 +16,10 @@ format_sub="₀₁₂₃₄₅₆₇₈₉"
 ID=$1
 FORMAT=${2:-none}
 
+if [ "$FORMAT" = "disable" ]; then
+  exit 0
+fi
+
 # Preserve leading whitespace for bash
 format="$(eval echo \"\$format_${FORMAT}\")"
 if [ -z "$format" ]; then
