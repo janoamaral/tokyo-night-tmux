@@ -18,7 +18,9 @@ RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 DISCHARGING_ICONS=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 CHARGING_ICONS=("󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅")
 NOT_CHARGING_ICON="󰚥"
+NO_BATTERY_ICON="󱉝"
 
+default_show_battery_percentage=1
 default_battery_low="21"
 if [[ "$(uname)" == "Darwin" ]]; then
   default_battery_name="InternalBattery-0"
@@ -54,7 +56,8 @@ case "${BATTERY_STATUS}" in
   ICONS="${NOT_CHARGING_ICON}"
   ;;
 *)
-  exit 0
+  ICONS="${NO_BATTERY_ICON}"
+  BATTERY_PERCENTAGE="0"
   ;;
 esac
 
