@@ -15,32 +15,50 @@ This is a very opinionated project, as I am a Tech Lead, this theme is very deve
 
 ## Requirements
 
-This theme requires the following:
+This theme has the following hard requirements:
 
-- [Noto Sans] and one of any patched [Nerd Fonts]
-- GNU [coreutils] and [bc]
-- Bash 4.0 or newer
+- Any patched [Nerd Fonts] (v3 or higher)
+- Bash 4.2 or newer
+
+The following are recommended for full support of all widgets and features:
+
+- [Noto Sans] Symbols 2 (for segmented digit numbers)
+- [bc] (for netspeed and git widgets)
+- [jq], [gh], [glab] (for git widgets)
+- [playerctl] (Linux) or [nowplaying-cli] (macOS) for music statusbar
 
 ### macOS
 
-For macOS, you can install all dependencies via [Homebrew]:
+macOS still ships with bash 3.2 so you must provide a newer version.
+You can easily install all dependencies via [Homebrew]:
 
 ```bash
 brew tap homebrew/cask-fonts
-brew install --cask font-monaspace-nerd-font font-noto-sans
-brew install bash bc coreutils gawk gsed
+brew install --cask font-monaspace-nerd-font font-noto-sans-symbols-2
+brew install bash bc coreutils gawk gh glab gsed jq nowplaying-cli
 ```
 
 ### Linux
 
-GNU coreutils are already installed on most Linux distributions. You can
-install `bc` via your package manager. For example, on Arch Linux:
+#### Alpine Linux
 
 ```bash
-pacman -S bc
+apk add bash bc coreutils gawk git jq playerctl sed
 ```
 
-Check documentation for installing [bc] on other operating systems.
+#### Arch Linux
+
+```bash
+pacman -Sy bash bc coreutils git jq playerctl
+```
+
+#### Ubuntu
+
+```bash
+apt-get install bash bc coreutils gawk git jq playerctl
+```
+
+Check documentation for installing on other operating systems.
 
 ## Installation using TPM
 
@@ -100,10 +118,13 @@ set -g @tokyo-night-tmux_show_music 1
 ```
 
 #### Netspeed widget
+![Snap netspeed](snaps/netspeed.png)
 
 ```bash
 set -g @tokyo-night-tmux_show_netspeed 1
-set -g @tokyo-night-tmux_netspeed_iface "wlan0" # find your interface with ip link
+set -g @tokyo-night-tmux_netspeed_iface "wlan0" # Detected via default route
+set -g @tokyo-night-tmux_netspeed_showip 1      # Display IPv4 address (default 0)
+set -g @tokyo-night-tmux_netspeed_refresh 1     # Update interval in seconds (default 1)
 ```
 
 #### Path Widget
@@ -148,7 +169,7 @@ so it's independent of terminal theme.
 - Remote branch sync indicator (you will never forget to push or pull again 🤪).
 - Great terminal icons.
 - Prefix highlight incorporated.
-- Now Playing status bar, supporting [cmus]/[nowplaying-cli]
+- Now Playing status bar, supporting [playerctl]/[nowplaying-cli]
 - Windows has custom pane number indicator.
 - Pane zoom mode indicator.
 - Date and time.
@@ -187,11 +208,12 @@ Ensure your editor follows the style guide provided by `.editorconfig`.
 [pre-commit] hooks are also provided to ensure code consistency, and will be
 run against any raised PRs.
 
-[cmus]: https://cmus.github.io/
-[nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
 [pre-commit]: https://pre-commit.com/
 [Noto Sans]: https://fonts.google.com/noto/specimen/Noto+Sans
 [Nerd Fonts]: https://www.nerdfonts.com/
 [coreutils]: https://www.gnu.org/software/coreutils/
 [bc]: https://www.gnu.org/software/bc/
+[jq]: https://jqlang.github.io/jq/
+[playerctl]: https://github.com/altdesktop/playerctl
+[nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
 [Homebrew]: https://brew.sh/
