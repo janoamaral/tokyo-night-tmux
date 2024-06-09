@@ -49,7 +49,7 @@ else
 fi
 
 separator=""
-if [[ $date_string &&  $time_string ]]; then
+if [[ $date_string && $time_string ]]; then
   separator="❬ "
 fi
 
