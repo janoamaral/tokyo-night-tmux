@@ -138,7 +138,7 @@ set -g @tokyo-night-tmux_path_format relative # 'relative' or 'full'
 
 ```bash
 set -g @tokyo-night-tmux_show_battery_widget 1
-set -g @tokyo-night-tmux_battery_name "BAT1"  # some linux distro have 'BAT0'
+set -g @tokyo-night-tmux_battery_name "BAT1"  # some linux distro have 'BAT0', MacOS uses 'InternalBattery-0'
 set -g @tokyo-night-tmux_battery_low_threshold 21 # default
 ```
 
