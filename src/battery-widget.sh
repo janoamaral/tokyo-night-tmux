@@ -4,22 +4,23 @@
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
 
-# check if not enabled
+# Check if the battery widget is enabled
 SHOW_BATTERY_WIDGET=$(tmux show-option -gv @tokyo-night-tmux_show_battery_widget 2>/dev/null)
 if [ "${SHOW_BATTERY_WIDGET}" != "1" ]; then
   exit 0
 fi
 
-# get value from tmux config
-BATTERY_NAME=$(tmux show-option -gv @tokyo-night-tmux_battery_name 2>/dev/null)         # default 'BAT1'
-BATTERY_LOW=$(tmux show-option -gv @tokyo-night-tmux_battery_low_threshold 2>/dev/null) # default 21
+# Get values from tmux config or set defaults
+BATTERY_NAME=$(tmux show-option -gv @tokyo-night-tmux_battery_name 2>/dev/null)
+BATTERY_LOW=$(tmux show-option -gv @tokyo-night-tmux_battery_low_threshold 2>/dev/null)
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 
 DISCHARGING_ICONS=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 CHARGING_ICONS=("󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅")
 NOT_CHARGING_ICON="󰚥"
+NO_BATTERY_ICON="󱉝"
+DEFAULT_BATTERY_LOW=21
 
-default_battery_low="21"
 if [[ "$(uname)" == "Darwin" ]]; then
   default_battery_name="InternalBattery-0"
 else
@@ -27,44 +28,97 @@ else
 fi
 
 BATTERY_NAME="${BATTERY_NAME:-$default_battery_name}"
-BATTERY_LOW="${BATTERY_LOW:-$default_battery_low}"
+BATTERY_LOW="${BATTERY_LOW:-$DEFAULT_BATTERY_LOW}"
 
-# get battery stats
-if [[ "$(uname)" == "Darwin" ]]; then
-  pmstat=$(pmset -g batt | grep $BATTERY_NAME)
-  BATTERY_STATUS=$(echo $pmstat | awk '{print $4}' | sed 's/[^a-z]*//g')
-  BATTERY_PERCENTAGE=$(echo $pmstat | awk '{print $3}' | sed 's/[^0-9]*//g')
-else
-  BATTERY_STATUS=$(</sys/class/power_supply/${BATTERY_NAME}/status)
-  BATTERY_PERCENTAGE=$(</sys/class/power_supply/${BATTERY_NAME}/capacity)
+# Check if battery exists
+battery_exists() {
+  case "$(uname)" in
+  "Darwin")
+    pmset -g batt | grep -q "$BATTERY_NAME"
+    ;;
+  "Linux")
+    [[ -d "/sys/class/power_supply/$BATTERY_NAME" ]]
+    ;;
+  "CYGWIN" | "MINGW" | "MSYS" | "Windows_NT")
+    WMIC PATH Win32_Battery Get EstimatedChargeRemaining 2>&1 | grep -q "EstimatedChargeRemaining"
+    ;;
+  *)
+    return 1
+    ;;
+  esac
+}
+
+# Exit if no battery is found
+if ! battery_exists; then
+  exit 0
 fi
 
-# set color and icon based on battery status
-case "${BATTERY_STATUS}" in
-"Charging" | "charging")
-  ICONS="${CHARGING_ICONS[$((BATTERY_PERCENTAGE / 10 - 1))]}"
+# Get battery stats for different OS
+get_battery_stats() {
+  local battery_name=$1
+  local battery_status=""
+  local battery_percentage=""
+
+  case "$(uname)" in
+  "Darwin")
+    pmstat=$(pmset -g batt | grep "$battery_name")
+    battery_status=$(echo "$pmstat" | awk '{print $4}' | sed 's/[^a-zA-Z]*//g')
+    battery_percentage=$(echo "$pmstat" | awk '{print $3}' | sed 's/[^0-9]*//g')
+    ;;
+  "Linux")
+    if [[ -f "/sys/class/power_supply/${battery_name}/status" && -f "/sys/class/power_supply/${battery_name}/capacity" ]]; then
+      battery_status=$(<"/sys/class/power_supply/${battery_name}/status")
+      battery_percentage=$(<"/sys/class/power_supply/${battery_name}/capacity")
+    else
+      battery_status="Unknown"
+      battery_percentage="0"
+    fi
+    ;;
+  "CYGWIN" | "MINGW" | "MSYS" | "Windows_NT")
+    battery_percentage=$(WMIC PATH Win32_Battery Get EstimatedChargeRemaining | grep -Eo '[0-9]+')
+    [[ -n $battery_percentage ]] && battery_status="Discharging" || battery_status="Unknown"
+    ;;
+  *)
+    battery_status="UnsupportedOS"
+    battery_percentage=0
+    ;;
+  esac
+
+  echo "$battery_status $battery_percentage"
+}
+
+# Fetch the battery status and percentage
+read -r BATTERY_STATUS BATTERY_PERCENTAGE < <(get_battery_stats "$BATTERY_NAME")
+
+# Ensure percentage is a number
+if ! [[ $BATTERY_PERCENTAGE =~ ^[0-9]+$ ]]; then
+  BATTERY_PERCENTAGE=0
+fi
+
+# Determine icon and color based on battery status and percentage
+case "$BATTERY_STATUS" in
+"Charging" | "Charged" | "charging" | "Charged")
+  ICON="${CHARGING_ICONS[$((BATTERY_PERCENTAGE / 10))]}"
   ;;
 "Discharging" | "discharging")
-  ICONS="${DISCHARGING_ICONS[$((BATTERY_PERCENTAGE / 10 - 1))]}"
+  ICON="${DISCHARGING_ICONS[$((BATTERY_PERCENTAGE / 10))]}"
   ;;
-"Not charging" | "AC")
-  ICONS="${NOT_CHARGING_ICON}"
-  ;;
-"Full" | "charged")
-  ICONS="${NOT_CHARGING_ICON}"
+"Full" | "charged" | "full" | "AC")
+  ICON="$NOT_CHARGING_ICON"
   ;;
 *)
-  exit 0
+  ICON="$NO_BATTERY_ICON"
   ;;
 esac
 
-# set color on battery capacity
-if [[ ${BATTERY_PERCENTAGE} -lt ${BATTERY_LOW} ]]; then
-  _color="#[fg=red,bg=default,bold]"
-elif [[ ${BATTERY_PERCENTAGE} -ge 100 ]]; then
-  _color="#[fg=green,bg=default]"
+# Set color based on battery percentage
+if [[ $BATTERY_PERCENTAGE -lt $BATTERY_LOW ]]; then
+  color="#[fg=red,bg=default,bold]"
+elif [[ $BATTERY_PERCENTAGE -ge 100 ]]; then
+  color="#[fg=green,bg=default]"
 else
-  _color="#[fg=yellow,bg=default]"
+  color="#[fg=yellow,bg=default]"
 fi
 
-echo "${_color}░ ${ICONS}${RESET}#[bg=default] ${BATTERY_PERCENTAGE}% "
+# Print the battery status with some extra spaces for padding
+echo "${color}░ ${ICON}${RESET} #[bg=default] ${BATTERY_PERCENTAGE}% "
