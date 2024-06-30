@@ -50,7 +50,6 @@ battery_exists() {
 
 # Exit if no battery is found
 if ! battery_exists; then
-  echo "#[fg=green,bg=default]░ ${NOT_CHARGING_ICON}${RESET}#[bg=default]"
   exit 0
 fi
 
