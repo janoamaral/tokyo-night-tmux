@@ -33,7 +33,6 @@ macOS still ships with bash 3.2 so you must provide a newer version.
 You can easily install all dependencies via [Homebrew]:
 
 ```bash
-brew tap homebrew/cask-fonts
 brew install --cask font-monaspace-nerd-font font-noto-sans-symbols-2
 brew install bash bc coreutils gawk gh glab gsed jq nowplaying-cli
 ```
