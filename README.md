@@ -70,6 +70,15 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 ## Configuration
 
+### Themes
+
+Use following option to change theme preference:
+
+```bash
+set -g @tokyo-night-tmux_theme storm    # storm | day | default to 'night'
+set -g @tokyo-night-tmux_transparent 1  # 1 or 0
+```
+
 ### Number styles
 
 Run these commands in your terminal:
