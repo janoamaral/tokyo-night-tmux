@@ -163,6 +163,7 @@ set -g @tokyo-night-tmux_show_hostname 1
 
 ## Styles
 
+- `hide`: hide number
 - `none`: no style, default font
 - `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080))
 - `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)
