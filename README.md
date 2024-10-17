@@ -153,6 +153,14 @@ set -g @tokyo-night-tmux_battery_low_threshold 21 # default
 Set variable value `0` to disable the widget. Remember to restart `tmux` after
 changing values.
 
+#### Hostname Widget
+
+```bash
+set -g @tokyo-night-tmux_show_hostname 1
+```
+
+![Snap hostname](snaps/hostname.png)
+
 ## Styles
 
 - `none`: no style, default font
