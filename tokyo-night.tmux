@@ -51,7 +51,7 @@ terminal_icon="${terminal_icon:-$default_terminal_icon}"
 active_terminal_icon="${active_terminal_icon:-$default_active_terminal_icon}"
 window_space="${window_tidy:-0}"
 
-window_space=$([[ "$window_tidy" == "0" ]] && echo " " || echo "")
+window_space=$([[ $window_tidy == "0" ]] && echo " " || echo "")
 
 netspeed="#($SCRIPTS_PATH/netspeed.sh)"
 cmus_status="#($SCRIPTS_PATH/music-tmux-statusbar.sh)"
