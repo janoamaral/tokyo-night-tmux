@@ -13,4 +13,4 @@ source $CURRENT_DIR/themes.sh
 
 hostname=$(hostnamectl hostname)
 
-echo "#[fg=red,bold,bg=default]░ @ #[fg=brightwhite,bg=${THEME[background]}]${hostname}"
+echo "@${hostname}"
