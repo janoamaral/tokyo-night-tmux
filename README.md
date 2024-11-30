@@ -96,6 +96,17 @@ set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
 ```
 
+### Window styles
+
+```bash
+# Icon styles
+set -g @tokyo-night-tmux_terminal_icon 
+set -g @tokyo-night-tmux_active_terminal_icon 
+
+# No extra spaces between icons
+set -g @tokyo-night-tmux_window_tidy_icons 0
+```
+
 ### Widgets
 
 For widgets add following lines in you `.tmux.conf`
@@ -158,8 +169,6 @@ changing values.
 ```bash
 set -g @tokyo-night-tmux_show_hostname 1
 ```
-
-![Snap hostname](snaps/hostname.png)
 
 ## Styles
 
