@@ -75,8 +75,8 @@ elif command -v nowplaying-cli >/dev/null; then
 
     # fix for the bug in nowplaying-cli.
     # See https://github.com/janoamaral/tokyo-night-tmux/issues/107#issuecomment-2576211115
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-      if [ "$STATUS" = "playing" ]; then
+    if [[ $OSTYPE == "darwin"* ]]; then
+      if [ $STATUS == "playing" ]; then
         echo "$POSITION" >/tmp/last_position
       fi
 
