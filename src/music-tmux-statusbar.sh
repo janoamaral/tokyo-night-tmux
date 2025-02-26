@@ -72,6 +72,19 @@ elif command -v nowplaying-cli >/dev/null; then
   else
     DURATION=$(printf "%.0f" "${NPCLI_VALUES[duration]}")
     POSITION=$(printf "%.0f" "${NPCLI_VALUES[elapsedTime]}")
+
+    # fix for the bug in nowplaying-cli.
+    # See https://github.com/janoamaral/tokyo-night-tmux/issues/107#issuecomment-2576211115
+    if [[ $OSTYPE == "darwin"* ]]; then
+      if [ $STATUS == "playing" ]; then
+        echo "$POSITION" >/tmp/last_position
+      fi
+
+      if [ "$STATUS" = "paused" ]; then
+        POSITION=$(cat /tmp/last_position)
+      fi
+    fi
+
   fi
 fi
 
