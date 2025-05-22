@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# Verify if the current session is the minimal session
+MINIMAL_SESSION_NAME=$(tmux show-option -gv @tokyo-night-tmux_minimal_session 2>/dev/null)
+TMUX_SESSION_NAME=$(tmux display-message -p '#S')
+
+if [ "$MINIMAL_SESSION_NAME" = "$TMUX_SESSION_NAME" ]; then
+  exit 0
+fi
 
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
@@ -6,6 +13,8 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
 # Grab global variable for showing datetime widget, only hide if explicitly disabled
 SHOW_DATETIME=$(tmux show-option -gv @tokyo-night-tmux_show_datetime 2>/dev/null)
+"$MINIMAL_SESSION_NAME $TMUX_SESSION_NAME"
+c
 if [[ $SHOW_DATETIME == "0" ]]; then
   exit 0
 fi
@@ -22,30 +31,30 @@ time_string=""
 
 if [[ $date_format == "YMD" ]]; then
   # Year Month Day date format
-  date_string=" %Y-%m-%d"
+  date_string="%Y-%m-%d"
 elif [[ $date_format == "MDY" ]]; then
   # Month Day Year date format
-  date_string=" %m-%d-%Y"
+  date_string="%m-%d-%Y"
 elif [[ $date_format == "DMY" ]]; then
   # Day Month Year date format
-  date_string=" %d-%m-%Y"
+  date_string="%d-%m-%Y"
 elif [[ $date_format == "hide" ]]; then
   # Day Month Year date format
   date_string=""
 else
   # Default to YMD date format if not specified
-  date_string=" %Y-%m-%d"
+  date_string="%Y-%m-%d"
 fi
 
 if [[ $time_format == "12H" ]]; then
   # 12-hour format with AM/PM
-  time_string="%I:%M %p "
+  time_string="%I:%M %p"
 elif [[ $time_format == "hide" ]]; then
   # 24-hour format
   time_string=""
 else
   # Default to 24-hour format if not specified
-  time_string="%H:%M "
+  time_string="%H:%M"
 fi
 
 separator=""
@@ -53,4 +62,7 @@ if [[ $date_string && $time_string ]]; then
   separator="❬ "
 fi
 
-echo "$RESET#[fg=${THEME[foreground]},bg=${THEME[bblack]}]$date_string $separator$time_string"
+date_string="$(date +$date_string)"
+time_string="$(date +$time_string)"
+
+echo "$RESET#[fg=${THEME[foreground]},bg=${THEME[bblack]}] $date_string $separator$time_string "

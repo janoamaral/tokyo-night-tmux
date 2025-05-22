@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# Verify if the current session is the minimal session
+MINIMAL_SESSION_NAME=$(tmux show-option -gv @tokyo-night-tmux_minimal_session 2>/dev/null)
+TMUX_SESSION_NAME=$(tmux display-message -p '#S')
+
+if [ "$MINIMAL_SESSION_NAME" = $TMUX_SESSION_NAME ]; then
+  exit 0
+fi
 
 SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
 if [ "$SHOW_NETSPEED" == "0" ]; then
