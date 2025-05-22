@@ -3,7 +3,7 @@
 MINIMAL_SESSION_NAME=$(tmux show-option -gv @tokyo-night-tmux_minimal_session)
 TMUX_SESSION_NAME=$(tmux display-message -p '#S')
 
-if [ "$MINIMAL_SESSION_NAME" = $TMUX_SESSION_NAME ]; then
+if [ "$MINIMAL_SESSION_NAME" = "$TMUX_SESSION_NAME" ]; then
   exit 0
 fi
 
