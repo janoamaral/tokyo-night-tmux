@@ -30,18 +30,18 @@ case $SELECTED_THEME in
 
 "day")
   declare -A THEME=(
-    ["background"]="#d5d6db"
+    ["background"]="#1A1B26"
     ["foreground"]="#343b58"
     ["black"]="#0f0f14"
     ["blue"]="#34548a"
     ["cyan"]="#0f4b6e"
-    ["green"]="#33635c"
+    ["green"]="#3fb950"
     ["magenta"]="#5a4a78"
     ["red"]="#8c4351"
     ["white"]="#343b58"
     ["yellow"]="#8f5e15"
 
-    ["bblack"]="#9699a3"
+    ["bblack"]="#c0caf5"
     ["bblue"]="#34548a"
     ["bcyan"]="#0f4b6e"
     ["bgreen"]="#33635c"
