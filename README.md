@@ -25,7 +25,7 @@ The following are recommended for full support of all widgets and features:
 - [Noto Sans] Symbols 2 (for segmented digit numbers)
 - [bc] (for netspeed and git widgets)
 - [jq], [gh], [glab] (for git widgets)
-- [playerctl] (Linux) or [nowplaying-cli] (macOS) for music statusbar
+- [playerctl] (Linux) or [media-control] (macOS) for music statusbar
 
 ### macOS
 
@@ -34,7 +34,7 @@ You can easily install all dependencies via [Homebrew]:
 
 ```bash
 brew install --cask font-monaspace-nerd-font font-noto-sans-symbols-2
-brew install bash bc coreutils gawk gh glab gsed jq nowplaying-cli
+brew install bash bc coreutils gawk gh glab gsed jq media-control
 ```
 
 ### Linux
@@ -243,3 +243,5 @@ run against any raised PRs.
 [playerctl]: https://github.com/altdesktop/playerctl
 [nowplaying-cli]: https://github.com/kirtan-shah/nowplaying-cli
 [Homebrew]: https://brew.sh/
+[media-control]: https://github.com/ungive/media-control
+

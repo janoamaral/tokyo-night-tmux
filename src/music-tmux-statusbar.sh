@@ -51,7 +51,7 @@ if command -v playerctl >/dev/null; then
   fi
 
 # nowplaying-cli
-elif command -v nowplaying-cli >/dev/null; then
+elif command -v nowplaying-cli >/dev/null && [[ $OSTYPE != "darwin"* ]]; then
   NPCLI_PROPERTIES=(title duration elapsedTime playbackRate isAlwaysLive)
   mapfile -t NPCLI_OUTPUT < <(nowplaying-cli get "${NPCLI_PROPERTIES[@]}")
   declare -A NPCLI_VALUES
@@ -86,6 +86,30 @@ elif command -v nowplaying-cli >/dev/null; then
     fi
 
   fi
+
+elif command -v media-control >/dev/null; then
+  MDC_PROPERTIES=(title duration elapsedTimeNow playing)
+  mapfile -t MDC_OUTPUT < <(
+    media_json=$(media-control get --now)
+    for field in "${MDC_PROPERTIES[@]}"; do
+      echo "$media_json" | jq -r --arg f "$field" '.[$f] // ""'
+    done
+  )
+  declare -A MDC_VALUES
+  for ((i = 0; i < ${#MDC_PROPERTIES[@]}; i++)); do
+    # Handle null values
+    [ "${MDC_OUTPUT[$i]}" = "null" ] && MDC_OUTPUT[$i]=""
+    MDC_VALUES[${MDC_PROPERTIES[$i]}]="${MDC_OUTPUT[$i]}"
+  done
+  if [ "${MDC_VALUES[playing]}" = "true" ]; then
+    STATUS="playing"
+  else
+    STATUS="paused"
+  fi
+  TITLE="${MDC_VALUES[title]}"
+  DURATION=$(printf "%.0f" "${MDC_VALUES[duration]}")
+  POSITION=$(printf "%.0f" "${MDC_VALUES[elapsedTimeNow]}")
+
 fi
 
 # Calculate the progress bar for sane durations
