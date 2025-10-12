@@ -121,4 +121,4 @@ else
 fi
 
 # Print the battery status with some extra spaces for padding
-echo "${color}░ ${ICON}${RESET} #[bg=default] ${BATTERY_PERCENTAGE}% "
+echo "${color}░ ${ICON}${RESET}#[bg=default] ${BATTERY_PERCENTAGE}% "
