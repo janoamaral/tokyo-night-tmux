@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+# Verify if the current session is the minimal session
+MINIMAL_SESSION_NAME=$(tmux show-option -gv @tokyo-night-tmux_minimal_session)
+TMUX_SESSION_NAME=$(tmux display-message -p '#S')
+
+if [ "$MINIMAL_SESSION_NAME" = "$TMUX_SESSION_NAME" ]; then
+  exit 0
+fi
+
 SHOW_WIDGET=$(tmux show-option -gv @tokyo-night-tmux_show_wbg)
 if [ "$SHOW_WIDGET" == "0" ]; then
   exit 0
@@ -10,7 +18,7 @@ source "$CURRENT_DIR/themes.sh"
 
 cd "$1" || exit 1
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
+PROVIDER=$(git config remote.origin.url | sed 's|https://||' | sed 's|git@||' | awk -F'[:/]' '{print $1}')
 
 PROVIDER_ICON=""
 

@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# Verify if the current session is the minimal session
+MINIMAL_SESSION_NAME=$(tmux show-option -gv @tokyo-night-tmux_minimal_session 2>/dev/null)
+TMUX_SESSION_NAME=$(tmux display-message -p '#S')
+
+if [ "$MINIMAL_SESSION_NAME" = $TMUX_SESSION_NAME ]; then
+  exit 0
+fi
 
 SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
 if [ "$SHOW_NETSPEED" == "0" ]; then
@@ -35,7 +42,7 @@ if [[ $STATUS -ne 0 ]]; then
   SYNC_MODE=1
 fi
 
-UNTRACKED_COUNT="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
+UNTRACKED_COUNT="$(git ls-files --other --exclude-standard | wc -l | bc)"
 
 if [[ $CHANGED_COUNT -gt 0 ]]; then
   STATUS_CHANGED="${RESET}#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
