@@ -16,7 +16,7 @@ ACCEND_COLOR="${THEME[red]}"
 cpu_usage="0"
 
 if [[ $OSTYPE == "darwin"* ]]; then
-  cpu_stats=$(iostat | awk 'NR==3 {print $4, $5, $6}')
+  cpu_stats=$(iostat -c 2 | awk 'NR==4 {print $4, $5, $6}')
   read -r user system idle <<<"$cpu_stats"
 
   if [[ -n "$user" && -n "$system" ]]; then
