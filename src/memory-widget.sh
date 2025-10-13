@@ -4,7 +4,6 @@
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
 
-# 检查是否启用内存显示，仅在明确禁用时退出
 SHOW_MEMORY=$(tmux show-option -gv @tokyo-night-tmux_show_memory 2>/dev/null)
 if [[ $SHOW_MEMORY == "0" ]]; then
   exit 0
@@ -30,7 +29,6 @@ elif command -v free &>/dev/null; then
   memory_unit="g"
   memory_info=$(free -$memory_unit | awk 'NR==2 {print $2, $3, $4, $5, $6}')
 
-  # 解析内存信息
   total_memory=$(echo $memory_info | awk '{print $1}')
   used_memory=$(echo $memory_info | awk '{print $2}')
   free_memory=$(echo $memory_info | awk '{print $3}')
@@ -41,5 +39,4 @@ fi
 usage_percent=$(echo "scale=2; $used_memory * 100 / $total_memory" | bc)
 memory_string="${used_memory}/${total_memory}G"
 
-# 输出格式化的内存信息
 echo "#[nobold,fg=$ACCEND_COLOR]░  $RESET$memory_string "
