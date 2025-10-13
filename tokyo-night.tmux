@@ -13,7 +13,7 @@ SCRIPTS_PATH="$CURRENT_DIR/src"
 source $SCRIPTS_PATH/themes.sh
 
 tmux set -g status-left-length 80
-tmux set -g status-right-length 150
+tmux set -g status-right-length 200
 
 RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounderscore,nodim]"
 # Highlight colors
@@ -64,7 +64,8 @@ date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
 current_path="#($SCRIPTS_PATH/path-widget.sh #{pane_current_path})"
 battery_status="#($SCRIPTS_PATH/battery-widget.sh)"
 hostname="#($SCRIPTS_PATH/hostname-widget.sh)"
-
+memory_widget="#($SCRIPTS_PATH/memory-widget.sh)"
+cpu_widget="#($SCRIPTS_PATH/cpu-widget.sh)"
 #+--- Bars LEFT ---+
 # Session name
 tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S$hostname "
@@ -76,5 +77,5 @@ tmux set -g window-status-current-format "$RESET#[fg=${THEME[green]},bg=${THEME[
 tmux set -g window-status-format "$RESET#[fg=${THEME[foreground]}] #{?#{==:#{pane_current_command},ssh},󰣀 ,$terminal_icon $window_space}${RESET}$window_number#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane}#[fg=${THEME[yellow]}]#{?window_last_flag,󰁯  , }"
 
 #+--- Bars RIGHT ---+
-tmux set -g status-right "$battery_status$current_path$cmus_status$netspeed$git_status$wb_git_status$date_and_time"
+tmux set -g status-right "$battery_status$cpu_widget$memory_widget$current_path$cmus_status$netspeed$git_status$wb_git_status$date_and_time"
 tmux set -g window-status-separator ""
