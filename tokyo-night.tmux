@@ -27,6 +27,7 @@ tmux set -g pane-active-border-style "fg=${THEME[blue]}"
 tmux set -g pane-border-status off
 
 tmux set -g status-style bg="${THEME[background]}"
+tmux set -g popup-border-style "fg=${THEME[blue]}"
 
 TMUX_VARS="$(tmux show -g)"
 
@@ -60,7 +61,7 @@ wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
 window_number="#($SCRIPTS_PATH/custom-number.sh #I $window_id_style)"
 custom_pane="#($SCRIPTS_PATH/custom-number.sh #P $pane_id_style)"
 zoom_number="#($SCRIPTS_PATH/custom-number.sh #P $zoom_id_style)"
-date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
+date_and_time="#($SCRIPTS_PATH/datetime-widget.sh)"
 current_path="#($SCRIPTS_PATH/path-widget.sh #{pane_current_path})"
 battery_status="#($SCRIPTS_PATH/battery-widget.sh)"
 hostname="#($SCRIPTS_PATH/hostname-widget.sh)"

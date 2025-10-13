@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Verify if the current session is the minimal session
+MINIMAL_SESSION_NAME=$(tmux show-option -gv @tokyo-night-tmux_minimal_session)
+TMUX_SESSION_NAME=$(tmux display-message -p '#S')
+
+if [ "$MINIMAL_SESSION_NAME" = $TMUX_SESSION_NAME ]; then
+  exit 0
+fi
+
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
@@ -28,12 +36,12 @@ fi
 
 # playerctl
 if command -v playerctl >/dev/null; then
-  PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Playing")
+  PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Playing")
   STATUS="playing"
 
   # There is no playing media, check for paused media
   if [ -z "$PLAYER_STATUS" ]; then
-    PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Paused")
+    PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Paused")
     STATUS="paused"
   fi
 
