@@ -16,14 +16,7 @@ ACCEND_COLOR="${THEME[red]}"
 cpu_usage="0"
 
 if [[ $OSTYPE == "darwin"* ]]; then
-  cpu_stats=$(iostat -c 2 | awk 'NR==4 {print $4, $5, $6}')
-  read -r user system idle <<<"$cpu_stats"
-
-  if [[ -n "$user" && -n "$system" ]]; then
-    cpu_usage=$(echo "scale=2; $user + $system" | bc)
-    cpu_usage=$(printf "%.0f" "$cpu_usage")
-  fi
-
+  cpu_usage=($("${TMUX_PLUGIN_MANAGER_PATH}/tokyo-night-tmux/util/cpu/cpu_apple"))
 elif [[ $OSTYPE == "linux-gnu"* ]]; then
   # todo:
   read -r cpu user nice system idle iowait irq softirq steal _ <<<$(grep '^cpu ' /proc/stat)
