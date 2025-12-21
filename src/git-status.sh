@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
-if [ "$SHOW_NETSPEED" == "0" ]; then
-  exit 0
-fi
+# Check if enabled
+ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
+[[ ${ENABLED} -ne 1 ]] && exit 0
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$CURRENT_DIR/../lib/coreutils-compat.sh"
