@@ -27,6 +27,7 @@ tmux set -g pane-active-border-style "fg=${THEME[blue]}"
 tmux set -g pane-border-status off
 
 tmux set -g status-style bg="${THEME[background]}"
+tmux set -g popup-border-style "fg=${THEME[blue]}"
 
 TMUX_VARS="$(tmux show -g)"
 
@@ -34,12 +35,24 @@ default_window_id_style="digital"
 default_pane_id_style="hsquare"
 default_zoom_id_style="dsquare"
 
+default_terminal_icon=""
+default_active_terminal_icon=""
+
 window_id_style="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_window_id_style' | cut -d" " -f2)"
 pane_id_style="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_pane_id_style' | cut -d" " -f2)"
 zoom_id_style="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_zoom_id_style' | cut -d" " -f2)"
+terminal_icon="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_terminal_icon' | cut -d" " -f2)"
+active_terminal_icon="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_active_terminal_icon' | cut -d" " -f2)"
+window_tidy="$(echo "$TMUX_VARS" | grep '@tokyo-night-tmux_window_tidy_icons' | cut -d" " -f2)"
+
 window_id_style="${window_id_style:-$default_window_id_style}"
 pane_id_style="${pane_id_style:-$default_pane_id_style}"
 zoom_id_style="${zoom_id_style:-$default_zoom_id_style}"
+terminal_icon="${terminal_icon:-$default_terminal_icon}"
+active_terminal_icon="${active_terminal_icon:-$default_active_terminal_icon}"
+window_space="${window_tidy:-0}"
+
+window_space=$([[ $window_tidy == "0" ]] && echo " " || echo "")
 
 netspeed="#($SCRIPTS_PATH/netspeed.sh)"
 cmus_status="#($SCRIPTS_PATH/music-tmux-statusbar.sh)"
@@ -48,13 +61,14 @@ wb_git_status="#($SCRIPTS_PATH/wb-git-status.sh #{pane_current_path} &)"
 window_number="#($SCRIPTS_PATH/custom-number.sh #I $window_id_style)"
 custom_pane="#($SCRIPTS_PATH/custom-number.sh #P $pane_id_style)"
 zoom_number="#($SCRIPTS_PATH/custom-number.sh #P $zoom_id_style)"
-date_and_time="$($SCRIPTS_PATH/datetime-widget.sh)"
+date_and_time="#($SCRIPTS_PATH/datetime-widget.sh)"
 current_path="#($SCRIPTS_PATH/path-widget.sh #{pane_current_path})"
 battery_status="#($SCRIPTS_PATH/battery-widget.sh)"
+hostname="#($SCRIPTS_PATH/hostname-widget.sh)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S "
+tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S$hostname "
 
 #+--- Windows ---+
 # Focus

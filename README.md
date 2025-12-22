@@ -33,7 +33,6 @@ macOS still ships with bash 3.2 so you must provide a newer version.
 You can easily install all dependencies via [Homebrew]:
 
 ```bash
-brew tap homebrew/cask-fonts
 brew install --cask font-monaspace-nerd-font font-noto-sans-symbols-2
 brew install bash bc coreutils gawk gh glab gsed jq nowplaying-cli
 ```
@@ -70,6 +69,15 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 ## Configuration
 
+### Themes
+
+Use following option to change theme preference:
+
+```bash
+set -g @tokyo-night-tmux_theme storm    # storm | day | default to 'night'
+set -g @tokyo-night-tmux_transparent 1  # 1 or 0
+```
+
 ### Number styles
 
 Run these commands in your terminal:
@@ -86,6 +94,17 @@ Alternatively, add these lines to your  `.tmux.conf`:
 set -g @tokyo-night-tmux_window_id_style digital
 set -g @tokyo-night-tmux_pane_id_style hsquare
 set -g @tokyo-night-tmux_zoom_id_style dsquare
+```
+
+### Window styles
+
+```bash
+# Icon styles
+set -g @tokyo-night-tmux_terminal_icon 
+set -g @tokyo-night-tmux_active_terminal_icon 
+
+# No extra spaces between icons
+set -g @tokyo-night-tmux_window_tidy_icons 0
 ```
 
 ### Widgets
@@ -145,8 +164,29 @@ set -g @tokyo-night-tmux_battery_low_threshold 21 # default
 Set variable value `0` to disable the widget. Remember to restart `tmux` after
 changing values.
 
+#### Web-based Git Widget
+
+This widget shows GitHub/GitLab statistics including PR counts and issues assigned to you. It requires `gh` (GitHub CLI) or `glab` (GitLab CLI) to be installed and authenticated.
+
+```bash
+set -g @tokyo-night-tmux_show_wbg 1
+```
+
+The widget works with both SSH and HTTPS git remote URLs:
+- SSH: `git@github.com:user/repo.git`
+- HTTPS: `https://github.com/user/repo.git`
+
+Set variable value `0` to disable the widget. Remember to restart `tmux` after changing values.
+
+#### Hostname Widget
+
+```bash
+set -g @tokyo-night-tmux_show_hostname 1
+```
+
 ## Styles
 
+- `hide`: hide number
 - `none`: no style, default font
 - `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080))
 - `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)

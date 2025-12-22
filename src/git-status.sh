@@ -34,7 +34,7 @@ if [[ $STATUS -ne 0 ]]; then
   SYNC_MODE=1
 fi
 
-UNTRACKED_COUNT="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
+UNTRACKED_COUNT="$(git ls-files --other --exclude-standard | wc -l | bc)"
 
 if [[ $CHANGED_COUNT -gt 0 ]]; then
   STATUS_CHANGED="${RESET}#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
