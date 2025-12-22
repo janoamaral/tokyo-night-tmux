@@ -10,6 +10,7 @@ ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_hostname 2>/dev/null)
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
+source $CURRENT_DIR/os-icons.sh
 
 if command -v hostnamectl >/dev/null 2>&1; then
   hostname=$(hostnamectl hostname)
@@ -22,4 +23,4 @@ else
 fi
 ACCENT_COLOR="${THEME[black]}"
 
-echo "#[nodim,fg=$ACCENT_COLOR] ${hostname}"
+echo "#[nodim,fg=$ACCENT_COLOR]${OS_ICON}${hostname}"
