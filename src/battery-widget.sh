@@ -8,7 +8,6 @@ ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_battery_widget 2>/dev/null
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
 
-
 # Get values from tmux config or set defaults
 BATTERY_NAME=$(tmux show-option -gv @tokyo-night-tmux_battery_name 2>/dev/null)
 BATTERY_LOW=$(tmux show-option -gv @tokyo-night-tmux_battery_low_threshold 2>/dev/null)
