@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 OS_ICON=""
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+if [[ $OSTYPE == "linux-gnu"* ]]; then
   if [ -f /etc/os-release ]; then
     . /etc/os-release
     case "$ID" in
@@ -47,9 +47,9 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   else
     OS_ICON=" "
   fi
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ $OSTYPE == "darwin"* ]]; then
   OS_ICON=" "
-elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+elif [[ $OSTYPE == "cygwin" || $OSTYPE == "msys" || $OSTYPE == "win32" ]]; then
   OS_ICON=" "
 else
   OS_ICON=" "

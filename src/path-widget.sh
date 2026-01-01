@@ -2,7 +2,7 @@
 
 # check if enabled
 ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_path 2>/dev/null)
-[[ "${ENABLED}" -ne 1 ]] && exit 0
+[[ ${ENABLED} -ne 1 ]] && exit 0
 
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
@@ -10,7 +10,6 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
 PATH_FORMAT=$(tmux show-option -gv @tokyo-night-tmux_path_format 2>/dev/null) # full | relative
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
-
 
 current_path="${1}"
 default_path_format="relative"
