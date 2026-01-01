@@ -1,23 +1,12 @@
 #!/usr/bin/env bash
-# Verify if the current session is the minimal session
-MINIMAL_SESSION_NAME=$(tmux show-option -gv @tokyo-night-tmux_minimal_session 2>/dev/null)
-TMUX_SESSION_NAME=$(tmux display-message -p '#S')
 
-if [ "$MINIMAL_SESSION_NAME" = "$TMUX_SESSION_NAME" ]; then
-  exit 0
-fi
+# Check if enabled
+ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_datetime 2>/dev/null)
+[[ ${ENABLED} -ne 1 ]] && exit 0
 
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
-
-# Grab global variable for showing datetime widget, only hide if explicitly disabled
-SHOW_DATETIME=$(tmux show-option -gv @tokyo-night-tmux_show_datetime 2>/dev/null)
-"$MINIMAL_SESSION_NAME $TMUX_SESSION_NAME"
-c
-if [[ $SHOW_DATETIME == "0" ]]; then
-  exit 0
-fi
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
