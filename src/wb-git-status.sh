@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-SHOW_WIDGET=$(tmux show-option -gv @tokyo-night-tmux_show_wbg)
-if [ "$SHOW_WIDGET" == "0" ]; then
-  exit 0
-fi
+
+ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_wbg)
+[[ ${ENABLED} -ne 1 ]] && exit 0
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$CURRENT_DIR/../lib/coreutils-compat.sh"
@@ -10,7 +9,7 @@ source "$CURRENT_DIR/themes.sh"
 
 cd "$1" || exit 1
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-PROVIDER=$(git config remote.origin.url | awk -F '@|:' '{print $2}')
+PROVIDER=$(git config remote.origin.url | sed 's|https://||' | sed 's|git@||' | awk -F'[:/]' '{print $1}')
 
 PROVIDER_ICON=""
 

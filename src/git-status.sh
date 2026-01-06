@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-SHOW_NETSPEED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
-if [ "$SHOW_NETSPEED" == "0" ]; then
-  exit 0
-fi
+# Check if enabled
+ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
+[[ ${ENABLED} -ne 1 ]] && exit 0
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$CURRENT_DIR/../lib/coreutils-compat.sh"
@@ -35,7 +34,7 @@ if [[ $STATUS -ne 0 ]]; then
   SYNC_MODE=1
 fi
 
-UNTRACKED_COUNT="$(git ls-files --other --directory --exclude-standard | wc -l | bc)"
+UNTRACKED_COUNT="$(git ls-files --other --exclude-standard | wc -l | bc)"
 
 if [[ $CHANGED_COUNT -gt 0 ]]; then
   STATUS_CHANGED="${RESET}#[fg=${THEME[yellow]},bg=${THEME[background]},bold] ${CHANGED_COUNT} "
