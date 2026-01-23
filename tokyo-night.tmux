@@ -66,15 +66,15 @@ current_path="#($SCRIPTS_PATH/path-widget.sh #{pane_current_path})"
 battery_status="#($SCRIPTS_PATH/battery-widget.sh)"
 hostname="#($SCRIPTS_PATH/hostname-widget.sh)"
 
+tmux set-hook -g pane-focus-in 'run-shell "/home/logico/dev/tokyo-night-tmux/src/window-widget.sh"'
+tmux set-hook -g window-rename 'run-shell "/home/logico/dev/tokyo-night-tmux/src/window-widget.sh"'
+
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S$hostname "
+tmux set -g status-left "#[bg=${THEME[bblack]},fg=${THEME[blue]},bold]#[fg=${THEME[bblack]},bg=${THEME[blue]},bold]#{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S$hostname #[bg=default,fg=${THEME[blue]},bold]"
 
-#+--- Windows ---+
-# Focus
-tmux set -g window-status-current-format "$RESET#[fg=${THEME[green]},bg=${THEME[bblack]}] #{?#{==:#{pane_current_command},ssh},󰣀 ,  }#[fg=${THEME[foreground]},bold,nodim]$window_number#W#[nobold]#{?window_zoomed_flag, $zoom_number, $custom_pane}#{?window_last_flag, , }"
 # Unfocused
-tmux set -g window-status-format "$RESET#[fg=${THEME[foreground]}] #{?#{==:#{pane_current_command},ssh},󰣀 ,  }${RESET}$window_number#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane}#[fg=${THEME[yellow]}]#{?window_last_flag,󰁯  , }"
+tmux set -g window-status-format " $RESET#[bg=default,fg=#000000]$RESET#[fg=${THEME[foreground]},bg=#000000]#{?#{==:#{pane_current_command},ssh},󰣀 ,${terminal_icon}  }${RESET}#[fg=${THEME[foreground]},bg=#000000]$window_number#W#[nobold,dim]#{?window_zoomed_flag, $zoom_number, $custom_pane}#[fg=${THEME[yellow]}]#{?window_last_flag,󰁯 ,}$RESET#[bg=default,fg=#000000]"
 
 #+--- Bars RIGHT ---+
 tmux set -g status-right "$battery_status$current_path$cmus_status$netspeed$git_status$wb_git_status$date_and_time"
