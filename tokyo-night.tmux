@@ -10,6 +10,22 @@
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_PATH="$CURRENT_DIR/src"
 
+# On macOS, ensure Homebrew bin is in tmux's PATH so child scripts
+# spawned by tmux use bash 4+ (required for associative arrays)
+if [[ "$(uname)" == "Darwin" ]]; then
+  HOMEBREW_PREFIX="$(brew --prefix 2>/dev/null)"
+  if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    [[ -d "/opt/homebrew" ]] && HOMEBREW_PREFIX="/opt/homebrew"
+    [[ -d "/usr/local/Homebrew" ]] && HOMEBREW_PREFIX="/usr/local"
+  fi
+  if [[ -n "$HOMEBREW_PREFIX" ]]; then
+    CURRENT_PATH="$(tmux show-environment -g PATH 2>/dev/null | sed 's/^PATH=//' || echo "$PATH")"
+    if [[ "$CURRENT_PATH" != *"$HOMEBREW_PREFIX/bin"* ]]; then
+      tmux set-environment -g PATH "$HOMEBREW_PREFIX/bin:$CURRENT_PATH"
+    fi
+  fi
+fi
+
 source $SCRIPTS_PATH/themes.sh
 
 tmux set -g status-left-length 80

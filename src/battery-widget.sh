@@ -7,11 +7,11 @@ ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_battery_widget 2>/dev/null
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
+source "${ROOT_DIR}/src/themes.sh"
 
 # Get values from tmux config or set defaults
 BATTERY_NAME=$(tmux show-option -gv @tokyo-night-tmux_battery_name 2>/dev/null)
 BATTERY_LOW=$(tmux show-option -gv @tokyo-night-tmux_battery_low_threshold 2>/dev/null)
-RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 
 DISCHARGING_ICONS=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 CHARGING_ICONS=("󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅")
@@ -111,11 +111,11 @@ esac
 
 # Set color based on battery percentage
 if [[ $BATTERY_PERCENTAGE -lt $BATTERY_LOW ]]; then
-  color="#[fg=red,bg=default,bold]"
+  color="#[fg=${THEME[red]},bg=default,bold]"
 elif [[ $BATTERY_PERCENTAGE -ge 100 ]]; then
-  color="#[fg=green,bg=default]"
+  color="#[fg=${THEME[green]},bg=default]"
 else
-  color="#[fg=yellow,bg=default]"
+  color="#[fg=${THEME[yellow]},bg=default]"
 fi
 
 # Print the battery status with some extra spaces for padding

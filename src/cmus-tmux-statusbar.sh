@@ -3,12 +3,13 @@
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
+source "${ROOT_DIR}/src/themes.sh"
 
-ACCENT_COLOR="#7aa2f7"
-SECONDARY_COLOR="#24283B"
-BG_COLOR="#1F2335"
-BG_BAR="#15161e"
-TIME_COLOR="#414868"
+ACCENT_COLOR="${THEME[blue]}"
+SECONDARY_COLOR="${THEME[background]}"
+BG_COLOR="${THEME[background]}"
+BG_BAR="${THEME[background]}"
+TIME_COLOR="${THEME[black]}"
 
 if [[ $1 =~ ^[[:digit:]]+$ ]]; then
   MAX_TITLE_WIDTH=20
@@ -34,14 +35,14 @@ if cmus-remote -Q >/dev/null 2>/dev/null; then
   TIME="[$P_MIN:$P_SEC / $D_MIN:$D_SEC]"
 
   if [ "$D_SEC" = "-1" ]; then
-    TIME="[ $P_MIN:$P_SEC]"
+    TIME="[ $P_MIN:$P_SEC]"
   fi
 
   if [ -n "$TITLE" ]; then
     if [ "$STATUS" = "playing" ]; then
-      PLAY_STATE="$OUTPUT"
+      PLAY_STATE="$OUTPUT"
     else
-      PLAY_STATE="$OUTPUT"
+      PLAY_STATE="$OUTPUT"
     fi
     OUTPUT="$PLAY_STATE $TITLE"
 
