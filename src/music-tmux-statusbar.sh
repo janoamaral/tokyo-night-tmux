@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 
+ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_music)
+[[ ${ENABLED} -ne 1 ]] && exit 0
+
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
-
-# Check the global value
-SHOW_MUSIC=$(tmux show-option -gv @tokyo-night-tmux_show_music)
-
-if [ "$SHOW_MUSIC" != "1" ]; then
-  exit 0
-fi
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
@@ -28,12 +24,12 @@ fi
 
 # playerctl
 if command -v playerctl >/dev/null; then
-  PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Playing")
+  PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Playing")
   STATUS="playing"
 
   # There is no playing media, check for paused media
   if [ -z "$PLAYER_STATUS" ]; then
-    PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}}" | grep -m1 "Paused")
+    PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Paused")
     STATUS="paused"
   fi
 
@@ -50,8 +46,8 @@ if command -v playerctl >/dev/null; then
     POSITION=0
   fi
 
-# nowplaying-cli
-elif command -v nowplaying-cli >/dev/null; then
+  # nowplaying-cli
+elif command -v nowplaying-cli >/dev/null && { [[ $OSTYPE != "darwin"* ]] || { [[ $OSTYPE == "darwin"* ]] && [ "$(sw_vers -productVersion | cut -d. -f1)" -lt 15 ]; }; }; then
   NPCLI_PROPERTIES=(title duration elapsedTime playbackRate isAlwaysLive)
   mapfile -t NPCLI_OUTPUT < <(nowplaying-cli get "${NPCLI_PROPERTIES[@]}")
   declare -A NPCLI_VALUES
@@ -72,20 +68,30 @@ elif command -v nowplaying-cli >/dev/null; then
   else
     DURATION=$(printf "%.0f" "${NPCLI_VALUES[duration]}")
     POSITION=$(printf "%.0f" "${NPCLI_VALUES[elapsedTime]}")
-
-    # fix for the bug in nowplaying-cli.
-    # See https://github.com/janoamaral/tokyo-night-tmux/issues/107#issuecomment-2576211115
-    if [[ $OSTYPE == "darwin"* ]]; then
-      if [ $STATUS == "playing" ]; then
-        echo "$POSITION" >/tmp/last_position
-      fi
-
-      if [ "$STATUS" = "paused" ]; then
-        POSITION=$(cat /tmp/last_position)
-      fi
-    fi
-
   fi
+elif command -v media-control >/dev/null; then
+  MDC_PROPERTIES=(title duration elapsedTimeNow playing)
+  mapfile -t MDC_OUTPUT < <(
+    media_json=$(media-control get --now)
+    for field in "${MDC_PROPERTIES[@]}"; do
+      echo "$media_json" | jq -r --arg f "$field" '.[$f] // ""'
+    done
+  )
+  declare -A MDC_VALUES
+  for ((i = 0; i < ${#MDC_PROPERTIES[@]}; i++)); do
+    # Handle null values
+    [ "${MDC_OUTPUT[$i]}" = "null" ] && MDC_OUTPUT[$i]=""
+    MDC_VALUES[${MDC_PROPERTIES[$i]}]="${MDC_OUTPUT[$i]}"
+  done
+  if [ "${MDC_VALUES[playing]}" = "true" ]; then
+    STATUS="playing"
+  else
+    STATUS="paused"
+  fi
+  TITLE="${MDC_VALUES[title]}"
+  DURATION=$(printf "%.0f" "${MDC_VALUES[duration]}")
+  POSITION=$(printf "%.0f" "${MDC_VALUES[elapsedTimeNow]}")
+
 fi
 
 # Calculate the progress bar for sane durations

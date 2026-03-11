@@ -164,6 +164,20 @@ set -g @tokyo-night-tmux_battery_low_threshold 21 # default
 Set variable value `0` to disable the widget. Remember to restart `tmux` after
 changing values.
 
+#### Web-based Git Widget
+
+This widget shows GitHub/GitLab statistics including PR counts and issues assigned to you. It requires `gh` (GitHub CLI) or `glab` (GitLab CLI) to be installed and authenticated.
+
+```bash
+set -g @tokyo-night-tmux_show_wbg 1
+```
+
+The widget works with both SSH and HTTPS git remote URLs:
+- SSH: `git@github.com:user/repo.git`
+- HTTPS: `https://github.com/user/repo.git`
+
+Set variable value `0` to disable the widget. Remember to restart `tmux` after changing values.
+
 #### Hostname Widget
 
 ```bash
