@@ -42,6 +42,115 @@ normalize_number() {
   return 1
 }
 
+load_playerctl_metadata() {
+  local player_status
+
+  command -v playerctl >/dev/null || return 1
+
+  player_status=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Playing")
+  STATUS="playing"
+
+  if [[ -z $player_status ]]; then
+    player_status=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Paused")
+    STATUS="paused"
+  fi
+
+  [[ -n $player_status ]] || return 1
+
+  TITLE=$(echo "$player_status" | cut -d';' --fields=4)
+  [[ -n $TITLE ]] || return 1
+
+  DURATION=$(echo "$player_status" | cut -d';' --fields=2)
+  POSITION=$(echo "$player_status" | cut -d';' --fields=3)
+
+  if [[ -n $DURATION ]]; then
+    DURATION=$((DURATION / 1000000))
+  fi
+  if [[ -n $POSITION ]]; then
+    POSITION=$((POSITION / 1000000))
+  fi
+
+  if [[ $DURATION -eq 0 ]]; then
+    DURATION=-1
+    POSITION=0
+  fi
+
+  return 0
+}
+
+load_nowplaying_metadata() {
+  local -a npcli_output npcli_properties
+  declare -A npcli_values
+  local i
+
+  command -v nowplaying-cli >/dev/null || return 1
+  if [[ $OSTYPE == "darwin"* ]] && [[ "$(sw_vers -productVersion | cut -d. -f1)" -ge 15 ]]; then
+    return 1
+  fi
+
+  npcli_properties=(title duration elapsedTime playbackRate isAlwaysLive)
+  mapfile -t npcli_output < <(nowplaying-cli get "${npcli_properties[@]}")
+
+  for ((i = 0; i < ${#npcli_properties[@]}; i++)); do
+    [[ "${npcli_output[$i]}" == "null" ]] && npcli_output[$i]=""
+    npcli_values[${npcli_properties[$i]}]="${npcli_output[$i]}"
+  done
+
+  TITLE="${npcli_values[title]}"
+  [[ -n $TITLE ]] || return 1
+
+  if [[ -n "${npcli_values[playbackRate]}" ]] && [[ "${npcli_values[playbackRate]}" -gt 0 ]]; then
+    STATUS="playing"
+  else
+    STATUS="paused"
+  fi
+
+  if [[ "${npcli_values[isAlwaysLive]}" == "1" ]]; then
+    DURATION=-1
+    POSITION=0
+  else
+    DURATION=$(normalize_number "${npcli_values[duration]}") || DURATION=""
+    POSITION=$(normalize_number "${npcli_values[elapsedTime]}") || POSITION=""
+  fi
+
+  return 0
+}
+
+load_media_control_metadata() {
+  local -a mdc_output mdc_properties
+  declare -A mdc_values
+  local i
+
+  command -v media-control >/dev/null || return 1
+
+  mdc_properties=(title duration elapsedTimeNow playing)
+  mapfile -t mdc_output < <(
+    media_json=$(media-control get --now)
+    for field in "${mdc_properties[@]}"; do
+      echo "$media_json" | jq -r --arg f "$field" '.[$f] // ""'
+    done
+  )
+
+  for ((i = 0; i < ${#mdc_properties[@]}; i++)); do
+    [[ "${mdc_output[$i]}" == "null" ]] && mdc_output[$i]=""
+    mdc_values[${mdc_properties[$i]}]="${mdc_output[$i]}"
+  done
+
+  TITLE="${mdc_values[title]}"
+  [[ -n $TITLE ]] || return 1
+
+  if [[ "${mdc_values[playing]}" == "true" ]]; then
+    STATUS="playing"
+  else
+    STATUS="paused"
+  fi
+
+  DURATION=$(normalize_number "${mdc_values[duration]}") || DURATION=""
+  POSITION=$(normalize_number "${mdc_values[elapsedTimeNow]}") || POSITION=""
+
+  return 0
+}
+
 if [[ $1 =~ ^[[:digit:]]+$ ]]; then
   MAX_TITLE_WIDTH=$1
 else
@@ -60,75 +169,8 @@ OUTPUT=""
 PLAY_STATE=""
 TIME="[--:--]"
 
-# playerctl
-if command -v playerctl >/dev/null; then
-  PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Playing")
-  STATUS="playing"
-
-  if [ -z "$PLAYER_STATUS" ]; then
-    PLAYER_STATUS=$(playerctl -a metadata --format "{{status}};{{mpris:length}};{{position}};{{title}};{{playerName}}" | grep -m1 "Paused")
-    STATUS="paused"
-  fi
-
-  TITLE=$(echo "$PLAYER_STATUS" | cut -d';' --fields=4)
-  DURATION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=2)
-  POSITION=$(echo "$PLAYER_STATUS" | cut -d';' --fields=3)
-
-  if [[ -n $DURATION ]]; then
-    DURATION=$((DURATION / 1000000))
-  fi
-  if [[ -n $POSITION ]]; then
-    POSITION=$((POSITION / 1000000))
-  fi
-
-  if [[ $DURATION -eq 0 ]]; then
-    DURATION=-1
-    POSITION=0
-  fi
-
-# nowplaying-cli
-elif command -v nowplaying-cli >/dev/null && { [[ $OSTYPE != "darwin"* ]] || { [[ $OSTYPE == "darwin"* ]] && [ "$(sw_vers -productVersion | cut -d. -f1)" -lt 15 ]; }; }; then
-  NPCLI_PROPERTIES=(title duration elapsedTime playbackRate isAlwaysLive)
-  mapfile -t NPCLI_OUTPUT < <(nowplaying-cli get "${NPCLI_PROPERTIES[@]}")
-  declare -A NPCLI_VALUES
-  for ((i = 0; i < ${#NPCLI_PROPERTIES[@]}; i++)); do
-    [ "${NPCLI_OUTPUT[$i]}" = "null" ] && NPCLI_OUTPUT[$i]=""
-    NPCLI_VALUES[${NPCLI_PROPERTIES[$i]}]="${NPCLI_OUTPUT[$i]}"
-  done
-  if [ -n "${NPCLI_VALUES[playbackRate]}" ] && [ "${NPCLI_VALUES[playbackRate]}" -gt 0 ]; then
-    STATUS="playing"
-  else
-    STATUS="paused"
-  fi
-  TITLE="${NPCLI_VALUES[title]}"
-  if [ "${NPCLI_VALUES[isAlwaysLive]}" = "1" ]; then
-    DURATION=-1
-    POSITION=0
-  else
-    DURATION=$(normalize_number "${NPCLI_VALUES[duration]}") || DURATION=""
-    POSITION=$(normalize_number "${NPCLI_VALUES[elapsedTime]}") || POSITION=""
-  fi
-elif command -v media-control >/dev/null; then
-  MDC_PROPERTIES=(title duration elapsedTimeNow playing)
-  mapfile -t MDC_OUTPUT < <(
-    media_json=$(media-control get --now)
-    for field in "${MDC_PROPERTIES[@]}"; do
-      echo "$media_json" | jq -r --arg f "$field" '.[$f] // ""'
-    done
-  )
-  declare -A MDC_VALUES
-  for ((i = 0; i < ${#MDC_PROPERTIES[@]}; i++)); do
-    [ "${MDC_OUTPUT[$i]}" = "null" ] && MDC_OUTPUT[$i]=""
-    MDC_VALUES[${MDC_PROPERTIES[$i]}]="${MDC_OUTPUT[$i]}"
-  done
-  if [ "${MDC_VALUES[playing]}" = "true" ]; then
-    STATUS="playing"
-  else
-    STATUS="paused"
-  fi
-  TITLE="${MDC_VALUES[title]}"
-  DURATION=$(normalize_number "${MDC_VALUES[duration]}") || DURATION=""
-  POSITION=$(normalize_number "${MDC_VALUES[elapsedTimeNow]}") || POSITION=""
+if ! load_playerctl_metadata && ! load_nowplaying_metadata && ! load_media_control_metadata; then
+  exit 0
 fi
 
 if [ -n "$DURATION" ] && [ -n "$POSITION" ] && [ "$DURATION" -gt 0 ] && [ "$DURATION" -lt 3600 ]; then
