@@ -7,13 +7,19 @@ ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_datetime 2>/dev/null)
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
-
+. "${ROOT_DIR}/lib/bash-compat.sh"
+ensure_bash_42 "$@"
+# Grab global variable for showing datetime widget, only hide if explicitly disabled
+SHOW_DATETIME=$(tmux show-option -gqv @tokyo-night-tmux_show_datetime)
+if [[ $SHOW_DATETIME == "0" ]]; then
+  exit 0
+fi
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $CURRENT_DIR/themes.sh
 
 # Assign values based on user config
-date_format=$(tmux show-option -gv @tokyo-night-tmux_date_format 2>/dev/null)
-time_format=$(tmux show-option -gv @tokyo-night-tmux_time_format 2>/dev/null)
+date_format=$(tmux show-option -gqv @tokyo-night-tmux_date_format)
+time_format=$(tmux show-option -gqv @tokyo-night-tmux_time_format)
 
 date_string=""
 time_string=""

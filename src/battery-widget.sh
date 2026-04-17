@@ -7,10 +7,13 @@ ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_battery_widget 2>/dev/null
 # Imports
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 . "${ROOT_DIR}/lib/coreutils-compat.sh"
-
+SHOW_BATTERY_WIDGET=$(tmux show-option -gqv @tokyo-night-tmux_show_battery_widget)
+if [ "${SHOW_BATTERY_WIDGET}" != "1" ]; then
+  exit 0
+fi
 # Get values from tmux config or set defaults
-BATTERY_NAME=$(tmux show-option -gv @tokyo-night-tmux_battery_name 2>/dev/null)
-BATTERY_LOW=$(tmux show-option -gv @tokyo-night-tmux_battery_low_threshold 2>/dev/null)
+BATTERY_NAME=$(tmux show-option -gqv @tokyo-night-tmux_battery_name)
+BATTERY_LOW=$(tmux show-option -gqv @tokyo-night-tmux_battery_low_threshold)
 RESET="#[fg=brightwhite,bg=#15161e,nobold,noitalics,nounderscore,nodim]"
 
 DISCHARGING_ICONS=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")

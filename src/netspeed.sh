@@ -5,20 +5,23 @@
 #<------------------------------------------------------------------------------------------>
 
 # Check if enabled
-ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_netspeed 2>/dev/null)
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+source "${ROOT_DIR}/lib/bash-compat.sh"
+ensure_bash_42 "$@"
+
+ENABLED=$(tmux show-option -gqv @tokyo-night-tmux_show_netspeed)
 [[ ${ENABLED} -ne 1 ]] && exit 0
 
 # Imports
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 source "$ROOT_DIR/src/themes.sh"
 source "$ROOT_DIR/lib/netspeed.sh"
 
 # Get network interface
-INTERFACE=$(tmux show-option -gv @tokyo-night-tmux_netspeed_iface 2>/dev/null)
+INTERFACE=$(tmux show-option -gqv @tokyo-night-tmux_netspeed_iface)
 # Show IP address
-SHOW_IP=$(tmux show-option -gv @tokyo-night-tmux_netspeed_showip 2>/dev/null)
+SHOW_IP=$(tmux show-option -gqv @tokyo-night-tmux_netspeed_showip)
 # Time between refresh
-TIME_DIFF=$(tmux show-option -gv @tokyo-night-tmux_netspeed_refresh 2>/dev/null)
+TIME_DIFF=$(tmux show-option -gqv @tokyo-night-tmux_netspeed_refresh)
 TIME_DIFF=${TIME_DIFF:-1}
 
 # Icons

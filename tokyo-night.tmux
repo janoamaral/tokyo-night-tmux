@@ -8,9 +8,12 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$CURRENT_DIR/lib/bash-compat.sh"
+ensure_bash_42 "$@"
+
 SCRIPTS_PATH="$CURRENT_DIR/src"
 
-source $SCRIPTS_PATH/themes.sh
+source "$SCRIPTS_PATH/themes.sh"
 
 tmux set -g status-left-length 80
 tmux set -g status-right-length 150

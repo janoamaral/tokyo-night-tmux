@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+source "${ROOT_DIR}/lib/bash-compat.sh"
+ensure_bash_42 "$@"
 
-ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_wbg)
-[[ ${ENABLED} -ne 1 ]] && exit 0
+SHOW_WIDGET=$(tmux show-option -gqv @tokyo-night-tmux_show_wbg)
+if [ "$SHOW_WIDGET" == "0" ]; then
+  exit 0
+fi
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$CURRENT_DIR/../lib/coreutils-compat.sh"
+source "$ROOT_DIR/lib/coreutils-compat.sh"
 source "$CURRENT_DIR/themes.sh"
 
 cd "$1" || exit 1

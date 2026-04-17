@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-SELECTED_THEME="$(tmux show-option -gv @tokyo-night-tmux_theme)"
-TRANSPARENT_THEME="$(tmux show-option -gv @tokyo-night-tmux_transparent)"
+SELECTED_THEME="$(tmux show-option -gqv @tokyo-night-tmux_theme)"
+TRANSPARENT_THEME="$(tmux show-option -gqv @tokyo-night-tmux_transparent)"
 
 case $SELECTED_THEME in
 "storm")
