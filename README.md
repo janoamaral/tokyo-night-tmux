@@ -1,257 +1,142 @@
 # Tokyo Night Tmux
 
-![example workflow](https://github.com/janoamaral/tokyo-night-tmux/actions/workflows/pre-commit.yml/badge.svg?branch=master)
+![CI](https://github.com/janoamaral/tokyo-night-tmux/actions/workflows/pre-commit.yml/badge.svg?branch=master)
 
-A clean, dark Tmux theme that celebrates the lights of Downtown [Tokyo at night.](https://www.google.com/search?q=tokyo+night&newwindow=1&sxsrf=ACYBGNRiOGCstG_Xohb8CgG5UGwBRpMIQg:1571032079139&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiayIfIhpvlAhUGmuAKHbfRDaIQ_AUIEigB&biw=1280&bih=666&dpr=2)
-The perfect companion for [tokyonight-vim](https://github.com/ghifarit53/tokyonight-vim)
-Adapted from the original, [Visual Studio Code theme](https://github.com/enkia/tokyo-night-vscode-theme).
-The old version (deprecated) is still available in the `legacy` branch.
+A clean, dark Tmux theme inspired by the lights of [Tokyo at night](https://www.google.com/search?q=tokyo+night&tbm=isch).
+Adapted from the [Tokyo Night VS Code theme](https://github.com/enkia/tokyo-night-vscode-theme) — the perfect companion for [tokyonight-vim](https://github.com/ghifarit53/tokyonight-vim).
 
-<a href="https://www.buymeacoffee.com/jano" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/jano" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;" ></a>
 
-## About this theme
+---
 
-This is a very opinionated project, as I am a Tech Lead, this theme is very developer-focused.
+## Preview
 
-## Requirements
+https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f2-82b1-ffdbfbc54fbf
 
-This theme has the following hard requirements:
+> Terminal: [Kitty](https://github.com/davidmathers/tokyo-night-kitty-theme) · Font: [SFMono Nerd Font Ligaturized](https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized)
 
-- Any patched [Nerd Fonts] (v3 or higher)
-- Bash 4.2 or newer
+![Screenshot](snaps/logico.png)
 
-The following are recommended for full support of all widgets and features:
+---
 
-- [Noto Sans] Symbols 2 (for segmented digit numbers)
-- [bc] (for netspeed and git widgets)
-- [jq], [gh], [glab] (for git widgets)
-- [playerctl] (Linux) or [nowplaying-cli] (macOS) for music statusbar
+## Quick start
 
-### macOS
+### 1. Install dependencies
 
-macOS still ships with bash 3.2 so you must provide a newer version.
-You can easily install all dependencies via [Homebrew]:
+**Nerd Fonts v3+** and **Bash 4.2+** are required.
+
+<details>
+<summary>macOS</summary>
 
 ```bash
 brew install --cask font-monaspace-nerd-font font-noto-sans-symbols-2
 brew install bash bc coreutils gawk gh glab gsed jq nowplaying-cli
 ```
 
-### Linux
+</details>
 
-#### Alpine Linux
-
-```bash
-apk add bash bc coreutils gawk git jq playerctl sed
-```
-
-#### Arch Linux
+<details>
+<summary>Arch Linux</summary>
 
 ```bash
 pacman -Sy bash bc coreutils git jq playerctl
 ```
 
-#### Ubuntu
+</details>
+
+<details>
+<summary>Ubuntu / Debian</summary>
 
 ```bash
 apt-get install bash bc coreutils gawk git jq playerctl
 ```
 
-Check documentation for installing on other operating systems.
+</details>
 
-## Installation using TPM
+<details>
+<summary>Alpine Linux</summary>
 
-In your `tmux.conf`:
+```bash
+apk add bash bc coreutils gawk git jq playerctl sed
+```
+
+</details>
+
+→ Full dependency list: [user_docs/installation.md](user_docs/installation.md)
+
+### 2. Install the plugin
+
+Add to `~/.tmux.conf` and press `prefix` + <kbd>I</kbd> to install:
 
 ```bash
 set -g @plugin "janoamaral/tokyo-night-tmux"
 ```
 
-## Configuration
-
-### Themes
-
-Use following option to change theme preference:
+### 3. Pick a theme *(optional)*
 
 ```bash
-set -g @tokyo-night-tmux_theme storm    # storm | day | default to 'night'
-set -g @tokyo-night-tmux_transparent 1  # 1 or 0
+set -g @tokyo-night-tmux_theme night   # night (default) | storm | moon | day
+set -g @tokyo-night-tmux_transparent 1 # transparent background
 ```
 
-### Number styles
-
-Run these commands in your terminal:
+### 4. Enable widgets *(optional)*
 
 ```bash
-tmux set @tokyo-night-tmux_window_id_style digital
-tmux set @tokyo-night-tmux_pane_id_style hsquare
-tmux set @tokyo-night-tmux_zoom_id_style dsquare
+set -g @tokyo-night-tmux_show_git 1             # local git status
+set -g @tokyo-night-tmux_show_wbg 1             # GitHub / GitLab stats
+set -g @tokyo-night-tmux_show_netspeed 1        # network speed
+set -g @tokyo-night-tmux_show_battery_widget 1  # battery level
+set -g @tokyo-night-tmux_show_music 1           # now playing
+set -g @tokyo-night-tmux_show_path 1            # current path
+set -g @tokyo-night-tmux_show_hostname 1        # machine hostname
 ```
 
-Alternatively, add these lines to your  `.tmux.conf`:
+Reload your config: `tmux source ~/.tmux.conf`
 
-```bash
-set -g @tokyo-night-tmux_window_id_style digital
-set -g @tokyo-night-tmux_pane_id_style hsquare
-set -g @tokyo-night-tmux_zoom_id_style dsquare
-```
+---
 
-### Window styles
+## Features
 
-```bash
-# Icon styles
-set -g @tokyo-night-tmux_terminal_icon 
-set -g @tokyo-night-tmux_active_terminal_icon 
+| Feature | Description |
+|---|---|
+| 4 color themes | Night, Storm, Moon, Day — plus transparent background |
+| Local git status | Branch, changes, push/pull sync indicator |
+| GitHub / GitLab widget | Open PRs, pending reviews, assigned issues |
+| Netspeed | Upload/download speed with interface detection |
+| Now Playing | Track info via playerctl (Linux) or nowplaying-cli (macOS) |
+| Battery | Level and charge state with contextual icons |
+| Date & Time | Configurable format (YMD/MDY/DMY, 12H/24H) |
+| Path widget | Current pane path (relative or absolute) |
+| Hostname | Machine hostname in the status bar |
+| Number styles | 8 styles for window/pane IDs (digital, roman, squares, …) |
+| SSH indicator | Automatic icon change for SSH sessions |
+| Prefix highlight | Visual indicator when tmux prefix is active |
+| Zoom indicator | Separate style for zoomed panes |
 
-# No extra spaces between icons
-set -g @tokyo-night-tmux_window_tidy_icons 0
-```
+---
 
-### Widgets
+## Documentation
 
-For widgets add following lines in you `.tmux.conf`
+| Topic | Link |
+|---|---|
+| Installation & dependencies | [user_docs/installation.md](user_docs/installation.md) |
+| Color themes & transparency | [user_docs/themes.md](user_docs/themes.md) |
+| Status bar widgets | [user_docs/widgets.md](user_docs/widgets.md) |
+| Number styles & window icons | [user_docs/customization.md](user_docs/customization.md) |
 
-#### Date and Time widget
-
-This widget is enabled by default. To disable it:
-
-```bash
-set -g @tokyo-night-tmux_show_datetime 0
-set -g @tokyo-night-tmux_date_format MYD
-set -g @tokyo-night-tmux_time_format 12H
-```
-
-##### Available Options
-
-- `YMD`: (Year Month Day), 2024-01-31
-- `MDY`: (Month Day Year), 01-31-2024
-- `DMY`: (Day Month Year), 31-01-2024
-
-- `24H`: 18:30
-- `12H`: 6:30 PM
-
-#### Now Playing widget
-
-```bash
-set -g @tokyo-night-tmux_show_music 1
-```
-
-#### Netspeed widget
-![Snap netspeed](snaps/netspeed.png)
-
-```bash
-set -g @tokyo-night-tmux_show_netspeed 1
-set -g @tokyo-night-tmux_netspeed_iface "wlan0" # Detected via default route
-set -g @tokyo-night-tmux_netspeed_showip 1      # Display IPv4 address (default 0)
-set -g @tokyo-night-tmux_netspeed_refresh 1     # Update interval in seconds (default 1)
-```
-
-#### Path Widget
-
-```bash
-set -g @tokyo-night-tmux_show_path 1
-set -g @tokyo-night-tmux_path_format relative # 'relative' or 'full'
-```
-
-#### Battery Widget
-
-```bash
-set -g @tokyo-night-tmux_show_battery_widget 1
-set -g @tokyo-night-tmux_battery_name "BAT1"  # some linux distro have 'BAT0'
-set -g @tokyo-night-tmux_battery_low_threshold 21 # default
-```
-
-Set variable value `0` to disable the widget. Remember to restart `tmux` after
-changing values.
-
-#### Web-based Git Widget
-
-This widget shows GitHub/GitLab statistics including PR counts and issues assigned to you. It requires `gh` (GitHub CLI) or `glab` (GitLab CLI) to be installed and authenticated.
-
-```bash
-set -g @tokyo-night-tmux_show_wbg 1
-```
-
-The widget works with both SSH and HTTPS git remote URLs:
-- SSH: `git@github.com:user/repo.git`
-- HTTPS: `https://github.com/user/repo.git`
-
-Set variable value `0` to disable the widget. Remember to restart `tmux` after changing values.
-
-#### Hostname Widget
-
-```bash
-set -g @tokyo-night-tmux_show_hostname 1
-```
-
-## Styles
-
-- `hide`: hide number
-- `none`: no style, default font
-- `digital`: 7 segment number (🯰...🯹) (needs [Unicode support](https://github.com/janoamaral/tokyo-night-tmux/issues/36#issuecomment-1907072080))
-- `roman`: roman numbers (󱂈...󱂐) (needs nerdfont)
-- `fsquare`: filled square (󰎡...󰎼) (needs nerdfont)
-- `hsquare`: hollow square (󰎣...󰎾) (needs nerdfont)
-- `dsquare`: hollow double square (󰎡...󰎼) (needs nerdfont)
-- `super`: superscript symbol (⁰...⁹)
-- `sub`: subscript symbols (₀...₉)
-
-### New tokyonight Highlights ⚡
-
-Everything works out the box now. No need to modify anything and colors are hardcoded,
-so it's independent of terminal theme.
-
-- Local git stats.
-- Web based git server (GitHub/GitLab) stats.
-  - Open PR count
-  - Open PR reviews count
-  - Issue count
-- Remote branch sync indicator (you will never forget to push or pull again 🤪).
-- Great terminal icons.
-- Prefix highlight incorporated.
-- Now Playing status bar, supporting [playerctl]/[nowplaying-cli]
-- Windows has custom pane number indicator.
-- Pane zoom mode indicator.
-- Date and time.
-
-#### TODO
-
-- Add configurations
-  - remote fetch time
-  - ~number styles~
-  - indicators order
-  - disable indicators
-
-### Demo
-
-https://github.com/janoamaral/tokyo-night-tmux/assets/10008708/59ecd814-bc2b-47f2-82b1-ffdbfbc54fbf
-
-### Snapshots
-
-- Terminal: Kitty with [Tokyo Night Kitty Theme](https://github.com/davidmathers/tokyo-night-kitty-theme)
-- Font: [SFMono Nerd Font Ligaturized](https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized)
-
-![Snap 5](snaps/logico.png)
-
-Legacy tokyo-night
-
-![Snap 4](snaps/l01.png)
+---
 
 ## Contributing
 
-> [!IMPORTANT]  
-> Please read the [contribution guide first](CONTRIBUTING.md).
+> [!IMPORTANT]
+> Please read the [contribution guide](CONTRIBUTING.md) before opening a PR.
 
-Feel free to open an issue or pull request with any suggestions or improvements.
-
-Ensure your editor follows the style guide provided by `.editorconfig`.
-[pre-commit] hooks are also provided to ensure code consistency, and will be
-run against any raised PRs.
+Feel free to open an issue or pull request with suggestions or improvements.
+Ensure your editor follows `.editorconfig`. [pre-commit] hooks are provided for
+code consistency and will run against all PRs.
 
 [pre-commit]: https://pre-commit.com/
-[Noto Sans]: https://fonts.google.com/noto/specimen/Noto+Sans
 [Nerd Fonts]: https://www.nerdfonts.com/
-[coreutils]: https://www.gnu.org/software/coreutils/
 [bc]: https://www.gnu.org/software/bc/
 [jq]: https://jqlang.github.io/jq/
 [playerctl]: https://github.com/altdesktop/playerctl
