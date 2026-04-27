@@ -4,6 +4,29 @@ SELECTED_THEME="$(tmux show-option -gv @tokyo-night-tmux_theme)"
 TRANSPARENT_THEME="$(tmux show-option -gv @tokyo-night-tmux_transparent)"
 
 case $SELECTED_THEME in
+"moon")
+  declare -A THEME=(
+    ["background"]="#222436"
+    ["foreground"]="#828bb8"
+    ["black"]="#444a73"
+    ["blue"]="#82aaff"
+    ["cyan"]="#86e1fc"
+    ["green"]="#4fd6be"
+    ["magenta"]="#c099ff"
+    ["red"]="#ff757f"
+    ["white"]="#828bb8"
+    ["yellow"]="#e0af68"
+
+    ["bblack"]="#444a73"
+    ["bblue"]="#82aaff"
+    ["bcyan"]="#86e1fc"
+    ["bgreen"]="#41a6b5"
+    ["bmagenta"]="#c099ff"
+    ["bred"]="#ff757f"
+    ["bwhite"]="#787c99"
+    ["byellow"]="#e0af68"
+  )
+  ;;
 "storm")
   declare -A THEME=(
     ["background"]="#24283b"

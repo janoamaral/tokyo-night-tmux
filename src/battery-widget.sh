@@ -82,11 +82,11 @@ get_battery_stats() {
     ;;
   esac
 
-  echo "$battery_status $battery_percentage"
+  printf '%s\t%s\n' "$battery_status" "$battery_percentage"
 }
 
 # Fetch the battery status and percentage
-read -r BATTERY_STATUS BATTERY_PERCENTAGE < <(get_battery_stats "$BATTERY_NAME")
+IFS=$'\t' read -r BATTERY_STATUS BATTERY_PERCENTAGE < <(get_battery_stats "$BATTERY_NAME")
 
 # Ensure percentage is a number
 if ! [[ $BATTERY_PERCENTAGE =~ ^[0-9]+$ ]]; then
@@ -101,7 +101,7 @@ case "$BATTERY_STATUS" in
 "Discharging" | "discharging")
   ICON="${DISCHARGING_ICONS[$((BATTERY_PERCENTAGE / 10))]}"
   ;;
-"Full" | "charged" | "full" | "AC")
+"Full" | "charged" | "full" | "AC" | "Not charging")
   ICON="$NOT_CHARGING_ICON"
   ;;
 *)
