@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-# Check if enabled
-ENABLED=$(tmux show-option -gv @tokyo-night-tmux_show_git)
-[[ ${ENABLED} -ne 1 ]] && exit 0
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+source "${ROOT_DIR}/lib/bash-compat.sh"
+ensure_bash_42 "$@"
+
+SHOW_NETSPEED=$(tmux show-option -gqv @tokyo-night-tmux_show_git)
+if [ "$SHOW_NETSPEED" == "0" ]; then
+  exit 0
+fi
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$CURRENT_DIR/../lib/coreutils-compat.sh"
+source "$ROOT_DIR/lib/coreutils-compat.sh"
 source "$CURRENT_DIR/themes.sh"
 
 cd "$1" || exit 1
