@@ -73,7 +73,10 @@ When a pane is zoomed (`prefix` + `z`), the pane number in the status bar is ren
 
 ```bash
 set -g @tokyo-night-tmux_zoom_id_style dsquare
-```
+# or use a set icon instead
+set -g @tokyo-night-tmux_zoom_id_style icon
+# Set a custom icon
+set -g @tokyo-night-tmux_zoom_icon 
 
 ---
 
