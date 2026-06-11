@@ -19,8 +19,8 @@ function build_widget_string() {
   local saved_ifs="$IFS"
   IFS=','
   for item in $list; do
-    # Trim leading/trailing whitespace
-    item="$(echo "$item" | xargs)"
+    # Trim leading/trailing whitespace (preserve quoting/backslashes inside the item)
+    item="$(printf '%s' "$item" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
     # Skip empty items
     [[ -z $item ]] && continue
     if [[ $item == "#("* ]] || [[ $item == "#{"* ]] || [[ $item == "#["* ]]; then
