@@ -19,19 +19,19 @@ RESET="#[fg=${THEME[foreground]},bg=${THEME[background]},nobold,noitalics,nounde
 # Highlight colors
 tmux set -g mode-style "fg=${THEME[bgreen]},bg=${THEME[bblack]}"
 
-tmux set -g message-style "bg=${THEME[blue]},fg=${THEME[bblack]}"
-tmux set -g message-command-style "fg=${THEME[blue]},bg=${THEME[bblack]}"
+tmux set -g message-style "bg=${THEME[magenta]},fg=${THEME[bblack]}"
+tmux set -g message-command-style "fg=${THEME[magenta]},bg=${THEME[bblack]}"
 
 tmux set -g pane-border-style "fg=${THEME[bblack]}"
-tmux set -g pane-active-border-style "fg=${THEME[blue]}"
+tmux set -g pane-active-border-style "fg=${THEME[magenta]}"
 tmux set -g pane-border-status off
 
 tmux set -g status-style bg="${THEME[background]}"
-tmux set -g popup-border-style "fg=${THEME[blue]}"
+tmux set -g popup-border-style "fg=${THEME[magenta]}"
 
 TMUX_VARS="$(tmux show -g)"
 
-default_window_id_style="digital"
+default_window_id_style="none"
 default_pane_id_style="hsquare"
 default_zoom_id_style="dsquare"
 
@@ -68,7 +68,7 @@ hostname="#($SCRIPTS_PATH/hostname-widget.sh)"
 
 #+--- Bars LEFT ---+
 # Session name
-tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[blue]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S$hostname "
+tmux set -g status-left "#[fg=${THEME[bblack]},bg=${THEME[magenta]},bold] #{?client_prefix,󰠠 ,#[dim]󰤂 }#[bold,nodim]#S$hostname "
 
 #+--- Windows ---+
 # Focus
