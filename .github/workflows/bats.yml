@@ -33,6 +33,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Doc coverage
+        shell: bash -e {0}
+        run: bash test/check-docs-coverage.sh
+
       - name: Run tokyo-night-tmux tests
         shell: bash -e {0}
         run: bats --verbose-run --report-formatter junit test/

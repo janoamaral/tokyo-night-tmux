@@ -34,6 +34,10 @@ Thank you for your interest in contributing to the tokyo-night-tmux project! We 
 
 10. **Merge**: Once your pull request has been approved and passes all the necessary checks, it will be merged into the `next` branch by the maintainers.
 
+## User-Facing Options Documentation
+
+Every `@tokyo-night-tmux_*` tmux user option surfaced in `tokyo-night.tmux`, `src/`, or `lib/` must be documented in a matching `user_docs/*.md` file. If you add or change such an option, update the relevant `user_docs/` entry in the same pull request. This is enforced by CI via `bash test/check-docs-coverage.sh`, which fails the build when any surfaced option is missing from `user_docs/`.
+
 ## Important Notes
 
 - All pull requests must be made against the `next` branch. Pull requests made directly to the `main` branch will not be accepted.
