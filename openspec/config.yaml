@@ -1,0 +1,33 @@
+schema: spec-driven
+
+# Project context — shown to AI agents creating OpenSpec change artifacts.
+context: |
+  tokyo-night-tmux — a clean, dark tmux theme (Bash 4.2+, tmux 3+).
+  Configuration is a flat surface of tmux user options prefixed @tokyo-night-tmux_*
+  read via `tmux show-option -gv` (src/), and `tmux show -g` piped to grep
+  (tokyo-night.tmux). Wiring lives in:
+    - tokyo-night.tmux  — the entrypoint (sourced via TPM or `run`); sets styles
+                          and the status-left/right formats; defines defaults.
+    - src/*.sh          — one script per status-bar widget (battery, path, datetime,
+                           git, wbg, netspeed, music, hostname, custom-number).
+    - lib/*.sh          — shared helpers (widget-reorder.sh, coreutils-compat.sh,
+                           netspeed.sh).
+  User-facing documentation lives in user_docs/*.md (installation.md, themes.md,
+  widgets.md, customization.md), surfaced by README.md. Tests are *.bats under test/,
+  plus test/check-docs-coverage.sh which asserts every @tokyo-night-tmux_* option in
+  tokyo-night.tmux + src/ + lib/ appears in user_docs/.
+  Conventions: POSIX-ish Bash, Nerd Fonts v3+ for glyphs; runtime deps beyond bash are
+  documented optional binaries (bc, jq, gh, glab, playerctl, nowplaying-cli).
+
+# Per-artifact rules — advisory guidance for agents. The hard gate is the CI
+# doc-coverage check (test/check-docs-coverage.sh); these rules lower drift.
+rules:
+  proposal:
+    - When a change adds or modifies an @tokyo-night-tmux_* option or a status-bar widget, the "What Changes" section MUST name the user_docs/*.md file(s) that must be updated.
+  specs:
+    - When a change introduces a new @tokyo-night-tmux_* option or widget, include a requirement that it is documented in user_docs/, and name the affected user_docs/*.md file.
+  design:
+    - When a change adds an option or widget, note which user_docs/*.md section documents it under Decisions.
+  tasks:
+    - Every task that adds or changes an @tokyo-night-tmux_* option or widget MUST include a follow-up task updating the matching user_docs/*.md entry.
+    - Every change MUST include a verification task running `bash test/check-docs-coverage.sh`; run the bats suite (`bats test/`) when behavior changes.
