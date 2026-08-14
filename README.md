@@ -89,6 +89,9 @@ set -g @tokyo-night-tmux_show_battery_widget 1  # battery level
 set -g @tokyo-night-tmux_show_music 1           # now playing
 set -g @tokyo-night-tmux_show_path 1            # current path
 set -g @tokyo-night-tmux_show_hostname 1        # machine hostname
+
+# Optional: reorder the right status bar (default order shown)
+# set -g @tokyo-night-tmux_show_right_widgets "path, git, datetime"
 ```
 
 Reload your config: `tmux source ~/.tmux.conf`
@@ -112,6 +115,7 @@ Reload your config: `tmux source ~/.tmux.conf`
 | SSH indicator | Automatic icon change for SSH sessions |
 | Prefix highlight | Visual indicator when tmux prefix is active |
 | Zoom indicator | Separate style for zoomed panes |
+| Widget ordering | Reorder the right status bar via `@tokyo-night-tmux_show_right_widgets` |
 
 ---
 

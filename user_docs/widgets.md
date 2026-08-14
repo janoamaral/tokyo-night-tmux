@@ -171,6 +171,43 @@ Hostname is detected via `hostnamectl` (Linux), `scutil` (macOS), or the `hostna
 
 ---
 
+## Right widget ordering
+
+By default, the right status bar renders widgets in a fixed order: `battery`, `path`, `music`, `netspeed`, `git`, `wbg`, `datetime`. Override the order — and choose which widgets appear — with `@tokyo-night-tmux_show_right_widgets`:
+
+```bash
+set -g @tokyo-night-tmux_show_right_widgets "path, git, datetime"
+```
+
+The value is a comma-separated list. Each entry is trimmed of surrounding whitespace; empty entries (from leading, trailing, or doubled commas) are silently skipped.
+
+### Recognized widget names
+
+| Name | Widget |
+|---|---|
+| `battery` | Battery |
+| `path` | Path |
+| `music` | Now Playing |
+| `netspeed` | Netspeed |
+| `git` | Local Git Status |
+| `wbg` | Web-based Git Widget |
+| `datetime` | Date & Time |
+| `hostname` | Hostname (usually a left-bar widget) |
+
+Unknown names are silently skipped — a typo does not break the bar, it just omits that entry.
+
+### Passthrough entries
+
+Entries starting with `#(`, `#{`, or `#[` are passed through verbatim, so you can mix arbitrary shell commands, tmux format variables, and style attributes with the named widgets:
+
+```bash
+set -g @tokyo-night-tmux_show_right_widgets "#[fg=red]●, git, #(curl -s http://status), datetime"
+```
+
+When the option is unset, the default fixed order above is used. Only the right bar is affected; the session name and hostname on the left bar are unchanged.
+
+---
+
 ## Next steps
 
 - [Customize number and window styles](customization.md)

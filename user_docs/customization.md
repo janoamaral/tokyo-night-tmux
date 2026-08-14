@@ -64,6 +64,11 @@ Windows running an active `ssh` session automatically show the `󰣀` icon inste
 ## Prefix highlight
 
 When the tmux prefix key is active, the session name in the status bar changes its icon to `󰠠` to indicate prefix mode. This is built-in and requires no configuration.
+If you want to make active prefix key even more obvious, you can change the background color of the session name:
+
+```bash
+set -g @tokyo-night-tmux_prefix_active_color "#f7768e"
+```
 
 ---
 
@@ -73,7 +78,10 @@ When a pane is zoomed (`prefix` + `z`), the pane number in the status bar is ren
 
 ```bash
 set -g @tokyo-night-tmux_zoom_id_style dsquare
-```
+# or use a set icon instead
+set -g @tokyo-night-tmux_zoom_id_style icon
+# Set a custom icon
+set -g @tokyo-night-tmux_zoom_icon 
 
 ---
 

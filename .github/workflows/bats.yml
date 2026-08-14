@@ -33,6 +33,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Doc coverage
+        shell: bash -e {0}
+        run: bash test/check-docs-coverage.sh
+
       - name: Run tokyo-night-tmux tests
         shell: bash -e {0}
         run: bats --verbose-run --report-formatter junit test/
@@ -62,6 +66,7 @@ jobs:
         run: |
           brew install bats-core
           brew tap stealthii/bats-core
+          brew trust stealthii/bats-core
           brew install bats-support bats-assert bats-file bats-detik bats-mock
 
       - name: Checkout code
